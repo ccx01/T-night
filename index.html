@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name ="keywords" content="ccx01,sign,the day of sign,signXday,沙因,游戏">
+	<meta name="description" content="just for fun,及时行乐">
+	<title>月千之夜</title>
+	<link href="css/screen.css" media="all" rel="stylesheet" type="text/css"/>
+
+</head>
+<body>
+<div id="loading">
+	<div></div>
+</div>
+
+<div id="chapter">
+	<div class="chapter0" onclick="init(1.1)"><span>新手引导←_←</span></div><br>
+	<div class="chapter1" onclick="init(1)"><span>序章<h4>——莫名其妙的家伙——</h4></span></div><br>
+	<div class="chapter2 locked" onclick="alert('待续')"><span>序章2<h4>——乱七八糟的记忆——</h4></span></div>
+</div>
+
+<div class="shadow">
+	<div id="cg">
+		<div class="content"></div>
+		<span class="tip">Click<span id="indicator"></span></span>
+	</div>
+</div>
+
+<!-- status -->
+<div id="info">
+	<div id="player">
+		<div class="avatar">
+			<img src="images/avatar/model.png">
+		</div>
+		<div id="card">
+			<div class="piece">
+				<div class="cd Qkey"></div>
+				<img src="images/avatar/card.png"></div>
+			<div class="piece">
+				<div class="cd Wkey"></div>
+				<img src="images/avatar/card1.png"></div>
+			<div class="piece">
+				<div class="cd Ekey"></div>
+				<img src="images/avatar/card2.png"></div>
+		</div>
+		<div class="hp">
+			<div></div>
+		</div>
+	</div>
+	<div id="enemy">
+		<div class="avatar" style="position: relative;left: 210px;">
+			<img src="images/avatar/model.png">
+		</div>
+		<div class="hp">
+			<div></div>
+		</div>		
+	</div>
+	<div id="accessibility">
+	<!-- <a onclick="stop()">stop</a>
+	<a onclick="start()">start</a> -->
+	<div>fps：<span id="fps"></span></div>
+	<label onclick="setSize(900,600)"><input type="radio" name="size">正常大小</label>
+	<label onclick="setSize(600,400)"><input type="radio" name="size">如果平均fps小于50，请点击这个按钮</label>
+	</div>	
+</div>
+
+<div id="stage"><canvas id='myCanvas'>你的浏览器不支持，建议使用chrome进行游戏</canvas></div>
+</body>
+</html>
+<script language="javascript" src="../jquery.min.js" type="text/javascript"></script>
+<script language="javascript" src="js/gameStart.js" type="text/javascript"></script>
+<script language="javascript" src="js/jquery.hotkeys.js" type="text/javascript"></script>
+<script language="javascript" src="js/key_status.js" type="text/javascript"></script>
+<script language="javascript" src="js/util.js" type="text/javascript"></script>
+<script language="javascript" src="js/sprite.js" type="text/javascript"></script>
+<script language="javascript" src="js/sound.js" type="text/javascript"></script>
+<script language="javascript" src="js/func.js" type="text/javascript"></script>
+<script language="javascript" src="js/class.js" type="text/javascript"></script>
+<script language="javascript" src="js/init.js" type="text/javascript"></script>
