@@ -13,6 +13,9 @@ var ochi = {
 	buff: [],
 	hp: 5,
 	speed: 2,
+	// destination depend on the mouse 
+	dx: 0,
+	dy: 0,
 	// for drawing
 	flash: false,
 	angle: 0,
@@ -31,8 +34,8 @@ var ochi = {
 	init: function(hp, speed, x, y, angle){
 		this.hp = this.init_hp = hp;
 		this.speed = this.init_speed = speed;
-		this.x = this.mouse_x = x;
-		this.y = this.mouse_y = y;
+		this.x = this.dx = x;
+		this.y = this.dy = y;
 		this.angle = angle;
 	},
 	// common function
@@ -153,13 +156,13 @@ var ochi = {
 		if (this.movable) {
 			this.actionSprite("walk");
 
-			this.angle=Math.atan2(this.mouse_y - this.y, this.mouse_x - this.x);
+			this.angle=Math.atan2(this.dy - this.y, this.dx - this.x);
 			this.vx=Math.cos(this.angle) * this.speed || 0;
 			this.vy=Math.sin(this.angle) * this.speed || 0;
 
-			if (Math.abs(this.mouse_x - this.x) < Math.abs(this.vx)||Math.abs(this.mouse_y - this.y) < Math.abs(this.vy)) {
-				this.x=this.mouse_x;
-				this.y=this.mouse_y;
+			if (Math.abs(this.dx - this.x) < Math.abs(this.vx)||Math.abs(this.dy - this.y) < Math.abs(this.vy)) {
+				this.x=this.dx;
+				this.y=this.dy;
 				this.movable=false;
 			} else {
 				this.x += this.vx;
@@ -168,13 +171,13 @@ var ochi = {
 		}	
 	},
 	actionWorking: function() {
-		if (keydown.leftClick&&this.mouse_y!=mouse_y&&this.mouse_x!=mouse_x) {
+		if (keydown.leftClick&&this.dy!=mouse_y&&this.dx!=mouse_x) {
 			uni=mouseIcon(500, mouse_x, mouse_y);
 			sign=[];
 			sign.push(uni);
 
-			this.mouse_y=mouse_y;
-			this.mouse_x=mouse_x;
+			this.dy=mouse_y;
+			this.dx=mouse_x;
 			this.movable=true;
 		}	
 		switch (this.mode) {
@@ -387,8 +390,8 @@ var ochi = {
 		this.actionSprite("normal");
 		this.mode = "manual";
 		this.movable=false;
-		this.mouse_x=this.x;
-		this.mouse_y=this.y;
+		this.dx=this.x;
+		this.dy=this.y;
 	}
 
 }
