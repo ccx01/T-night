@@ -68,8 +68,9 @@ var ochi = {
 		//return I.x >= -100 && I.x <= CANVAS_WIDTH + 100 && I.y >= -100 && I.y <= CANVAS_HEIGHT + 100;
 	},
 	update: function() {
+		this.cmd();
 		this.buffWorking();
-		this.actionWorking();
+		this.behavior();
 	},
 	// 状态贴图
 	img: function(state){
@@ -139,7 +140,17 @@ var ochi = {
 			}
 		}
 	},
-	manual: function() { //manual  if判断，可同时输入多指令
+	cmd: function() { //cmd  if判断，可同时输入多指令
+		if (keydown.leftClick && this.dy != mouse_y && this.dx != mouse_x) {
+			uni = mouseIcon(500, mouse_x, mouse_y);
+			sign = [];
+			sign.push(uni);
+
+			this.dy = mouse_y;
+			this.dx = mouse_x;
+			this.movable = true;
+			this.mode = "walk";
+		}	
 		/* skill set*/
 		if (keydown.q) {
 			this.skillSet(this.sprint,"Qkey");
@@ -150,37 +161,32 @@ var ochi = {
 		if (keydown.e) {
 			this.skillSet(this.roundkick,"Ekey");
 		}
-		this.move();
+		// this.move("walk");
 	},
-	move: function(){
+	move: function(behavior){
 		if (this.movable) {
-			this.img("walk");
+			// 移动是一种状态，非行为，贴图由发起移动的指令来决定
+			this.img(behavior);
 
-			this.angle=Math.atan2(this.dy - this.y, this.dx - this.x);
-			this.vx=Math.cos(this.angle) * this.speed || 0;
-			this.vy=Math.sin(this.angle) * this.speed || 0;
+			this.angle = Math.atan2(this.dy - this.y, this.dx - this.x);
+			this.vx = Math.cos(this.angle) * this.speed || 0;
+			this.vy = Math.sin(this.angle) * this.speed || 0;
 
-			if (Math.abs(this.dx - this.x) < Math.abs(this.vx)||Math.abs(this.dy - this.y) < Math.abs(this.vy)) {
-				this.x=this.dx;
-				this.y=this.dy;
-				this.movable=false;
+			if (Math.abs(this.dx - this.x) < Math.abs(this.vx) || Math.abs(this.dy - this.y) < Math.abs(this.vy)) {
+				this.x = this.dx;
+				this.y = this.dy;
+				this.movable = false;
 			} else {
 				this.x += this.vx;
 				this.y += this.vy;
 			}
-		}	
+		}
 	},
-	actionWorking: function() {
-		if (keydown.leftClick&&this.dy!=mouse_y&&this.dx!=mouse_x) {
-			uni=mouseIcon(500, mouse_x, mouse_y);
-			sign=[];
-			sign.push(uni);
-
-			this.dy=mouse_y;
-			this.dx=mouse_x;
-			this.movable=true;
-		}	
+	behavior: function() {
 		switch (this.mode) {
+			case "walk":
+				this.move("walk");
+				break;
 			case "stiff":
 				this.stiff();
 				break;
@@ -208,7 +214,7 @@ var ochi = {
 				if(this.bounce.active){
 					this.bounce.release();
 				}else{
-					this.manual();
+					// this.cmd();
 				}
 		}
 	},
