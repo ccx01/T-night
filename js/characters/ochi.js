@@ -72,8 +72,8 @@ var ochi = {
 		this.actionWorking();
 	},
 	// 状态贴图
-	actionSprite: function(ac){
-		switch(ac){
+	img: function(state){
+		switch(state){
 			case "walk":
 				this.coordinate([0,0,32,32]);
 				this.animation([
@@ -125,7 +125,7 @@ var ochi = {
 		"cd": 1,
 		"angle": 0,
 		"release":function() {
-			this.actionSprite("normal");
+			this.img("normal");
 			this.vx=Math.cos(this.angle) * this.speed;
 			this.vy=Math.sin(this.angle) * this.speed;
 			if (time - this.timer > this.cd) {
@@ -154,7 +154,7 @@ var ochi = {
 	},
 	move: function(){
 		if (this.movable) {
-			this.actionSprite("walk");
+			this.img("walk");
 
 			this.angle=Math.atan2(this.dy - this.y, this.dx - this.x);
 			this.vx=Math.cos(this.angle) * this.speed || 0;
@@ -271,14 +271,14 @@ var ochi = {
 			this.trans=time-this.timer;
 			switch(true){
 				case this.trans<200:
-					this.actionSprite("sprintA");
+					this.img("sprintA");
 					this.angle=Math.atan2(mouse_y - this.y, mouse_x - this.x);
 					this.vx=Math.cos(this.angle) * (this.speed+10);
 					this.vy=Math.sin(this.angle) * (this.speed+10);				
 				break;
 				case this.trans<500:
 					this.areaAtk.push(this);
-					this.actionSprite("sprintB");
+					this.img("sprintB");
 					this.x += this.vx;
 					this.y += this.vy;			
 				break;
@@ -302,11 +302,11 @@ var ochi = {
 			this.y += this.vy;
 			switch(true){
 				case this.trans<50:
-					this.actionSprite("uppercutA");
+					this.img("uppercutA");
 					this.working=true;
 				break;
 				case this.trans<200:
-					this.actionSprite("uppercutB");
+					this.img("uppercutB");
 					this.angle=Math.atan2(mouse_y - this.y, mouse_x - this.x);
 					if (this.working) {
 						this.fountain=nonentity(300,this.x+20*this.vx,this.y+20*this.vy,10,this.angle);
@@ -349,7 +349,7 @@ var ochi = {
 					}
 				break;
 				case this.trans<300:
-					this.actionSprite("uppercutC");		
+					this.img("uppercutC");		
 				break;
 				default:
 					this.normal();
@@ -367,7 +367,7 @@ var ochi = {
 			switch(true){
 				case this.trans<1000:
 					this.areaAtk.push(this);
-					this.actionSprite("roundkickA");
+					this.img("roundkickA");
 					this.angle+=0.5;			
 				break;
 				default:
@@ -387,7 +387,7 @@ var ochi = {
 		this.skillName="";
 		this.damage=0;
 		this.areaAtk=[];
-		this.actionSprite("normal");
+		this.img("normal");
 		this.mode = "manual";
 		this.movable=false;
 		this.dx=this.x;
