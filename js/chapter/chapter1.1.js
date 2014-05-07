@@ -40,6 +40,14 @@ $.ajax({
 	dataType: "script"
 }).done(function(){
 	ochi.init(5, 5, 200, 300, 0);
+	//外部命令监听，之后需封装 鼠标类目前还未开始修改
+	// var uni=mouseIcon();	//mouse click
+	$("#myCanvas").click(function(){
+		/*uni = mouseIcon(500, mouse_x, mouse_y);
+		sign = [];
+		sign.push(uni);*/
+		ochi.cmd("walk");
+	});
 })
 );
 

@@ -68,8 +68,7 @@ var ochi = {
 		//return I.x >= -100 && I.x <= CANVAS_WIDTH + 100 && I.y >= -100 && I.y <= CANVAS_HEIGHT + 100;
 	},
 	update: function() {
-		this.cmd();
-		this.buffWorking();
+		this.state();
 		this.behavior();
 	},
 	// 状态贴图
@@ -140,19 +139,17 @@ var ochi = {
 			}
 		}
 	},
-	cmd: function() { //cmd  if判断，可同时输入多指令
-		if (keydown.leftClick && this.dy != mouse_y && this.dx != mouse_x) {
-			uni = mouseIcon(500, mouse_x, mouse_y);
-			sign = [];
-			sign.push(uni);
-
-			this.dy = mouse_y;
-			this.dx = mouse_x;
-			this.movable = true;
-			this.mode = "walk";
-		}	
+	cmd: function(listener) { //cmd drived by the event listener, listener set by chapter
+		switch(listener){
+			case "walk":
+				this.dy = mouse_y;
+				this.dx = mouse_x;
+				this.movable = true;
+				this.mode = "walk";
+			break;
+		}
 		/* skill set*/
-		if (keydown.q) {
+		/*if (keydown.q) {
 			this.skillSet(this.sprint,"Qkey");
 		}
 		if (keydown.w) {
@@ -160,7 +157,7 @@ var ochi = {
 		}
 		if (keydown.e) {
 			this.skillSet(this.roundkick,"Ekey");
-		}
+		}*/
 		// this.move("walk");
 	},
 	move: function(behavior){
@@ -231,7 +228,8 @@ var ochi = {
 			}
 		}
 	},
-	buffWorking: function() {
+	state: function() {
+		//当前状态 buff debuff，将影响behavior
 		for (i=0; i < this.buff.length; i++) {
 			if(this.buff[i] == "invincible"){
 				this.invincible.effect();
@@ -402,7 +400,6 @@ var ochi = {
 
 }
 
-var uni=mouseIcon();	//mouse click
 ochi.areaAtk=[];	//打击域
 //ochi.areaDef=[];	//受击域,模型太小，不需要受击域=
 // ochi.sprite=sprite("characters/ochi.png", 0, 0, preloading);//加载图片
