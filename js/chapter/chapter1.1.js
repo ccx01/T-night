@@ -38,7 +38,8 @@ $.ajax({
 	url: "js/characters/ochi.js",
 	async: false,
 	dataType: "script"
-}).done(function(){
+}).done(function(data){
+	console.log(ochi);
 	ochi.init(5, 5, 200, 300, 0);
 	//外部命令监听，之后需封装 鼠标类目前还未开始修改
 	// var uni=mouseIcon();	//mouse click
@@ -48,6 +49,9 @@ $.ajax({
 		sign.push(uni);*/
 		ochi.cmd("walk");
 	});
+}).fail(function(data){
+
+	console.log(data);
 })
 );
 
