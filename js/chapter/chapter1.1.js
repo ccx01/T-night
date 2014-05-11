@@ -33,14 +33,14 @@ CG = function(step){
 	chapterInit();
 }
 
-$.when(
+// $.when(
 $.ajax({
 	url: "js/characters/ochi.js",
 	async: false,
 	dataType: "script"
 }).done(function(data){
-	console.log(ochi);
 	ochi.init(5, 5, 200, 300, 0);
+	// console.log(ochi.init);
 	//外部命令监听，之后需封装 鼠标类目前还未开始修改
 	// var uni=mouseIcon();	//mouse click
 	$("#myCanvas").click(function(){
@@ -53,7 +53,7 @@ $.ajax({
 
 	console.log(data);
 })
-);
+// );
 
 chapterInit = function(){
 	object=[];

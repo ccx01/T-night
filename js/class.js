@@ -1,4 +1,4 @@
-var object = [];
+window.object = [];
 var enemyPool = [];
 var collidable = [];	//可碰撞物
 var obstacles = [];
