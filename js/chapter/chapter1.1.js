@@ -35,7 +35,7 @@ CG = function(step){
 
 // $.when(
 $.ajax({
-	url: "js/characters/ochi.js",
+	url: "js/characters/ochi-backup.js",
 	async: false,
 	dataType: "script"
 }).done(function(data){

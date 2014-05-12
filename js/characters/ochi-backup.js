@@ -49,19 +49,13 @@ ochi.effectSprite=function(ef){
 }
 
 /**************************/
-ochi.init = {
-	"HP": 5,
-	"x": 0,
-	"y": 0,
-	"angle": 0,
-	"speed": 5
+ochi.init = function(hp, speed, x, y, angle){
+	this.hp = this.init_hp = hp;
+	this.speed = this.init_speed = speed;
+	this.x = this.dx = x;
+	this.y = this.dy = y;
+	this.angle = angle;
 }
-ochi.HP=5;
-ochi.x=420;
-ochi.y=300;
-ochi.speed=5;
-ochi.xVelocity=0;
-ochi.yVelocity=0;
 /*************************** ochi behavior (with buff) *******************************/
 /*********** ochi mode(control position,angle) *********/
 /******base mode*****/
