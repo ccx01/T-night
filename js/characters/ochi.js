@@ -184,4 +184,4 @@ var ochi = (function(sprite) {
 	}
 	return I;
 
-})(sprite);
+}(sprite));

@@ -8,7 +8,6 @@ ochi.sprite=sprite("characters/ochi.png", 0, 0, preloading);//加载图片
 ochi.img=function(ac){
 	switch(ac){
 		case "walk":
-			this.coordinate([0,0,32,32]);
 			this.animation.run([
 				[0,0,32,32],
 				[0,32,32,32],
@@ -48,49 +47,24 @@ ochi.coordinate = function(arr) {
 	this.width = arr[2] || this.width;
 	this.height = arr[3] || this.height;
 }
-var count = 0;
-/*ochi.animation = function(arr,frame,fn){
-	var during=arr.length*frame-1;
-	count%=during;
-	count++;
-	this.coordinate(arr[Math.floor(count / frame)]);
-	if(count==during&&fn){
-		fn();
-	}
-}*/
-ochi.animation = {
-	count: 0,
-	last_time: new Date().getTime(),
-	run: function(arr,frame,fn){
+
+// animation功能还有待考量
+ochi.animation = (function(){
+	var I = {};
+	I.count = 0;
+	I.last_time = new Date().getTime();
+	I.run = function(arr,frame,fn){
 		var during=arr.length*frame-1;
-		count%=during;
-		count++;
-		ochi.coordinate(arr[Math.floor(count / frame)]);
-		if(count==during&&fn){
+		I.count%=during;
+		I.count++;
+		//这里有个ochi，看着不爽
+		ochi.coordinate(arr[Math.floor(I.count / frame)]);
+		if(I.count==during&&fn){
 			fn();
 		}
-		/*console.log(new Date().getTime()-this.last_time)
-		if(new Date().getTime()-this.last_time>frame){
-			var during = arr.length-1;
-			this.count %= during;
-			this.count++;
-			if(count==during&&fn){
-				fn();
-			}
-			// alert(this.count)
-			ochi.coordinate(arr[this.count]);
-			this.last_time = new Date().getTime();
-		}*/
-		/*var during=arr.length*frame-1;
-		clearTimeout(this.last_time);
-		this.last_time = setTimeout(function(){
-			this.count%=during;
-			this.count++;
-			ochi.coordinate(arr[Math.floor(count / frame)]);
-			ochi.animation.a(arr,frame,fn);
-		},16);*/
 	}
-}
+	return I;
+}());
 
 ochi.init = function(hp, speed, x, y, angle){
 	this.hp = this.init_hp = hp;
@@ -112,6 +86,7 @@ ochi.cmd = function(listener) { //cmd drived by the event listener, listener set
 ochi.move = function(behavior){
 	if (this.movable) {
 		// 移动是一种状态，非行为，贴图由发起移动的指令来决定
+		// 移动状态通常伴随多种状态，所以不要再试图把贴图功能独立出去 => to Sign
 		this.img(behavior);
 
 		this.angle = Math.atan2(this.dy - this.y, this.dx - this.x);
