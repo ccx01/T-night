@@ -1,4 +1,4 @@
-/* preload images and audio */
+/* preload img and audio */
 var resource = [
 	['characters/ochi.png', 'characters/cross.png'],
 	['atk', 'beaten', 'hit']

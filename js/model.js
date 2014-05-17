@@ -26,12 +26,14 @@ function model() {
 		canvas.save();
 		canvas.translate(this.x-camera.x, this.y-camera.y);
 		canvas.rotate(this.angle);
-		this.sprite.draw(canvas, -this.width / 2, -this.height / 2, this.width, this.height);
-		/* OBB stroke */
-		// I.OBBw = 20;
-		// I.OBBh = 20;
-		this.collidable && this.sprite.stroke(canvas, -this.OBBw / 2, -this.OBBh / 2, this.OBBw, this.OBBh);
-		/* OBB stroke end */
+		if(this.sprite.draw){
+			//预加载解决前临时的规避方法
+			this.sprite.draw(canvas, -this.width / 2, -this.height / 2, this.width, this.height);
+			
+			/* OBB stroke */
+			this.collidable && this.sprite.stroke(canvas, -this.OBBw / 2, -this.OBBh / 2, this.OBBw, this.OBBh);
+			/* OBB stroke end */
+		}
 		canvas.restore();
 		this.update();
 	};

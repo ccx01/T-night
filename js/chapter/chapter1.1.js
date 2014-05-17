@@ -1,4 +1,4 @@
-/* preload images and audio */
+/* preload img and audio */
 var resource = [
 	['characters/ochi.png'],
 	[]
@@ -6,7 +6,7 @@ var resource = [
 
 /*********map init*********/
 $("#stage").css({
-	'background':'url("images/map/bg1.png")',
+	'background':'url("img/map/bg1.png")',
 	'background-position': '0px 0px',
 	'background-repeat': 'no-repeat'
 });
@@ -71,11 +71,11 @@ chapterInit = function(){
 	$("#enemy").addClass("cos");
 	node[0].target=ochi;*/
 
-	$(".ochi .avatar img").attr("src","images/avatar/ochi/p1.png")
+	$(".ochi .avatar img").attr("src","img/avatar/ochi/p1.png")
 	$(".ochi .hp div").animate({
 	    "width": "100%"
 	});
-	$(".cos .avatar img").attr("src","images/avatar/cos/p1.png")
+	$(".cos .avatar img").attr("src","img/avatar/cos/p1.png")
 	$(".cos .hp div").animate({
 	    "width": "100%"
 	});

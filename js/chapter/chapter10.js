@@ -1,4 +1,4 @@
-/* preload images and audio */
+/* preload img and audio */
 var resource = [
 	['characters/ochi', 'characters/cross'],
 	['atk', 'beaten', 'hit']
@@ -9,9 +9,9 @@ var dialog = {
 	'begin': [{
 		'avatar': 'ming.png',
 		'position': '.right',
-		'words': '<img src="images/ui/tipLc.png" / >X1 = 攻击！<br><img src="images/ui/tipRc.png" / >X1 = 移动！'
+		'words': '<img src="img/ui/tipLc.png" / >X1 = 攻击！<br><img src="img/ui/tipRc.png" / >X1 = 移动！'
 	}, {
-		'words': '如果浏览器安装了鼠标手势之类的扩展，可以<img src="images/ui/tipRc.png" / >X2 = 移动！'
+		'words': '如果浏览器安装了鼠标手势之类的扩展，可以<img src="img/ui/tipRc.png" / >X2 = 移动！'
 	}, {
 		'words': '<div class="start" onclick="start();">start</div>'
 	}],

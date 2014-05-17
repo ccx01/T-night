@@ -1,4 +1,4 @@
-/* preload images and audio */
+/* preload img and audio */
 var resource = [
 	['characters/ochi.png', 'characters/dolls.png','effect/effect1.png'],
 	[]
@@ -6,7 +6,7 @@ var resource = [
 
 /*********map init*********/
 $("#stage").css({
-	'background':'url("images/map/bg1_0.png")',
+	'background':'url("img/map/bg1_0.png")',
 	'background-position': '0px 0px',
 	'background-repeat': 'no-repeat'
 });
@@ -34,7 +34,7 @@ CG = function(step){
 			CGheight=600;
 			$("#cg .content").html("");
 			$("#cg .content").css({
-				"background-image":"url(images/chapter/chapter1/lesson1.png)",
+				"background-image":"url(img/chapter/chapter1/lesson1.png)",
 				"background-position":"0px 0px",
 				"background-color":"#fff"
 			});
@@ -98,7 +98,7 @@ chapterInit = function(){
 	collidable.push(dolls);
 	enemyPool.push(dolls);
 	$("#player").addClass("ochi");
-		$(".ochi .avatar img").attr("src","images/avatar/ochi/p1.png")
+		$(".ochi .avatar img").attr("src","img/avatar/ochi/p1.png")
 		$(".ochi .hp div").animate({
 				"width": "10%"
 		});
@@ -108,7 +108,7 @@ chapterInit = function(){
 	dolls.x=420;
 	dolls.y=300;
 	$("#enemy").addClass("dolls");
-	$(".dolls .avatar img").attr("src","images/avatar/dolls.png")
+	$(".dolls .avatar img").attr("src","img/avatar/dolls.png")
 	var tHP=dolls.HP / dolls.init.HP * 100;
 	$(".dolls .hp div").animate({
 		"width": tHP + "%"
