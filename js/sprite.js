@@ -19,7 +19,7 @@
 	};
 
 	window.sprite = function(name, sourceX, sourceY, callback) {
-		var path = "images/";
+		var path = "img/";
 		var img = new Image();
 		var proxy = {};
 

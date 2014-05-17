@@ -1,5 +1,5 @@
 //特别角色
-var dolls=entity();
+var dolls=model();
 dolls.sprite=sprite("characters/dolls.png");
 dolls.init = {
 	"HP": 10,
@@ -30,7 +30,7 @@ dolls.bounce={
 	}
 };
 dolls.coll =function(){
-	var col=nonentity(300,this.x,this.y,0,this.angle);
+	var col=nonmodel(300,this.x,this.y,0,this.angle);
 	col.sprite=sprite("effect/effect1.png");
 	col.update = function() {
 		this.animation([

@@ -6,7 +6,7 @@ var node = [],
 	statusef = [];
 //body
 for (var i = 0; i < len; i++) {
-	node[i] = entity();
+	node[i] = model();
 	node[i].sprite = sprite("characters/cross.png", 60, 2);
 	node[i].id = i;
 	node[i].width = 30;
@@ -29,7 +29,7 @@ for (var i = 0; i < len; i++) {
 	};
 	node[i].coll = function(){       //被击中特效
 		if(!statusef.in_array("col")){
-			var col=nonentity(300,this.x,this.y,0,this.angle);
+			var col=nonmodel(300,this.x,this.y,0,this.angle);
 				col.sprite=sprite("effect/effect1.png");
 			var _this=col;
 			col.update = function() {

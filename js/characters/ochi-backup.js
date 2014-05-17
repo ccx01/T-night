@@ -1,5 +1,5 @@
 //Ochi 奥兹
-var ochi=entity();
+var ochi=model();
 var uni=mouseIcon();	//mouse click
 ochi.areaAtk=[];	//打击域
 //ochi.areaDef=[];	//受击域,模型太小，不需要受击域= =
@@ -8,62 +8,29 @@ ochi.sprite=sprite("characters/ochi.png", 0, 0, preloading);//加载图片
 ochi.img=function(ac){
 	switch(ac){
 		case "walk":
-			this.animation.run([
+			this.animation([
 				[0,0,32,32],
 				[0,32,32,32],
 				[0,64,32,32]
 			],7);
-		break;
-		case "hurtA":
-			this.coordinate([95,2,32,32]);
-		break;
-		case "sprintA":
-			this.coordinate([33,0,46,36]);
-		break;
-		case "sprintB":
-			this.coordinate([34,36,61,30]);
-		break;
-		case "uppercutA":
-			this.coordinate([99,0,36,35]);
-		break;
-		case "uppercutB":
-			this.coordinate([99,35,42,43]);
-		break;
-		case "uppercutC":
-			this.coordinate([99,80,38,37]);
-		break;
-		case "roundkickA":
-			this.coordinate([142,10,60,64]);
 		break;
 		default:	//normal
 			this.coordinate([0,0,32,32]);
 	}
 }
 
-//arr:[sx, sy, w, h] 图片坐标
-ochi.coordinate = function(arr) {
-	this.sprite.sourceX = arr[0];
-	this.sprite.sourceY = arr[1];
-	this.width = arr[2] || this.width;
-	this.height = arr[3] || this.height;
-}
-
 // animation功能还有待考量
 ochi.animation = (function(){
-	var I = {};
-	I.count = 0;
-	I.last_time = new Date().getTime();
-	I.run = function(arr,frame,fn){
+	var count = 0;	//此处count为animation内部用，与对象的count无关，对象的count目前暂时没什么用
+	return function(arr,frame,fn){
 		var during=arr.length*frame-1;
-		I.count%=during;
-		I.count++;
-		//这里有个ochi，看着不爽
-		ochi.coordinate(arr[Math.floor(I.count / frame)]);
-		if(I.count==during&&fn){
+		count%=during;
+		count++;
+		this.coordinate(arr[Math.floor(count / frame)]);
+		if(count==during&&fn){
 			fn();
 		}
 	}
-	return I;
 }());
 
 ochi.init = function(hp, speed, x, y, angle){
@@ -72,6 +39,7 @@ ochi.init = function(hp, speed, x, y, angle){
 	this.x = this.dx = x;
 	this.y = this.dy = y;
 	this.angle = angle;
+	this.collidable = true;
 }
 ochi.cmd = function(listener) { //cmd drived by the event listener, listener set by chapter
 	switch(listener){
@@ -116,5 +84,3 @@ ochi.update = function() {
 	// this.state();
 	this.behavior();
 }
-/*******具有碰撞属性*******/
-collidable.push(ochi);

@@ -198,7 +198,7 @@ function menu() {
 $("#chapter").fadeIn();
 
 /* for checking image position */
-// var testIMG = entity();
+// var testIMG = model();
 // testIMG.sprite = sprite("effect/effect1.png");
 // object.push(testIMG);
 // testIMG.update = function() {

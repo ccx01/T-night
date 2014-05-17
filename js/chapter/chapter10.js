@@ -62,7 +62,7 @@ handleCollisions = function() {
 }
 
 //Ochi 奥兹
-var ochi = entity();
+var ochi = model();
 object.push(ochi);
 ochi.sprite = sprite("characters/ochi",0,0);
 ochi.mode = "manual"; //行为，主要控制移动 跳跃 反弹 恐惧后乱动 硬直
@@ -199,7 +199,7 @@ var node = [],
 //Ming's summon 冥的召唤兽 风氏
 //body
 for (var i = 0; i < len; i++) {
-	node[i] = entity();
+	node[i] = model();
 	object.push(node[i]);
 
 	node[i].sprite = sprite("characters/cross", 60, 2);

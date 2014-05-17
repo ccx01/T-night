@@ -1,5 +1,5 @@
 //Ming 冥
-var Ming = entity();
+var Ming = model();
 Ming.init = { //初始化
 	"hp": 5,
 	"x": 520,
@@ -15,7 +15,7 @@ Ming.speed = Ming.init.speed; //特定的条件下需要修改初始速度
 Ming.angry = 0;
 Ming.mode = "normal";
 
-Ming.attackArea = entity(); //攻击域
+Ming.attackArea = model(); //攻击域
 Ming.attackArea.width = 500;
 Ming.attackArea.height = 500;
 
@@ -70,7 +70,7 @@ Ming.update = function() {
 }
 
 function gulinji(age, x, y, speed, angle) {
-	var I = entity();
+	var I = model();
 	I.age = age;
 	I.x = x;
 	I.y = y;
