@@ -1,7 +1,7 @@
 //Ochi 奥兹
 var ochi=model();
-var uni=mouseIcon();	//mouse click
-ochi.areaAtk=[];	//打击域
+// var uni=mouseIcon();	//mouse click
+// ochi.areaAtk=[];	//打击域
 //ochi.areaDef=[];	//受击域,模型太小，不需要受击域= =
 ochi.sprite=sprite("characters/ochi.png", 0, 0, preloading);//加载图片
 /*************sprite***************/
@@ -34,6 +34,11 @@ ochi.animation = (function(){
 }());
 
 ochi.init = function(hp, speed, x, y, angle){
+	/* 碰撞属性 */
+	this.collidable = true;
+	this.OBBw = 20;
+	this.OBBh = 20;
+	/* 碰撞属性 end */
 	this.hp = this.init_hp = hp;
 	this.speed = this.init_speed = speed;
 	this.x = this.dx = x;

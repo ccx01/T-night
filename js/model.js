@@ -6,6 +6,7 @@ var obstacles = [];
 function model() {
 	var I = {};
 	I.mode = "stay";
+	I.loaded = false;
 	I.collidable = false;
 	I.age = 0;
 	I.active = true;
@@ -19,8 +20,6 @@ function model() {
 	I.width = 32;
 	I.height = 32;
 	/*for collide*/
-	I.OBBwidth = 32;
-	I.OBBheight = 32;
 	I.speed = 2;
 	I.sprite = sprite("model.png");
 	I.draw = function() {
@@ -28,10 +27,16 @@ function model() {
 		canvas.translate(this.x-camera.x, this.y-camera.y);
 		canvas.rotate(this.angle);
 		this.sprite.draw(canvas, -this.width / 2, -this.height / 2, this.width, this.height);
+		/* OBB stroke */
+		// I.OBBw = 20;
+		// I.OBBh = 20;
+		this.collidable && this.sprite.stroke(canvas, -this.OBBw / 2, -this.OBBh / 2, this.OBBw, this.OBBh);
+		/* OBB stroke end */
 		canvas.restore();
 		this.update();
 	};
-	I.coordinate = function(arr) {	//arr:[sx, sy, w, h]
+	I.coordinate = function(arr) {
+		//arr:[sx, sy, w, h]
 		this.sprite.sourceX = arr[0];
 		this.sprite.sourceY = arr[1];
 		this.width = arr[2] || this.width;
