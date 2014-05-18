@@ -19,16 +19,17 @@ function init(chapter) {
 		async: false,
 		dataType: "script"
 	}).done(function() {
+		$("#loading").show();
+		totalLen = object.length;
 		/* resource */
-		var imgLen = resource[0].length,
+		/*var imgLen = resource[0].length,
 			audioLen = resource[1].length;
-		totalLen = imgLen + audioLen;
 		for (var m = 0; m < imgLen; m++) {
 			// sprite(resource[0][m], 0, 0, preloading);
 		}
 		for (var n = 0; n < audioLen; n++) {
 			Sound.load(resource[1][n], preloading);
-		}
+		}*/
 
 		/* begin dialog*/
 		// words(dialog["begin"]);
@@ -37,11 +38,15 @@ function init(chapter) {
 	});
 }
 
-function preloading() {
+function isReady() {
 	loaded++;
 	$("#loading div").stop().animate({
 		width: loaded / totalLen * 100 + "%"
 	});
+	if (loaded == totalLen) {
+		// $("#loading").hide();
+		start();
+	};
 }
 
 /* collision detection */
@@ -167,18 +172,17 @@ var CGcontent = function(w,h,time,auto){
 
 requestId = requestAnimationFrame(animate);
 function start() {
-	if (loaded == totalLen) {
+	// if (loaded == totalLen) {
 		pause = false;
 		cancelAnimationFrame(requestId);
 		requestId = requestAnimationFrame(animate);
 		$("#dialog").fadeOut();
-		$("#loading").hide();
 		$("#info").fadeIn();
 		$("#stage").fadeIn();
-	} else {
+	/*} else {
 		$("#loading").show();
 		setTimeout(start, 500);
-	}
+	}*/
 }
 
 function stop(delay) {

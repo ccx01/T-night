@@ -81,7 +81,7 @@ chapterInit = function(){
 	});
 
 	camera.center=ochi;
-	start();
+	// start();
 }
 
 result = function() {

@@ -8,7 +8,7 @@
 			draw: function(canvas, x, y, width, height) {
 				canvas.drawImage(image, this.sourceX, this.sourceY, width, height, x, y, width, height);
 			},
-			flash: function(rate,olor) {
+			flash: function(rate, color) {
 				color = time % rate < 10 ? color : "#f00";
 				canvas.globalCompositeOperation = "source-atop";
 				canvas.fillStyle = color;
@@ -25,21 +25,13 @@
 	};
 
 	window.sprite = function(name, sourceX, sourceY, callback) {
-		var path = "img/";
 		var img = new Image();
-		var proxy = {};
-
+			img.src = "img/" + name;
+		//sprite 定义在onload外，防止对象onload前调用draw
+		this.sprite = render(img, sourceX, sourceY);
 		img.onload = function() {
-			var tile = render(this, sourceX, sourceY);
-			$.extend(proxy, tile);
-
-			if (callback) {
-				callback(proxy);
-			}
-		};
-
-		img.src = path + name;
-		return proxy;
+			callback&&callback();
+		}
 	};
 	
 }());

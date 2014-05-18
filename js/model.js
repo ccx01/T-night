@@ -21,19 +21,15 @@ function model() {
 	I.height = 32;
 	/*for collide*/
 	I.speed = 2;
-	I.sprite = sprite("model.png");
+	sprite.apply(I,["model.png", 0, 0]);
 	I.draw = function() {
 		canvas.save();
 		canvas.translate(this.x-camera.x, this.y-camera.y);
 		canvas.rotate(this.angle);
-		if(this.sprite.draw){
-			//预加载解决前临时的规避方法
-			this.sprite.draw(canvas, -this.width / 2, -this.height / 2, this.width, this.height);
-			
-			/* OBB stroke */
-			this.collidable && this.sprite.stroke(canvas, -this.OBBw / 2, -this.OBBh / 2, this.OBBw, this.OBBh);
-			/* OBB stroke end */
-		}
+		this.sprite.draw(canvas, -this.width / 2, -this.height / 2, this.width, this.height);
+		/* OBB stroke */
+		this.collidable && this.sprite.stroke(canvas, -this.OBBw / 2, -this.OBBh / 2, this.OBBw, this.OBBh);
+		/* OBB stroke end */
 		canvas.restore();
 		this.update();
 	};

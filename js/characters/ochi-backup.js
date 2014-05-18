@@ -1,10 +1,17 @@
 //Ochi 奥兹
 var ochi=model();
-// var uni=mouseIcon();	//mouse click
-// ochi.areaAtk=[];	//打击域
-//ochi.areaDef=[];	//受击域,模型太小，不需要受击域= =
-ochi.sprite=sprite("characters/ochi.png", 0, 0, preloading);//加载图片
+
 /*************sprite***************/
+/*function preloading(sprite) {
+	console.log(sprite)
+	ochi.sprite = sprite;
+	console.log(ochi.sprite)
+	loaded++;
+	$("#loading div").stop().animate({
+		width: loaded / totalLen * 100 + "%"
+	});
+}*/
+sprite.apply(ochi,["characters/ochi.png", 0, 0, isReady]);//加载图片
 ochi.img=function(ac){
 	switch(ac){
 		case "walk":
