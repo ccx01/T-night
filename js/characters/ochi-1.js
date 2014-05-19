@@ -1,10 +1,10 @@
 //Ochi 奥兹
-var ochi=model();
+var ochi1=model();
 
 /*************sprite***************/
-sprite.apply(ochi,["characters/ochi.png", 0, 0, isReady]);//加载图片
-ochi.name = "ochi1";
-ochi.img=function(ac){
+sprite.apply(ochi1,["characters/ochi.png", 0, 0, isReady]);//加载图片
+ochi1.name = "ochi1";
+ochi1.img = function(ac){
 	switch(ac){
 		case "walk":
 			this.animation([
@@ -19,7 +19,7 @@ ochi.img=function(ac){
 }
 
 // animation功能还有待考量
-ochi.animation = (function(){
+ochi1.animation = (function(){
 	var count = 0;	//此处count为animation内部用，与对象的count无关，对象的count目前暂时没什么用
 	return function(arr,frame,fn){
 		var during=arr.length*frame-1;
@@ -32,7 +32,7 @@ ochi.animation = (function(){
 	}
 }());
 
-ochi.init = function(hp, speed, x, y, angle){
+ochi1.init = function(hp, speed, x, y, angle){
 	/* 碰撞属性 */
 	this.collidable = true;
 	this.OBBw = 20;
@@ -45,7 +45,7 @@ ochi.init = function(hp, speed, x, y, angle){
 	this.angle = angle;
 	this.collidable = true;
 }
-ochi.cmd = function(listener) { //cmd drived by the event listener, listener set by chapter
+ochi1.cmd = function(listener) { //cmd drived by the event listener, listener set by chapter
 	switch(listener){
 		case "walk":
 			this.dy = mouse_y;
@@ -55,7 +55,7 @@ ochi.cmd = function(listener) { //cmd drived by the event listener, listener set
 		break;
 	}
 }
-ochi.move = function(behavior){
+ochi1.move = function(behavior){
 	if (this.movable) {
 		// 移动是一种状态，非行为，贴图由发起移动的指令来决定
 		// 移动状态通常伴随多种状态，所以不要再试图把贴图功能独立出去 => to Sign
@@ -75,7 +75,7 @@ ochi.move = function(behavior){
 		}
 	}
 }
-ochi.behavior = function() {
+ochi1.behavior = function() {
 	switch (this.mode) {
 		case "walk":
 			this.move("walk");
@@ -84,9 +84,9 @@ ochi.behavior = function() {
 }
 
 /**********update**********/
-ochi.update = function() {
+ochi1.update = function() {
 	// this.state();
 	this.behavior();
 }
 
-object.push(ochi);
+object.push(ochi1);

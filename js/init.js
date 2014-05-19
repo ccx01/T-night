@@ -21,18 +21,6 @@ function init(chapter) {
 	}).done(function() {
 		$("#loading").show();
 		totalLen = object.length;
-		/* resource */
-		/*var imgLen = resource[0].length,
-			audioLen = resource[1].length;
-		for (var m = 0; m < imgLen; m++) {
-			// sprite(resource[0][m], 0, 0, preloading);
-		}
-		for (var n = 0; n < audioLen; n++) {
-			Sound.load(resource[1][n], preloading);
-		}*/
-
-		/* begin dialog*/
-		// words(dialog["begin"]);
 
 		$("#chapter").hide();
 	});

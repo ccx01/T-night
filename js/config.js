@@ -1,3 +1,16 @@
+window.game = {
+	canvas: {
+		w: 600,
+		h: 400
+	},
+	camera: {
+		x: 0,
+		y: 0,
+		center: map
+	},
+	object: []
+}
+
 var CANVAS_WIDTH = 600;
 var CANVAS_HEIGHT = 400;
 

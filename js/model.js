@@ -5,8 +5,8 @@ var obstacles = [];
 // var map = [];
 function model() {
 	var I = {};
+	sprite.apply(I,["model.png", 0, 0]);
 	I.mode = "stay";
-	I.loaded = false;
 	I.collidable = false;
 	I.age = 0;
 	I.active = true;
@@ -21,7 +21,6 @@ function model() {
 	I.height = 32;
 	/*for collide*/
 	I.speed = 2;
-	sprite.apply(I,["model.png", 0, 0]);
 	I.draw = function() {
 		canvas.save();
 		canvas.translate(this.x-camera.x, this.y-camera.y);
@@ -103,13 +102,3 @@ function mouseIcon(age, x, y) {
 	}
 	return I;
 }
-
-/*function generateObstacle(x,y,width,height,angle) {
-	var obstacle=model();
-	obstacle.x=x;
-	obstacle.y=y;
-	obstacle.OBBwidth=obstacle.width=width;
-	obstacle.OBBheight=obstacle.height=height;
-	obstacle.angle=angle;
-	obstacles.push(obstacle);
-}*/
