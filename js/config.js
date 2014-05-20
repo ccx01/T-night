@@ -8,8 +8,18 @@ window.game = {
 		y: 0,
 		center: map
 	},
-	object: []
+	time: new Date().getTime()
 }
+window.res = {
+	loaded: 0,
+	totalLen: 0,
+	fps: 0,
+	pause: false,
+	requestId: 0,
+	lastAnimationFrameTime: 0,
+	lastFpsUpdateTime: 0
+}
+window.object = [];
 
 var CANVAS_WIDTH = 600;
 var CANVAS_HEIGHT = 400;

@@ -79,7 +79,7 @@ function clear() {
 }
 
 function draw() {
-	sign.forEach(function(s) {
+	/*sign.forEach(function(s) {
 		s.draw();
 	});
 	object.forEach(function(o) {
@@ -87,7 +87,11 @@ function draw() {
 	});
 	effect.forEach(function(ef) {
 		ef.draw();
-	});
+	});*/
+	var i = 0;
+	for(; i < totalLen; i++){
+		object[i].draw();
+	}
 }
 
 function result(){}
@@ -96,7 +100,7 @@ function animate(now) {
 	if (!pause) {
 		fps = calculateFps(now);
 		camera.update();
-		handleCollisions();
+		// handleCollisions();
 		clear();
 		draw();
 		result();

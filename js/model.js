@@ -1,8 +1,3 @@
-window.object = [];
-var enemyPool = [];
-var collidable = [];	//可碰撞物
-var obstacles = [];
-// var map = [];
 function model() {
 	var I = {};
 	sprite.apply(I,["model.png", 0, 0]);
