@@ -35,9 +35,9 @@ CG = function(step){
 // $.when(
 /* 载入资源js(角色，物品) */
 $.ajax({
-	url: "js/characters/ochi-backup.js",
+	url: "js/characters/ochi-backup.js?callback=?",
 	async: false,
-	dataType: "script"
+	dataType: 'script'
 }).done(function(data){
 	/* 载入后根据不同的章节进行初始化 */
 	ochi.init(5, 5, 200, 300, 0);
@@ -57,14 +57,16 @@ $.ajax({
 	    "width": "100%"
 	});
 	camera.center=ochi;
+}).fail(function(data){
+	console.log(data);
 });
-$.ajax({
+/*$.ajax({
 	url: "js/characters/ochi-1.js",
 	async: false,
 	dataType: "script"
 }).done(function(data){
 	ochi1.init(5, 5, 300, 300, 0);
-});
+});*/
 // );
 
 result = function() {

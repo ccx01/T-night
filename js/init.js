@@ -10,7 +10,7 @@ var lastFpsUpdateTime = 0;
 /* level setting */
 
 function init(chapter) {
-	object = []; //empty the objects
+	objs = []; //empty the objss
 	loaded = 0;
 	chapter = "chapter" + chapter;
 	$.ajax({
@@ -20,7 +20,7 @@ function init(chapter) {
 		dataType: "script"
 	}).done(function() {
 		$("#loading").show();
-		totalLen = object.length;
+		totalLen = objs.length;
 
 		$("#chapter").hide();
 	});
@@ -82,7 +82,7 @@ function draw() {
 	/*sign.forEach(function(s) {
 		s.draw();
 	});
-	object.forEach(function(o) {
+	objs.forEach(function(o) {
 		o.draw();
 	});
 	effect.forEach(function(ef) {
@@ -90,7 +90,7 @@ function draw() {
 	});*/
 	var i = 0;
 	for(; i < totalLen; i++){
-		object[i].draw();
+		objs[i].draw();
 	}
 }
 
@@ -196,7 +196,7 @@ $("#chapter").fadeIn();
 /* for checking image position */
 // var testIMG = model();
 // testIMG.sprite = sprite("effect/effect1.png");
-// object.push(testIMG);
+// objs.push(testIMG);
 // testIMG.update = function() {
 // 		if (keydown.q) {
 // 		  console.log(this.sprite.sourceX+","+this.sprite.sourceY+","+this.width+","+this.height);

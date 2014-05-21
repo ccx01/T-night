@@ -89,4 +89,4 @@ ochi1.update = function() {
 	this.behavior();
 }
 
-object.push(ochi1);
+objs.push(ochi1);

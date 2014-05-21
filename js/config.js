@@ -19,7 +19,7 @@ window.res = {
 	lastAnimationFrameTime: 0,
 	lastFpsUpdateTime: 0
 }
-window.object = [];
+window.objs = [];
 
 var CANVAS_WIDTH = 600;
 var CANVAS_HEIGHT = 400;
