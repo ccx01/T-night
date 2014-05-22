@@ -35,7 +35,7 @@ CG = function(step){
 // $.when(
 /* 载入资源js(角色，物品) */
 $.ajax({
-	url: "js/characters/ochi-backup.js?callback=?",
+	url: "js/characters/ochi-backup.js",
 	async: false,
 	dataType: 'script'
 }).done(function(data){
