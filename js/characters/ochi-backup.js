@@ -1,6 +1,4 @@
 //Ochi 奥兹
-var ochi = (function(){
-
 var ochi=model();
 
 /*************sprite***************/
@@ -92,5 +90,3 @@ ochi.update = function() {
 }
 
 objs.push(ochi);
-return ochi;
-}());
