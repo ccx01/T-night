@@ -7,6 +7,7 @@ ochi.name = "ochi1";
 ochi.img=function(ac){
 	switch(ac){
 		case "walk":
+			// this.coordinate([0,64,32,32]);
 			this.animation([
 				[0,0,32,32],
 				[0,32,32,32],

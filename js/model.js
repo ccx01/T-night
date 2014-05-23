@@ -29,8 +29,8 @@ function model() {
 	};
 	I.coordinate = function(arr) {
 		//arr:[sx, sy, w, h]
-		this.sprite.sourceX = arr[0];
-		this.sprite.sourceY = arr[1];
+		this.sprite.setSx(arr[0]);
+		this.sprite.setSy(arr[1]);
 		this.width = arr[2] || this.width;
 		this.height = arr[3] || this.height;
 	};
