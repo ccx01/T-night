@@ -2,7 +2,8 @@
 var ochi=model();
 
 /*************sprite***************/
-sprite.apply(ochi,["characters/ochi.png", 0, 0, isReady]);//加载图片
+ochi.sprite = sprite("characters/ochi.png", 0, 0, isReady);
+
 ochi.name = "ochi1";
 ochi.img=function(ac){
 	switch(ac){

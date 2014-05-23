@@ -1,6 +1,6 @@
 (function() {
 
-	function render(image, sourceX, sourceY) {
+	var render = function(image, sourceX, sourceY) {
 		sourceX = sourceX || 0;
 		sourceY = sourceY || 0;
 		var I = {
@@ -32,11 +32,10 @@
 	window.sprite = function(name, sourceX, sourceY, callback) {
 		var img = new Image();
 			img.src = "img/" + name;
-		//sprite 定义在onload外，防止对象onload前调用draw
-		this.sprite = render(img, sourceX, sourceY);
-		img.onload = function() {
-			callback&&callback();
-		}
+			img.onload = function() {
+				callback&&callback();
+			}
+		return render(img, sourceX, sourceY);
 	};
 	
 }());
