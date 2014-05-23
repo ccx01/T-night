@@ -1,4 +1,4 @@
-/* preload images and audio */
+/* preload img and audio */
 var resource = [
 	['characters/ochi.png'],
 	[]
@@ -6,7 +6,7 @@ var resource = [
 
 /*********map init*********/
 $("#stage").css({
-	'background':'url("images/map/bg1.png")',
+	'background':'url("img/map/bg1.png")',
 	'background-position': '0px 0px',
 	'background-repeat': 'no-repeat'
 });
@@ -30,15 +30,16 @@ CG = function(step){
 	$("#cg .content").css({
 		"background":"none"
 	}).html("揍它身上发光的地方<br>不要被它咬到");
-	chapterInit();
 }
 
 // $.when(
+/* 载入资源js(角色，物品) */
 $.ajax({
 	url: "js/characters/ochi-backup.js",
 	async: false,
-	dataType: "script"
+	dataType: 'script'
 }).done(function(data){
+	/* 载入后根据不同的章节进行初始化 */
 	ochi.init(5, 5, 200, 300, 0);
 	// console.log(ochi.init);
 	//外部命令监听，之后需封装 鼠标类目前还未开始修改
@@ -49,40 +50,24 @@ $.ajax({
 		sign.push(uni);*/
 		ochi.cmd("walk");
 	});
-}).fail(function(data){
-
-	console.log(data);
-})
-// );
-
-chapterInit = function(){
-	object=[];
-	effect=[];
-	collidable=[];
-	enemyPool=[];
-	object.push(ochi);
-	collidable.push(ochi);
 	$("#player").addClass("ochi");
-	/*for (var i = 0; i < len; i++) {
-	    object.push(node[i]);
-		collidable.push(node[i]);
-	    enemyPool.push(node[i]);
-	}
-	$("#enemy").addClass("cos");
-	node[0].target=ochi;*/
 
-	$(".ochi .avatar img").attr("src","images/avatar/ochi/p1.png")
+	$(".ochi .avatar img").attr("src","img/avatar/ochi/p1.png")
 	$(".ochi .hp div").animate({
 	    "width": "100%"
 	});
-	$(".cos .avatar img").attr("src","images/avatar/cos/p1.png")
-	$(".cos .hp div").animate({
-	    "width": "100%"
-	});
-
 	camera.center=ochi;
-	start();
-}
+}).fail(function(data){
+	console.log(data);
+});
+/*$.ajax({
+	url: "js/characters/ochi-1.js",
+	async: false,
+	dataType: "script"
+}).done(function(data){
+	ochi1.init(5, 5, 300, 300, 0);
+});*/
+// );
 
 result = function() {
 

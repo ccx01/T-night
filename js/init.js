@@ -10,7 +10,7 @@ var lastFpsUpdateTime = 0;
 /* level setting */
 
 function init(chapter) {
-	object = []; //empty the objects
+	objs = []; //empty the objss
 	loaded = 0;
 	chapter = "chapter" + chapter;
 	$.ajax({
@@ -19,29 +19,22 @@ function init(chapter) {
 		async: false,
 		dataType: "script"
 	}).done(function() {
-		/* resource */
-		var imgLen = resource[0].length,
-			audioLen = resource[1].length;
-		totalLen = imgLen + audioLen;
-		for (var m = 0; m < imgLen; m++) {
-			// sprite(resource[0][m], 0, 0, preloading);
-		}
-		for (var n = 0; n < audioLen; n++) {
-			Sound.load(resource[1][n], preloading);
-		}
-
-		/* begin dialog*/
-		// words(dialog["begin"]);
+		$("#loading").show();
+		totalLen = objs.length;
 
 		$("#chapter").hide();
 	});
 }
 
-function preloading() {
+function isReady() {
 	loaded++;
 	$("#loading div").stop().animate({
 		width: loaded / totalLen * 100 + "%"
 	});
+	if (loaded == totalLen) {
+		// $("#loading").hide();
+		start();
+	};
 }
 
 /* collision detection */
@@ -86,15 +79,19 @@ function clear() {
 }
 
 function draw() {
-	sign.forEach(function(s) {
+	/*sign.forEach(function(s) {
 		s.draw();
 	});
-	object.forEach(function(o) {
+	objs.forEach(function(o) {
 		o.draw();
 	});
 	effect.forEach(function(ef) {
 		ef.draw();
-	});
+	});*/
+	var i = 0;
+	for(; i < totalLen; i++){
+		objs[i].draw();
+	}
 }
 
 function result(){}
@@ -103,7 +100,7 @@ function animate(now) {
 	if (!pause) {
 		fps = calculateFps(now);
 		camera.update();
-		handleCollisions();
+		// handleCollisions();
 		clear();
 		draw();
 		result();
@@ -167,18 +164,17 @@ var CGcontent = function(w,h,time,auto){
 
 requestId = requestAnimationFrame(animate);
 function start() {
-	if (loaded == totalLen) {
+	// if (loaded == totalLen) {
 		pause = false;
 		cancelAnimationFrame(requestId);
 		requestId = requestAnimationFrame(animate);
 		$("#dialog").fadeOut();
-		$("#loading").hide();
 		$("#info").fadeIn();
 		$("#stage").fadeIn();
-	} else {
+	/*} else {
 		$("#loading").show();
 		setTimeout(start, 500);
-	}
+	}*/
 }
 
 function stop(delay) {
@@ -198,9 +194,9 @@ function menu() {
 $("#chapter").fadeIn();
 
 /* for checking image position */
-// var testIMG = entity();
+// var testIMG = model();
 // testIMG.sprite = sprite("effect/effect1.png");
-// object.push(testIMG);
+// objs.push(testIMG);
 // testIMG.update = function() {
 // 		if (keydown.q) {
 // 		  console.log(this.sprite.sourceX+","+this.sprite.sourceY+","+this.width+","+this.height);

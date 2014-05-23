@@ -1,3 +1,26 @@
+window.game = {
+	canvas: {
+		w: 600,
+		h: 400
+	},
+	camera: {
+		x: 0,
+		y: 0,
+		center: map
+	},
+	time: new Date().getTime()
+}
+window.res = {
+	loaded: 0,
+	totalLen: 0,
+	fps: 0,
+	pause: false,
+	requestId: 0,
+	lastAnimationFrameTime: 0,
+	lastFpsUpdateTime: 0
+}
+window.objs = [];
+
 var CANVAS_WIDTH = 600;
 var CANVAS_HEIGHT = 400;
 
