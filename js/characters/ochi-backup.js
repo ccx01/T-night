@@ -40,13 +40,16 @@ ochi.init = function(hp, speed, x, y, angle){
 	this.OBBw = 20;
 	this.OBBh = 20;
 	/* 碰撞属性 end */
+	/* 状态属性 */
+	this.movable = true;
+	/* 状态属性 end */
 	this.hp = this.init_hp = hp;
 	this.speed = this.init_speed = speed;
 	this.x = this.dx = x;
 	this.y = this.dy = y;
 	this.angle = angle;
-	this.collidable = true;
 }
+
 ochi.cmd = function(listener) { //cmd drived by the event listener, listener set by chapter
 	switch(listener){
 		case "walk":
@@ -54,10 +57,10 @@ ochi.cmd = function(listener) { //cmd drived by the event listener, listener set
 			this.dx = mouse_x;
 			this.movable = true;
 			this.mode = "walk";
-		break;
+			break;
 	}
 }
-ochi.move = function(behavior){
+ochi.move = function(behavior, end, callback){
 	if (this.movable) {
 		// 移动是一种状态，非行为，贴图由发起移动的指令来决定
 		// 移动状态通常伴随多种状态，所以不要再试图把贴图功能独立出去 => to Sign
@@ -70,7 +73,10 @@ ochi.move = function(behavior){
 		if (Math.abs(this.dx - this.x) < Math.abs(this.vx) || Math.abs(this.dy - this.y) < Math.abs(this.vy)) {
 			this.x = this.dx;
 			this.y = this.dy;
-			this.movable = false;
+			// this.movable = false;
+			// 移动结束状态
+			this.mode = end||"stay";
+			callback&&callback();
 		} else {
 			this.x += this.vx;
 			this.y += this.vy;

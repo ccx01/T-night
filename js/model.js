@@ -1,13 +1,12 @@
 function model() {
 	var I = {};
-	sprite.apply(I,["model.png", 0, 0]);
-	I.mode = "stay";
-	I.collidable = false;
 	I.age = 0;
 	I.active = true;
+	I.sprite = sprite("model.png", 0, 0);
+	I.mode = "stay";
+	I.collidable = false;
 	I.timer = 0; //计时用
 	I.count = 0; //计数用
-	I.buff = [];
 	I.x = 0;
 	I.y = 0;
 	I.angle = 0;
