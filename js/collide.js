@@ -15,6 +15,8 @@ function handleCollisions(){
 			j = i + 1;
 			for(; j < j_len; j++){
 				if (collides(c[i], c[j])) {
+					// c[i].mode = "stay";
+					c[i].isStoped("stay");
 					console.log(c[i]);
 				}			
 			}

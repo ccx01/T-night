@@ -61,11 +61,12 @@ ochi.cmd = function(listener) { //cmd drived by the event listener, listener set
 			break;
 	}
 }
-ochi.move = function(behavior, end, callback){
+ochi.move = function(behavior, stop){
 	if (this.movable) {
 		// 移动是一种状态，非行为，贴图由发起移动的指令来决定
 		// 移动状态通常伴随多种状态，所以不要再试图把贴图功能独立出去 => to Sign
-		this.img(behavior);
+		// 设计有变化，图片可以独立到外部进行控制 => to Sign
+		// this.img(behavior);
 		this.moving = true;
 
 		this.angle = Math.atan2(this.dy - this.y, this.dx - this.x);
@@ -75,21 +76,29 @@ ochi.move = function(behavior, end, callback){
 		if (Math.abs(this.dx - this.x) < Math.abs(this.vx) || Math.abs(this.dy - this.y) < Math.abs(this.vy)) {
 			this.x = this.dx;
 			this.y = this.dy;
+			// moving的定义似乎有问题，中途停止的话moving无法复原
 			this.moving = false;
-			// this.movable = false;
-			// 移动结束状态
-			this.mode = end||"stay";
-			callback&&callback();
+			// 移动到目标位置结束状态
+			ochi.isStoped(stop || "stay");
+			// callback ? callback() : (this.mode = "stay");
 		} else {
 			this.x += this.vx;
 			this.y += this.vy;
 		}
 	}
 }
+ochi.isStoped = function(stop, callback){
+	// 临时方法
+	this.moving = false;
+	this.mode = stop;
+	callback && callback();
+}
 ochi.behavior = function() {
 	switch (this.mode) {
 		case "walk":
 			this.move("walk");
+			// 技能施放时贴图可能不停的变化 => to Sign
+			this.img("walk");
 			break;
 	}
 }
