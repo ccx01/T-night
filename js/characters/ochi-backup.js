@@ -42,6 +42,7 @@ ochi.init = function(hp, speed, x, y, angle){
 	/* 碰撞属性 end */
 	/* 状态属性 */
 	this.movable = true;
+	this.moving = false;
 	/* 状态属性 end */
 	this.hp = this.init_hp = hp;
 	this.speed = this.init_speed = speed;
@@ -65,6 +66,7 @@ ochi.move = function(behavior, end, callback){
 		// 移动是一种状态，非行为，贴图由发起移动的指令来决定
 		// 移动状态通常伴随多种状态，所以不要再试图把贴图功能独立出去 => to Sign
 		this.img(behavior);
+		this.moving = true;
 
 		this.angle = Math.atan2(this.dy - this.y, this.dx - this.x);
 		this.vx = Math.cos(this.angle) * this.speed || 0;
@@ -73,6 +75,7 @@ ochi.move = function(behavior, end, callback){
 		if (Math.abs(this.dx - this.x) < Math.abs(this.vx) || Math.abs(this.dy - this.y) < Math.abs(this.vy)) {
 			this.x = this.dx;
 			this.y = this.dy;
+			this.moving = false;
 			// this.movable = false;
 			// 移动结束状态
 			this.mode = end||"stay";
@@ -98,3 +101,4 @@ ochi.update = function() {
 }
 
 objs.push(ochi);
+collidePool.push(ochi);

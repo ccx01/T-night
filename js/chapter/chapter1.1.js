@@ -52,16 +52,14 @@ $.when(
 		    "width": "100%"
 		});
 		camera.center=ochi;
-	}).fail(function(data){
-		console.log(data);
-	})
-	/*$.ajax({
+	}),
+	$.ajax({
 		url: "js/characters/ochi-1.js",
 		async: false,
 		dataType: "script"
 	}).done(function(data){
 		ochi1.init(5, 5, 300, 300, 0);
-	});*/
+	})
 ).done(function(data){
 	//外部命令监听，之后需封装 鼠标类目前还未开始修改
 	// var uni=mouseIcon();	//mouse click

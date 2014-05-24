@@ -20,6 +20,7 @@ window.res = {
 	lastFpsUpdateTime: 0
 }
 window.objs = [];
+window.collidePool = [];
 
 var CANVAS_WIDTH = 600;
 var CANVAS_HEIGHT = 400;

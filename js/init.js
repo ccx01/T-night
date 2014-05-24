@@ -39,7 +39,7 @@ function isReady() {
 
 /* collision detection */
 
-function collides(a, b) {
+/*function collides(a, b) {
 	OBB1 = new OBB(new Vector2(a.x, a.y), a.OBBwidth, a.OBBheight, a.angle);
 	OBB2 = new OBB(new Vector2(b.x, b.y), b.OBBwidth, b.OBBheight, b.angle);
 	return CollisionDetector.detectorOBBvsOBB(OBB1, OBB2);
@@ -70,7 +70,7 @@ function handleCollisions(){
 			}					
 		}
 	}
-}
+}*/
 
 /* canvas update */
 
@@ -100,7 +100,7 @@ function animate(now) {
 	if (!pause) {
 		fps = calculateFps(now);
 		camera.update();
-		// handleCollisions();
+		handleCollisions();
 		clear();
 		draw();
 		result();
