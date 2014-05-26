@@ -114,13 +114,15 @@ ochi1.force = function(obj){
 		若在behavior中再赋值将会出现首次无效的情况
 		此处mode之后替换成对应的技能招式
 		*/
-		case "walk":
+		case "extra":
+			// ochi1.touch(this.mode);	//	部分情况下才会做出反作用力动作，并非必须执行
+			this.isObstructed("stay", reaction(this));
 			if(obj.type == "character"){
 				// 接触过久dx和dy的值将会进行累加，需修改 => to Sign
 				// 或者弹开的速度原本就不该小于施力方
 				// 仔细想想，多次施力叠加是正常现象-_____-
-				var dx = obj.dx + (this.vx * 100) || 0;
-				var dy = obj.dy + (this.vy * 100) || 0;
+				var dx = obj.dx + (this.vx * 50) || 0;
+				var dy = obj.dy + (this.vy * 50) || 0;
 				/* 碰撞只能改变对方的mode及extra
 				改变前还收到对方的buff限制
 				如对方无敌状态无法被击飞 */
@@ -129,30 +131,27 @@ ochi1.force = function(obj){
 					obj.move("stay", {
 						dx: dx,
 						dy: dy,
-						speed: 1
+						speed: 10
 					});
 				}
 			}
 		break;
 	}
 }
-ochi1.extra = function(){/* 碰撞后的行为，由对方的force控住，如被击飞 */}
-ochi1.touch = function(){
+// touch 功能完全由force执行
+/*ochi1.touch = function(mode){
+	//反作用力
 	//只有可操作状态的对象才有touch属性，有待考量
-	switch(this.mode){
+	switch(mode){
 		case "walk":
 			this.isObstructed("stay", reaction(this));
 		break;
 	}
-}
+}*/
+ochi1.extra = function(){/* 碰撞后的行为，由对方的force控住，如被击飞 */}
 ochi1.behavior = function() {
 	switch(this.mode){
 		case "walk":
-			/*if(this.touched){
-				//不同情况下，touch事件也不相同
-				this.isObstructed("stay", reaction(this));
-				return;
-			}*/
 			// 技能施放时贴图可能不停的变化 => to Sign
 			// 设计有变，行走无需更换图片
 			// this.img("walk");

@@ -7,11 +7,11 @@ function collides(a, b){
 
 function reaction(obj){
 	// 反弹，无技能冲突时默认碰撞后的行为
+	// 避免角色强行卡入障碍物中
 	var vx = Math.cos(obj.angle) * obj.speed || 0;
 	var vy = Math.sin(obj.angle) * obj.speed || 0;
 	obj.x -= vx;
 	obj.y -= vy;
-	obj.touched = false;
 }
 
 function handleCollisions(){
@@ -24,8 +24,6 @@ function handleCollisions(){
 				if(i == j) continue;
 				if (collides(c[i], c[j])) {
 					c[i].force(c[j]);
-					c[i].touch();
-					// console.log(c[j].extra)
 				}			
 			}
 		}
