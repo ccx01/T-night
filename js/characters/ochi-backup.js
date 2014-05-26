@@ -21,7 +21,7 @@ ochi.img=function(ac){
 }
 
 // animation功能还有待考量
-ochi.animation = (function(){
+/*ochi.animation = (function(){
 	var count = 0;	//此处count为animation内部用，与对象的count无关，对象的count目前暂时没什么用
 	return function(arr,frame,fn){
 		var during=arr.length*frame-1;
@@ -32,12 +32,13 @@ ochi.animation = (function(){
 			fn();
 		}
 	}
-}());
+}());*/
 
 ochi.init = function(hp, speed, x, y, angle){
 	this.type = "character";
 	/* 碰撞属性 */
-	this.collidable = true;
+	// 拥有碰撞属性的单位直接加入碰撞池中
+	// this.collidable = true;
 	/* 接触属性，用来判断碰撞后的行为 */
 	// this.touched = false;
 	this.OBBw = 20;

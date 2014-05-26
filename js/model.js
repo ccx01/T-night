@@ -21,7 +21,7 @@ function model() {
 		canvas.rotate(this.angle);
 		this.sprite.draw(canvas, -this.width / 2, -this.height / 2, this.width, this.height);
 		/* OBB stroke */
-		this.collidable && this.sprite.stroke(canvas, -this.OBBw / 2, -this.OBBh / 2, this.OBBw, this.OBBh);
+		this.sprite.stroke(canvas, -this.OBBw / 2, -this.OBBh / 2, this.OBBw, this.OBBh);
 		/* OBB stroke end */
 		canvas.restore();
 		this.update();
