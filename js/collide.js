@@ -23,8 +23,9 @@ function handleCollisions(){
 			for(; j < len; j++){
 				if(i == j) continue;
 				if (collides(c[i], c[j])) {
-					c[i].touched = true;
-					c[i].touchResult(c[j]);
+					c[i].force(c[j]);
+					c[i].touch();
+					// console.log(c[j].extra)
 				}			
 			}
 		}

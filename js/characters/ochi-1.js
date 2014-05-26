@@ -2,7 +2,7 @@
 var ochi1=model();
 
 /*************sprite***************/
-ochi1.sprite = sprite("characters/ochi.png", 0, 0, isReady);
+ochi1.sprite = sprite("characters/ochi1.png", 0, 0, isReady);
 
 ochi1.name = "ochi1";
 ochi1.img=function(ac){
@@ -39,7 +39,7 @@ ochi1.init = function(hp, speed, x, y, angle){
 	/* 碰撞属性 */
 	this.collidable = true;
 	/* 接触属性，用来判断碰撞后的行为 */
-	this.touched = false;
+	// this.touched = false;
 	this.OBBw = 20;
 	this.OBBh = 20;
 	/* 碰撞属性 end */
@@ -101,19 +101,20 @@ ochi1.isObstructed = function(end, callback){
 	this.mode = end;
 	callback && callback();
 }
-ochi1.touchResult = function(obj){
+ochi1.force = function(obj){
+	//作用力
 	/*
 	此函数与extra一样，将随时进行更新 
 	碰撞后对方执行的效果，如击飞效果
 	不同的技能有不同的效果
 	*/
-	// switch(this.mode){
+	switch(this.mode){
 		/*
 		各个状态需独立写一份碰撞事件
 		若在behavior中再赋值将会出现首次无效的情况
 		此处mode之后替换成对应的技能招式
 		*/
-		// case "walk":
+		case "walk":
 			if(obj.type == "character"){
 				// 接触过久dx和dy的值将会进行累加，需修改 => to Sign
 				// 或者弹开的速度原本就不该小于施力方
@@ -132,18 +133,26 @@ ochi1.touchResult = function(obj){
 					});
 				}
 			}
-		// break;
-	// }
+		break;
+	}
 }
-ochi1.extra = function(){/* 碰撞后的行为，由对方的touchResult控住，如被击飞 */}
+ochi1.extra = function(){/* 碰撞后的行为，由对方的force控住，如被击飞 */}
+ochi1.touch = function(){
+	//只有可操作状态的对象才有touch属性，有待考量
+	switch(this.mode){
+		case "walk":
+			this.isObstructed("stay", reaction(this));
+		break;
+	}
+}
 ochi1.behavior = function() {
 	switch(this.mode){
 		case "walk":
-			if(this.touched){
+			/*if(this.touched){
 				//不同情况下，touch事件也不相同
 				this.isObstructed("stay", reaction(this));
 				return;
-			}
+			}*/
 			// 技能施放时贴图可能不停的变化 => to Sign
 			// 设计有变，行走无需更换图片
 			// this.img("walk");

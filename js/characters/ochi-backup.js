@@ -39,7 +39,7 @@ ochi.init = function(hp, speed, x, y, angle){
 	/* 碰撞属性 */
 	this.collidable = true;
 	/* 接触属性，用来判断碰撞后的行为 */
-	this.touched = false;
+	// this.touched = false;
 	this.OBBw = 20;
 	this.OBBh = 20;
 	/* 碰撞属性 end */
@@ -101,7 +101,8 @@ ochi.isObstructed = function(end, callback){
 	this.mode = end;
 	callback && callback();
 }
-ochi.touchResult = function(obj){
+ochi.force = function(obj){
+	//作用力
 	/*
 	此函数与extra一样，将随时进行更新 
 	碰撞后对方执行的效果，如击飞效果
@@ -131,19 +132,28 @@ ochi.touchResult = function(obj){
 						speed: 1
 					});
 				}
+				console.log(obj)
 			}
 		break;
 	}
 }
-ochi.extra = function(){/* 碰撞后的行为，由对方的touchResult控住，如被击飞 */}
+ochi.extra = function(){/* 碰撞后的行为，由对方的force控住，如被击飞 */}
+ochi.touch = function(){
+	//只有可操作状态的对象才有touch属性，有待考量
+	switch(this.mode){
+		case "walk":
+			this.isObstructed("stay", reaction(this));
+		break;
+	}
+}
 ochi.behavior = function() {
 	switch(this.mode){
 		case "walk":
-			if(this.touched){
+			/*if(this.touched){
 				//不同情况下，touch事件也不相同
 				this.isObstructed("stay", reaction(this));
 				return;
-			}
+			}*/
 			// 技能施放时贴图可能不停的变化 => to Sign
 			// 设计有变，行走无需更换图片
 			// this.img("walk");
