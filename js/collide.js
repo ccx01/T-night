@@ -16,17 +16,15 @@ function reaction(obj){
 
 function handleCollisions(){
 	var c = collidePool;
-	var i = 0,j;
-	var j_len = c.length;
-	var i_len = j_len - 1;
-	for(; i < i_len; i++){
+	var i = 0,j = 0;
+	var len = c.length;
+	for(; i < len; i++){
 		if(c[i].moving){
-			j = i + 1;
-			for(; j < j_len; j++){
+			for(; j < len; j++){
+				if(i == j) continue;
 				if (collides(c[i], c[j])) {
 					c[i].touched = true;
 					c[i].touchResult(c[j]);
-					// c[j].is_touched = c[i].touchResult();
 				}			
 			}
 		}

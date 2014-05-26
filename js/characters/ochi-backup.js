@@ -118,8 +118,8 @@ ochi.touchResult = function(obj){
 				// 接触过久dx和dy的值将会进行累加，需修改 => to Sign
 				// 或者弹开的速度原本就不该小于施力方
 				// 仔细想想，多次施力叠加是正常现象-_____-
-				var dx = obj.dx + (this.vx * 10) || 0;
-				var dy = obj.dy + (this.vy * 10) || 0;
+				var dx = obj.dx + (this.vx * 100) || 0;
+				var dy = obj.dy + (this.vy * 100) || 0;
 				/* 碰撞只能改变对方的mode及extra
 				改变前还收到对方的buff限制
 				如对方无敌状态无法被击飞 */

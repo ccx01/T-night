@@ -75,6 +75,11 @@ ochi1.move = function(end, extra){
 
 		this.moving = true;
 
+		/*移动时也许可以加个 "朝向" toward
+		目前的angle不是面对的方向
+		而是移动的角度
+		不过似乎也没有太大的必要
+		先搁置吧 => to Sign*/
 		this.angle = Math.atan2(this.dy - this.y, this.dx - this.x);
 		this.vx = Math.cos(this.angle) * s || 0;
 		this.vy = Math.sin(this.angle) * s || 0;
@@ -102,16 +107,19 @@ ochi1.touchResult = function(obj){
 	碰撞后对方执行的效果，如击飞效果
 	不同的技能有不同的效果
 	*/
-	/*
-	各个状态需独立写一份碰撞事件
-	若在behavior中再赋值将会出现首次无效的情况
-	此处mode之后替换成对应的技能招式
-	*/
-	switch(this.mode){
-		case "walk":
+	// switch(this.mode){
+		/*
+		各个状态需独立写一份碰撞事件
+		若在behavior中再赋值将会出现首次无效的情况
+		此处mode之后替换成对应的技能招式
+		*/
+		// case "walk":
 			if(obj.type == "character"){
-				var dx = obj.dx + this.vx * 10 || 0;
-				var dy = obj.dy + this.vy * 10 || 0;
+				// 接触过久dx和dy的值将会进行累加，需修改 => to Sign
+				// 或者弹开的速度原本就不该小于施力方
+				// 仔细想想，多次施力叠加是正常现象-_____-
+				var dx = obj.dx + (this.vx * 100) || 0;
+				var dy = obj.dy + (this.vy * 100) || 0;
 				/* 碰撞只能改变对方的mode及extra
 				改变前还收到对方的buff限制
 				如对方无敌状态无法被击飞 */
@@ -120,12 +128,12 @@ ochi1.touchResult = function(obj){
 					obj.move("stay", {
 						dx: dx,
 						dy: dy,
-						speed: 10
+						speed: 1
 					});
 				}
 			}
-		break;
-	}
+		// break;
+	// }
 }
 ochi1.extra = function(){/* 碰撞后的行为，由对方的touchResult控住，如被击飞 */}
 ochi1.behavior = function() {
