@@ -62,10 +62,9 @@ $.when(
 	})
 ).done(function(data){
 	//外部命令监听，之后需封装 鼠标类目前还未开始修改
-	// var uni=mouseIcon();	//mouse click
-	/*uni = mouseIcon(500, mouse_x, mouse_y);
-	sign = [];
-	sign.push(uni);*/
+	// window.uni = mouseIcon();	//mouse click
+	// uni = mouseIcon(500);
+	// uni.sprite.draw();
 	CG(CGstep);
 });
 
