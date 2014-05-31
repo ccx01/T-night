@@ -2,7 +2,7 @@
 var ochi=model();
 
 /*************sprite***************/
-ochi.sprite = sprite("characters/ochi.png", 0, 0, isReady);
+ochi.sprite = sprite("characters/ochi.png", 0, 0, ready);
 
 ochi.name = "ochi";
 ochi.img=function(ac){
@@ -170,5 +170,5 @@ ochi.update = function() {
 	this.behavior();
 }
 
-objs.push(ochi);
+objectPool.push(ochi);
 collidePool.push(ochi);

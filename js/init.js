@@ -10,7 +10,7 @@ var lastFpsUpdateTime = 0;
 /* level setting */
 
 function init(chapter) {
-	objs = []; //empty the objss
+	objectPool = []; //empty the objectPools
 	loaded = 0;
 	chapter = "chapter" + chapter;
 	$.ajax({
@@ -20,13 +20,13 @@ function init(chapter) {
 		dataType: "script"
 	}).done(function() {
 		$("#loading").show();
-		totalLen = objs.length;
+		totalLen = objectPool.length;
 
 		$("#chapter").hide();
 	});
 }
 
-function isReady() {
+function ready() {
 	loaded++;
 	$("#loading div").stop().animate({
 		width: loaded / totalLen * 100 + "%"
@@ -37,41 +37,6 @@ function isReady() {
 	};
 }
 
-/* collision detection */
-
-/*function collides(a, b) {
-	OBB1 = new OBB(new Vector2(a.x, a.y), a.OBBwidth, a.OBBheight, a.angle);
-	OBB2 = new OBB(new Vector2(b.x, b.y), b.OBBwidth, b.OBBheight, b.angle);
-	return CollisionDetector.detectorOBBvsOBB(OBB1, OBB2);
-}
-
-function handleCollisions(){
-	for(var i=0;i<collidable.length-1;i++){
-		for(var j=i+1;j<collidable.length;j++){
-			if (collides(collidable[i], collidable[j])) {
-				var objA=collidable[i];
-				var objB=collidable[j];
-				objA.bounce.angle = Math.atan2(objA.y - objB.y, objA.x - objB.x);
-				objA.bounce.timer = time;
-				objA.bounce.active = true;
-				objB.bounce.angle = Math.atan2(objB.y - objA.y, objB.x - objA.x);
-				objB.bounce.timer = time;
-				objB.bounce.active = true;
-			}			
-		}
-		for(var k=0;k<obstacles.length;k++){
-			if (collides(collidable[i], obstacles[k])) {
-				var objA=collidable[i];
-				var objB=obstacles[k];
-				objA.bounce.angle = Math.atan2(objA.y - objB.y, objA.x - objB.x);
-				objA.bounce.timer = time;
-				objA.bounce.active = true;
-				objA.mode = "bounce";
-			}					
-		}
-	}
-}*/
-
 /* canvas update */
 
 function clear() {
@@ -79,18 +44,9 @@ function clear() {
 }
 
 function draw() {
-	/*sign.forEach(function(s) {
-		s.draw();
-	});
-	objs.forEach(function(o) {
-		o.draw();
-	});
-	effect.forEach(function(ef) {
-		ef.draw();
-	});*/
 	var i = 0;
 	for(; i < totalLen; i++){
-		objs[i].draw();
+		objectPool[i].draw();
 	}
 }
 
@@ -192,46 +148,3 @@ function menu() {
 }
 
 $("#chapter").fadeIn();
-
-/* for checking image position */
-// var testIMG = model();
-// testIMG.sprite = sprite("effect/effect1.png");
-// objs.push(testIMG);
-// testIMG.update = function() {
-// 		if (keydown.q) {
-// 		  console.log(this.sprite.sourceX+","+this.sprite.sourceY+","+this.width+","+this.height);
-// 		}
-
-// 		if (keydown.a) {
-// 		  this.sprite.sourceX--;
-// 		}
-// 		if (keydown.d) {
-// 		  this.sprite.sourceX++;       
-// 		} 
-// 		if (keydown.w) {
-// 		  this.sprite.sourceY++;
-// 		}
-// 		if (keydown.s) {
-// 		  this.sprite.sourceY--;
-// 		}
-
-// 		if (keydown.up) {
-// 		  this.height++; 
-// 		}
-// 		if (keydown.down) {
-// 		  this.height--;       
-// 		} 
-// 		if (keydown.left) {
-// 		  this.width--;
-// 		}
-// 		if (keydown.right) {
-// 		  this.width++;
-// 		}
-
-//   };
-//   testIMG.draw = function() {
-// 	canvas.fillStyle = "#998";
-// 	canvas.fillRect(this.x, this.y, this.width, this.height);
-// 	this.sprite.draw(canvas, this.x, this.y, this.width, this.height);
-// 	this.update();
-//   };

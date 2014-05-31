@@ -19,7 +19,7 @@ window.res = {
 	lastAnimationFrameTime: 0,
 	lastFpsUpdateTime: 0
 }
-window.objs = [];
+window.objectPool = [];
 window.collidePool = [];
 
 var CANVAS_WIDTH = 600;
