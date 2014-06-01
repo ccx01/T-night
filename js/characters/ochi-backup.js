@@ -170,5 +170,5 @@ ochi.update = function() {
 	this.behavior();
 }
 
-objectPool.push(ochi);
-collidePool.push(ochi);
+game.objectPool.push(ochi);
+game.collidePool.push(ochi);

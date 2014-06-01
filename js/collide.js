@@ -15,7 +15,7 @@ function reaction(obj){
 }
 
 function handleCollisions(){
-	var c = collidePool;
+	var c = game.collidePool;
 	var i = 0,j = 0;
 	var len = c.length;
 	for(; i < len; i++){

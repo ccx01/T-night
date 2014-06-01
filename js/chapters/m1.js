@@ -4,8 +4,8 @@ $("#stage").css({
 	'background-position': '0px 0px',
 	'background-repeat': 'no-repeat'
 });
-map.width=1900;
-map.height=1000;
+game.map.w=1900;
+game.map.h=1000;
 obstacles=[];
 
 CGstep=190;

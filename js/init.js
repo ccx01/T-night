@@ -3,23 +3,24 @@ var time; //current time
 var loaded;
 var count_objects;
 var pause = false;
-var loopHandle;
+var loop_id;
 var last_loop_time = 0;
 var last_fps_time = 0;
 /* level setting */
 
 function gotoChapter(chapter) {
-	objectPool = []; //empty the objectPools
-	collidePool = [];
+	/* init 也许init应该在chapter里进行，因为部分chapter可能需要继承- -，待定 => Sign */
+	game.objectPool = []; //empty the game.objectPools
+	game.collidePool = [];
 	loaded = 0;
-	chapter = chapter + ".js";
+
+	$("#loading").show();
+
 	$.ajax({
-		type: "GET",
-		url: "js/chapters/" + chapter,
+		url: "js/chapters/" + chapter + ".js",
 		dataType: "script"
 	}).done(function() {
-		$("#loading").show();
-		count_objects = objectPool.length;
+		count_objects = game.objectPool.length;
 
 		$("#chapter").hide();
 	});
@@ -42,18 +43,17 @@ function canvasUpdate() {
 	canvas.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
 	var i = 0;
 	for(; i < count_objects; i++){
-		objectPool[i].draw();
+		game.objectPool[i].draw();
 	}
 }
 
 function loop(now) {
-	// cancelAnimationFrame(loopHandle);
-	fps(now);
-	camera.update();
 	handleCollisions();
+	camera.update();
 	canvasUpdate();
-	time = Date.now();
-	loopHandle = requestAnimationFrame(loop);
+	loop_id = requestAnimationFrame(loop);
+	fps(now);
+	game.time = now | 0;
 }
 
 function fps(now) {
@@ -64,11 +64,14 @@ function fps(now) {
 	last_loop_time = now;
 }
 
-// loopHandle = requestAnimationFrame(loop);
 function start() {
-	loopHandle = requestAnimationFrame(loop);
+	loop_id = requestAnimationFrame(loop);
 	$("#info").fadeIn();
 	$("#stage").fadeIn();
+}
+
+function stop() {
+	cancelAnimationFrame(loop_id);
 }
 
 $("#chapter").fadeIn();
