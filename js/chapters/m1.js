@@ -1,9 +1,3 @@
-/* preload img and audio */
-var resource = [
-	['characters/ochi.png'],
-	[]
-];
-
 /*********map init*********/
 $("#stage").css({
 	'background':'url("img/map/bg1.png")',
