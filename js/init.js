@@ -1,11 +1,11 @@
 /* init */
 var time; //current time
 var loaded;
-var totalLen;
+var count_objects;
 var pause = false;
-var requestId = 0;
-var lastAnimationFrameTime = 0;
-var lastFpsUpdateTime = 0;
+var loopHandle;
+var last_loop_time = 0;
+var last_fps_time = 0;
 /* level setting */
 
 function gotoChapter(chapter) {
@@ -19,7 +19,7 @@ function gotoChapter(chapter) {
 		dataType: "script"
 	}).done(function() {
 		$("#loading").show();
-		totalLen = objectPool.length;
+		count_objects = objectPool.length;
 
 		$("#chapter").hide();
 	});
@@ -28,9 +28,9 @@ function gotoChapter(chapter) {
 function ready() {
 	loaded++;
 	$("#loading div").stop().animate({
-		width: loaded / totalLen * 100 + "%"
+		width: loaded / count_objects * 100 + "%"
 	});
-	if (loaded == totalLen) {
+	if (loaded == count_objects) {
 		// $("#loading").hide();
 		start();
 	};
@@ -38,43 +38,37 @@ function ready() {
 
 /* canvas update */
 
-function canvasDraw() {
+function canvasUpdate() {
 	canvas.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
 	var i = 0;
-	for(; i < totalLen; i++){
+	for(; i < count_objects; i++){
 		objectPool[i].draw();
 	}
 }
 
 function loop(now) {
-	if (!pause) {
-		cancelAnimationFrame(requestId);
-		calculateFps(now);
-		camera.update();
-		handleCollisions();
-		canvasDraw();
-		time = new Date().getTime();
-		requestId = requestAnimationFrame(loop);
-	}
+	// cancelAnimationFrame(loopHandle);
+	fps(now);
+	camera.update();
+	handleCollisions();
+	canvasUpdate();
+	time = Date.now();
+	loopHandle = requestAnimationFrame(loop);
 }
 
-function calculateFps(now) {
-	var fps = 1000 / (now - lastAnimationFrameTime);
-	lastAnimationFrameTime = now;
-
-	if (now - lastFpsUpdateTime > 1000) {
-		lastFpsUpdateTime = now;
-		$("#fps").text(fps|0);
+function fps(now) {
+	if (now - last_fps_time > 1000) {
+		$("#fps").text(1000 / (now - last_loop_time) | 0);
+		last_fps_time = now;
 	}
+	last_loop_time = now;
 }
 
-requestId = requestAnimationFrame(loop);
+// loopHandle = requestAnimationFrame(loop);
 function start() {
-		pause = false;
-		requestId = requestAnimationFrame(loop);
-		$("#dialog").fadeOut();
-		$("#info").fadeIn();
-		$("#stage").fadeIn();
+	loopHandle = requestAnimationFrame(loop);
+	$("#info").fadeIn();
+	$("#stage").fadeIn();
 }
 
 $("#chapter").fadeIn();
