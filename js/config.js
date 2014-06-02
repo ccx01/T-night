@@ -40,14 +40,6 @@ var camera = {
 	}
 }
 
-//mousemove 太伤
-/*var game.mouse_x = 0,
-	game.mouse_y = 0;
-$("#stage").mousemove(function(e) {
-	game.mouse_x = e.pageX - this.offsetLeft + camera.x,
-	game.mouse_y = e.pageY - this.offsetTop + camera.y;
-});*/
-
 /* jquery dom */
 var domCanvas=$("#myCanvas")[0];
 var canvas = domCanvas.getContext("2d");
@@ -106,6 +98,20 @@ var load = (function($){
 			});
 		}
 	};
+	return I;
+}(jQuery));
+
+var global = (function($){
+	var $fps = $("#fps");
+	var $chapter = $("#chapter");
+	var I = {
+		fps: function(rate){
+			$fps.text(rate);
+		},
+		menu: function(){
+			$chapter.fadeIn();
+		}
+	}
 	return I;
 }(jQuery));
 

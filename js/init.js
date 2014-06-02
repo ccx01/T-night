@@ -4,7 +4,6 @@ var count_objects;
 var loop_id;
 var last_loop_time = 0;
 var last_fps_time = 0;
-/* level setting */
 
 function gotoChapter(chapter) {
 	/* init 也许init应该在chapter里进行，因为部分chapter可能需要继承- -，待定 => Sign */
@@ -52,7 +51,7 @@ function canvasUpdate() {
 
 function fps(now) {
 	if (now - last_fps_time > 1000) {
-		$("#fps").text(1000 / (now - last_loop_time) | 0);
+		global.fps(1000 / (now - last_loop_time) | 0);
 		last_fps_time = now;
 	}
 	last_loop_time = now;
@@ -67,4 +66,4 @@ function loop(now) {
 	game.time = now | 0;
 }
 
-$("#chapter").fadeIn();
+global.menu();
