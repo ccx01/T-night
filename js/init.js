@@ -40,7 +40,7 @@ function ready() {
 /* canvas update */
 
 function canvasUpdate() {
-	canvas.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+	canvas.clearRect(0, 0, game.canvas.w, game.canvas.h);
 	var i = 0;
 	for(; i < count_objects; i++){
 		game.objectPool[i].draw();

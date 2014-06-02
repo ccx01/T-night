@@ -36,21 +36,17 @@ window.res = {
 	totalLen: 0,
 	pause: false,
 }
-// window.game.objectPool = [];
-// window.game.collidePool = [];
 
-var CANVAS_WIDTH = 600;
-var CANVAS_HEIGHT = 400;
-
+/* 需要集中对dom进行处理 */
 $("#stage").css({
-	"width":CANVAS_WIDTH,
-	"height":CANVAS_HEIGHT,
-	"margin-left":-CANVAS_WIDTH/2,
-	"margin-top":-CANVAS_HEIGHT/2
+	"width":game.canvas.w,
+	"height":game.canvas.h,
+	"margin-left":-game.canvas.w/2,
+	"margin-top":-game.canvas.h/2
 });
-var myCanvas=$("#myCanvas").get(0);
-	myCanvas.width=CANVAS_WIDTH;
-	myCanvas.height=CANVAS_HEIGHT;
+var myCanvas=$("#myCanvas")[0];
+	myCanvas.width=game.canvas.w;
+	myCanvas.height=game.canvas.h;
 var canvas = myCanvas.getContext("2d");
 
 var mouse_x = 0,
@@ -61,32 +57,15 @@ $("#stage").mousemove(function(e) {
 });
 
 function setSize(w,h){
-	CANVAS_WIDTH = w;
-	CANVAS_HEIGHT = h;
+	game.canvas.w = w;
+	game.canvas.h = h;
 
 	$("#stage").animate({
-		"width":CANVAS_WIDTH,
-		"height":CANVAS_HEIGHT,
-		"margin-left":-CANVAS_WIDTH/2,
-		"margin-top":-CANVAS_HEIGHT/2
+		"width":game.canvas.w,
+		"height":game.canvas.h,
+		"margin-left":-game.canvas.w/2,
+		"margin-top":-game.canvas.h/2
 	});
-	myCanvas.width=CANVAS_WIDTH;
-	myCanvas.height=CANVAS_HEIGHT;
-
-	// camera = {
-	// 	x:0,
-	// 	y:0,
-	// 	update:function(center,stage){
-	// 		this.x = center.x-CANVAS_WIDTH/2;
-	// 		this.x = this.x.clamp(0, map.width-CANVAS_WIDTH);
-	// 		this.y = center.y-CANVAS_HEIGHT/2;
-	// 		this.y = this.y.clamp(0, map.height-CANVAS_HEIGHT);
-
-	// 		$(stage).css({
-	// 			'background-position-x': -camera.x+'px',
-	// 			'background-position-y': -camera.y+'px'
-	// 		});
-	// 	}
-	// }
-
+	myCanvas.width=game.canvas.w;
+	myCanvas.height=game.canvas.h;
 }
