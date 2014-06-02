@@ -1,8 +1,6 @@
 /* init */
-var time; //current time
 var loaded;
 var count_objects;
-var pause = false;
 var loop_id;
 var last_loop_time = 0;
 var last_fps_time = 0;
@@ -14,7 +12,7 @@ function gotoChapter(chapter) {
 	game.collidePool = [];
 	loaded = 0;
 
-	$("#loading").show();
+	load.start();
 
 	$.ajax({
 		url: "js/chapters/" + chapter + ".js",
@@ -22,19 +20,24 @@ function gotoChapter(chapter) {
 	}).done(function() {
 		count_objects = game.objectPool.length;
 
-		$("#chapter").hide();
 	});
 }
 
 function ready() {
 	loaded++;
-	$("#loading div").stop().animate({
-		width: loaded / count_objects * 100 + "%"
-	});
+	load.ing(loaded, count_objects);
 	if (loaded == count_objects) {
-		// $("#loading").hide();
 		start();
 	};
+}
+
+function start() {
+	loop_id = requestAnimationFrame(loop);
+	load.end();
+}
+
+function stop() {
+	cancelAnimationFrame(loop_id);
 }
 
 /* canvas update */
@@ -47,15 +50,6 @@ function canvasUpdate() {
 	}
 }
 
-function loop(now) {
-	handleCollisions();
-	camera.update();
-	canvasUpdate();
-	loop_id = requestAnimationFrame(loop);
-	fps(now);
-	game.time = now | 0;
-}
-
 function fps(now) {
 	if (now - last_fps_time > 1000) {
 		$("#fps").text(1000 / (now - last_loop_time) | 0);
@@ -64,14 +58,13 @@ function fps(now) {
 	last_loop_time = now;
 }
 
-function start() {
+function loop(now) {
+	handleCollisions();
+	camera.update();
+	canvasUpdate();
 	loop_id = requestAnimationFrame(loop);
-	$("#info").fadeIn();
-	$("#stage").fadeIn();
-}
-
-function stop() {
-	cancelAnimationFrame(loop_id);
+	fps(now);
+	game.time = now | 0;
 }
 
 $("#chapter").fadeIn();

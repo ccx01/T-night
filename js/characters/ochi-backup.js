@@ -37,10 +37,6 @@ ochi.img=function(ac){
 ochi.init = function(hp, speed, x, y, angle){
 	this.type = "character";
 	/* 碰撞属性 */
-	// 拥有碰撞属性的单位直接加入碰撞池中
-	// this.collidable = true;
-	/* 接触属性，用来判断碰撞后的行为 */
-	// this.touched = false;
 	this.OBBw = 20;
 	this.OBBh = 20;
 	/* 碰撞属性 end */
@@ -58,8 +54,8 @@ ochi.init = function(hp, speed, x, y, angle){
 ochi.cmd = function(listener) { //cmd drived by the event listener, listener set by chapter
 	switch(listener){
 		case "walk":
-			this.dy = mouse_y;
-			this.dx = mouse_x;
+			this.dy = game.mouse_y;
+			this.dx = game.mouse_x;
 			this.movable = true;
 			this.mode = "walk";
 		break;

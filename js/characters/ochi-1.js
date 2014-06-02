@@ -57,8 +57,8 @@ ochi1.init = function(hp, speed, x, y, angle){
 ochi1.cmd = function(listener) { //cmd drived by the event listener, listener set by chapter
 	switch(listener){
 		case "walk":
-			this.dy = mouse_y;
-			this.dx = mouse_x;
+			this.dy = game.mouse_y;
+			this.dx = game.mouse_x;
 			this.movable = true;
 			this.mode = "walk";
 		break;
