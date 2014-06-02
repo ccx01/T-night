@@ -13,14 +13,9 @@
 
 	/* OBB function */
 	var OBB = function(centerPoint, width, height, rotation) {
-
 		this.centerPoint = centerPoint;
 		this.extents = [width / 2, height / 2];
 		this.axes = [new Vector2(Math.cos(rotation), Math.sin(rotation)), new Vector2(-1 * Math.sin(rotation), Math.cos(rotation))];
-
-		this._width = width;
-		this._height = height;
-		this._rotation = rotation;
 	}
 
 	window.OBB = OBB;
@@ -65,7 +60,7 @@
 	/* OBB function end */
 
 	/* check buff array */
-	Array.prototype.S = String.fromCharCode(2);
+	/*Array.prototype.S = String.fromCharCode(2);
 	Array.prototype.in_array = function(e) {
 		var r = new RegExp(this.S + e + this.S);
 		return (r.test(this.S + this.join(this.S) + this.S));
@@ -81,7 +76,7 @@
 		if (index > -1) {
 			this.splice(index, 1);
 		}
-	};
+	};*/
 	/* check buff array end */
 
 })(window);
