@@ -1,12 +1,5 @@
 /*********map init*********/
-$("#stage").css({
-	'background':'url("img/map/bg1.png")',
-	'background-position': '0px 0px',
-	'background-repeat': 'no-repeat'
-});
-game.map.w=1900;
-game.map.h=1000;
-obstacles=[];
+game.map.init("img/map/bg1.png", 1900, 1000);
 
 CGstep=190;
 CG = function(step){

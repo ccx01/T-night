@@ -1,19 +1,30 @@
-window.game = {
+/* window */
+var game = {
 	canvas: {
 		x: 0,
 		y: 0,
 		w: 600,
-		h: 400
+		h: 400,
+		setSize: function(w, h){
+			domCanvas.width = this.w = w;
+			domCanvas.height = this.h = h;
+			stageShow(w, h);
+		}
 	},
 	map: {
 		w: 600,
-		h: 400
+		h: 400,
+		init: function(url, w, h){
+			stageBG(url);
+			this.w = w;
+			this.h = h;
+		}
 	},
 	objectPool: [],
 	collidePool: [],
 	time: 0
 }
-window.camera = {
+var camera = {
 	x:0,
 	y:0,
 	center:game.map,
@@ -31,23 +42,6 @@ window.camera = {
 
 	}
 }
-window.res = {
-	loaded: 0,
-	totalLen: 0,
-	pause: false,
-}
-
-/* 需要集中对dom进行处理 */
-$("#stage").css({
-	"width":game.canvas.w,
-	"height":game.canvas.h,
-	"margin-left":-game.canvas.w/2,
-	"margin-top":-game.canvas.h/2
-});
-var myCanvas=$("#myCanvas")[0];
-	myCanvas.width=game.canvas.w;
-	myCanvas.height=game.canvas.h;
-var canvas = myCanvas.getContext("2d");
 
 var mouse_x = 0,
 	mouse_y = 0;
@@ -56,16 +50,23 @@ $("#stage").mousemove(function(e) {
 	mouse_y = e.pageY - this.offsetTop + camera.y;
 });
 
-function setSize(w,h){
-	game.canvas.w = w;
-	game.canvas.h = h;
-
-	$("#stage").animate({
-		"width":game.canvas.w,
-		"height":game.canvas.h,
-		"margin-left":-game.canvas.w/2,
-		"margin-top":-game.canvas.h/2
-	});
-	myCanvas.width=game.canvas.w;
-	myCanvas.height=game.canvas.h;
+/* jquery dom */
+var domCanvas=$("#myCanvas")[0];
+var canvas = domCanvas.getContext("2d");
+var $stage = $("#stage");
+function stageShow(w, h){
+	$stage.animate({
+		"width":w,
+		"height":h,
+		"margin-left":-w/2,
+		"margin-top":-h/2
+	},"fast");
 }
+function stageBG(url){
+	$stage.css({
+		'background':'url("' + url + '")'
+	});
+}
+
+/* init */
+game.canvas.setSize(600, 400);
