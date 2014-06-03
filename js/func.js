@@ -3,42 +3,58 @@
 		return window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || function(callback) {
 			return window.setTimeout(callback, 1000 / 60); // shoot for 60 fps
 		};
-	})();
+	}());
 
 	window.cancelAnimationFrame = (function() {
 		return window.cancelAnimationFrame || window.webkitCancelAnimationFrame || window.mozCancelAnimationFrame || window.oCancelAnimationFrame || function(id) {
 			window.clearTimeout(id);
 		};
-	})();
+	}());
 
 	/* OBB function */
 	var OBB = function(centerPoint, width, height, rotation) {
-		this.centerPoint = centerPoint;
-		this.extents = [width / 2, height / 2];
-		this.axes = [new Vector2(Math.cos(rotation), Math.sin(rotation)), new Vector2(-1 * Math.sin(rotation), Math.cos(rotation))];
+		var centerPoint = centerPoint;
+		console.log(centerPoint);
+		var extents = [width / 2, height / 2];
+		var axes = [Vector2(Math.cos(rotation), Math.sin(rotation)), Vector2(-1 * Math.sin(rotation), Math.cos(rotation))];
+		var I = {
+			getProjectionRadius: function(axis) {
+				return extents[0] * Math.abs(axis.dot(axes[0])) + extents[1] * Math.abs(axis.dot(axes[1]));
+			}
+		}
+		return I;
 	}
 
 	window.OBB = OBB;
 
-	OBB.prototype = {
+	/*OBB.prototype = {
 		getProjectionRadius: function(axis) {
 			return this.extents[0] * Math.abs(axis.dot(this.axes[0])) + this.extents[1] * Math.abs(axis.dot(this.axes[1]));
 		}
-	};
+	};*/
 
 	Vector2 = function(x, y) {
-		this.x = x || 0;
-		this.y = y || 0;
+		var x = x || 0;
+		var y = y || 0;
+		var I = {
+			sub: function(v) {
+				return new Vector2(x - v.x, y - v.y)
+			},
+			dot: function(v) {
+				return x * v.x + y * v.y;
+			}
+		}
+		return I;
 	};
 
-	Vector2.prototype = {
+	/*Vector2.prototype = {
 		sub: function(v) {
 			return new Vector2(this.x - v.x, this.y - v.y)
 		},
 		dot: function(v) {
 			return this.x * v.x + this.y * v.y;
 		}
-	};
+	};*/
 	window.Vector2 = Vector2;
 
 	var CollisionDetector = {
@@ -79,4 +95,4 @@
 	};*/
 	/* check buff array end */
 
-})(window);
+}(window));

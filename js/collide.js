@@ -1,7 +1,7 @@
 /* collision detection */
 function collides(a, b){
-	OBB1 = new OBB(new Vector2(a.x, a.y), a.OBBw, a.OBBh, a.angle);
-	OBB2 = new OBB(new Vector2(b.x, b.y), b.OBBw, b.OBBh, b.angle);
+	OBB1 = OBB(new Vector2(a.x, a.y), a.OBBw, a.OBBh, a.angle);
+	OBB2 = OBB(new Vector2(b.x, b.y), b.OBBw, b.OBBh, b.angle);
 	return CollisionDetector.detectorOBBvsOBB(OBB1, OBB2);
 }
 
