@@ -12,14 +12,15 @@
 	}());
 
 	/* OBB function */
-	var OBB = function(centerPoint, width, height, rotation) {
-		var centerPoint = centerPoint;
-		console.log(centerPoint);
+	var OBB = function(center, width, height, angle) {
 		var extents = [width / 2, height / 2];
-		var axes = [Vector2(Math.cos(rotation), Math.sin(rotation)), Vector2(-1 * Math.sin(rotation), Math.cos(rotation))];
+		var axes_1 = Vector2(Math.cos(angle), Math.sin(angle));
+		var axes_2 = Vector2(-1 * Math.sin(angle), Math.cos(angle));
 		var I = {
+			center: center,
+			axes: [axes_1, axes_2],
 			getProjectionRadius: function(axis) {
-				return extents[0] * Math.abs(axis.dot(axes[0])) + extents[1] * Math.abs(axis.dot(axes[1]));
+				return extents[0] * Math.abs(axis.dot(this.axes[0])) + extents[1] * Math.abs(axis.dot(this.axes[1]));
 			}
 		}
 		return I;
@@ -59,7 +60,7 @@
 
 	var CollisionDetector = {
 		detectorOBBvsOBB: function(OBB1, OBB2) {
-			var nv = OBB1.centerPoint.sub(OBB2.centerPoint);
+			var nv = OBB1.center.sub(OBB2.center);
 			var axisA1 = OBB1.axes[0];
 			if (OBB1.getProjectionRadius(axisA1) + OBB2.getProjectionRadius(axisA1) <= Math.abs(nv.dot(axisA1))) return false;
 			var axisA2 = OBB1.axes[1];
