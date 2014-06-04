@@ -12,7 +12,7 @@
 	}());
 
 	/* OBB function */
-	var OBB = function(center, width, height, angle) {
+	/*var OBB = function(center, width, height, angle) {
 		var extents = [width / 2, height / 2];
 		//向量
 		var axes_1 = Vector2(Math.cos(angle), Math.sin(angle));
@@ -28,7 +28,7 @@
 		return I;
 	}
 
-	window.OBB = OBB;
+	window.OBB = OBB;*/
 
 	/*OBB.prototype = {
 		getProjectionRadius: function(axis) {
@@ -36,9 +36,9 @@
 		}
 	};*/
 
-	Vector2 = function(x, y) {
-		var x = x || 0;
-		var y = y || 0;
+	/*Vector2 = function(c) {
+		var x = c.x || 0;
+		var y = c.y || 0;
 		var I = {
 			sub: function(v) {
 				return Vector2(x - v.x, y - v.y)
@@ -49,7 +49,7 @@
 			}
 		}
 		return I;
-	};
+	};*/
 
 	/*Vector2.prototype = {
 		sub: function(v) {
@@ -59,19 +59,19 @@
 			return this.x * v.x + this.y * v.y;
 		}
 	};*/
-	window.Vector2 = Vector2;
+	// window.Vector2 = Vector2;
 
 	var CollisionDetector = {
 		detectorOBBvsOBB: function(OBB1, OBB2) {
-			var nv = OBB1.center.sub(OBB2.center);
-			var axisA1 = OBB1.axes[0];
-			if (OBB1.getProjectionRadius(axisA1) + OBB2.getProjectionRadius(axisA1) <= Math.abs(nv.dot(axisA1))) return false;
-			var axisA2 = OBB1.axes[1];
-			if (OBB1.getProjectionRadius(axisA2) + OBB2.getProjectionRadius(axisA2) <= Math.abs(nv.dot(axisA2))) return false;
-			var axisB1 = OBB2.axes[0];
-			if (OBB1.getProjectionRadius(axisB1) + OBB2.getProjectionRadius(axisB1) <= Math.abs(nv.dot(axisB1))) return false;
-			var axisB2 = OBB2.axes[1];
-			if (OBB1.getProjectionRadius(axisB2) + OBB2.getProjectionRadius(axisB2) <= Math.abs(nv.dot(axisB2))) return false;
+			var nv = OBB1.sub(OBB2);
+			var axisA1 = OBB1.axes_1;
+			if (OBB1.dot(axisA1) + OBB2.dot(axisA1) <= Math.abs(nv.dot(axisA1))) return false;
+			var axisA2 = OBB1.axes_2;
+			if (OBB1.dot(axisA2) + OBB2.dot(axisA2) <= Math.abs(nv.dot(axisA2))) return false;
+			var axisB1 = OBB2.axes_1;
+			if (OBB1.dot(axisB1) + OBB2.dot(axisB1) <= Math.abs(nv.dot(axisB1))) return false;
+			var axisB2 = OBB2.axes_2;
+			if (OBB1.dot(axisB2) + OBB2.dot(axisB2) <= Math.abs(nv.dot(axisB2))) return false;
 			return true;
 		}
 	}

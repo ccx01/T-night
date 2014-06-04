@@ -1,7 +1,7 @@
 /* collision detection */
 function collides(a, b){
-	OBB1 = OBB(Vector2(a.x, a.y), a.OBBw, a.OBBh, a.angle);
-	OBB2 = OBB(Vector2(b.x, b.y), b.OBBw, b.OBBh, b.angle);
+	var OBB1 = a.center();
+	var OBB2 = b.center();
 	return CollisionDetector.detectorOBBvsOBB(OBB1, OBB2);
 }
 

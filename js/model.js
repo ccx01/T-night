@@ -18,26 +18,35 @@ function model() {
 	I.center = function() {
 		//向量半径
 		var axes_1 = {
-			x: Math.cos(angle) * this.width / 2,
-			y: Math.sin(angle) * this.height / 2
+			x: Math.cos(this.angle) * this.width / 2,
+			y: Math.sin(this.angle) * this.height / 2
 		}
 		//法向量半径
 		var axes_2 = {
-			x: -1 * Math.sin(angle) * this.width / 2,
-			y: Math.cos(angle) * this.height / 2
+			x: -1 * Math.sin(this.angle) * this.width / 2,
+			y: Math.cos(this.angle) * this.height / 2
 		}
 		var cx = axes_1.x + this.x;
 		var cy = axes_1.x + this.y;
 		return {
-			cx: cx,
-			cy: cy,
+			x: cx,
+			y: cy,
+			axes_1: axes_1,
+			axes_2: axes_2,
 			sub: function(v) {
+				//中心距离向量
+				var x = cx - v.x;
+				var y = cy - v.y;
+				console.log(cx, cy);
 				return {
-					cx - v.x, 
-					cy - v.y
+					dot: function(v) {
+						//投影
+						return x * v.x + y * v.y;
+					}
 				}
 			},
 			dot: function(v) {
+				//投影
 				return cx * v.x + cy * v.y;
 			}
 		}
