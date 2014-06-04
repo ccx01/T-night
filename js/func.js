@@ -14,7 +14,9 @@
 	/* OBB function */
 	var OBB = function(center, width, height, angle) {
 		var extents = [width / 2, height / 2];
+		//向量
 		var axes_1 = Vector2(Math.cos(angle), Math.sin(angle));
+		//法向量
 		var axes_2 = Vector2(-1 * Math.sin(angle), Math.cos(angle));
 		var I = {
 			center: center,
@@ -39,9 +41,10 @@
 		var y = y || 0;
 		var I = {
 			sub: function(v) {
-				return new Vector2(x - v.x, y - v.y)
+				return Vector2(x - v.x, y - v.y)
 			},
 			dot: function(v) {
+				//投影
 				return x * v.x + y * v.y;
 			}
 		}

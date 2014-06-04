@@ -15,6 +15,33 @@ function model() {
 	I.height = 32;
 	/*for collide*/
 	I.speed = 2;
+	I.center = function() {
+		//向量半径
+		var axes_1 = {
+			x: Math.cos(angle) * this.width / 2,
+			y: Math.sin(angle) * this.height / 2
+		}
+		//法向量半径
+		var axes_2 = {
+			x: -1 * Math.sin(angle) * this.width / 2,
+			y: Math.cos(angle) * this.height / 2
+		}
+		var cx = axes_1.x + this.x;
+		var cy = axes_1.x + this.y;
+		return {
+			cx: cx,
+			cy: cy,
+			sub: function(v) {
+				return {
+					cx - v.x, 
+					cy - v.y
+				}
+			},
+			dot: function(v) {
+				return cx * v.x + cy * v.y;
+			}
+		}
+	};
 	I.draw = function() {
 		canvas.save();
 		canvas.translate(this.x-camera.x, this.y-camera.y);
