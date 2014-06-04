@@ -16,6 +16,7 @@ function model() {
 	/*for collide*/
 	I.speed = 2;
 	I.center = function() {
+		//似乎是向量处出错了
 		//向量半径
 		var axes_1 = {
 			x: Math.cos(this.angle) * this.width / 2,
@@ -37,7 +38,7 @@ function model() {
 				//中心距离向量
 				var x = cx - v.x;
 				var y = cy - v.y;
-				console.log(cx, cy);
+				// console.log(cx, cy);
 				return {
 					dot: function(v) {
 						//投影
