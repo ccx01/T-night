@@ -66,7 +66,7 @@ ochi.move = function(end, extra){
 		// 特殊情况下出现的移动行为，如被对方击飞
 		// 移动时的速度并非完全按本身速度进行
 		extra = extra || {};
-		s = extra.speed || this.speed;
+		extra.speed = extra.speed || this.speed;
 		this.dx = extra.dx || this.dx;
 		this.dy = extra.dy || this.dy;
 
@@ -78,8 +78,8 @@ ochi.move = function(end, extra){
 		不过似乎也没有太大的必要
 		先搁置吧 => to Sign*/
 		this.angle = Math.atan2(this.dy - this.y, this.dx - this.x);
-		this.vx = Math.cos(this.angle) * s || 0;
-		this.vy = Math.sin(this.angle) * s || 0;
+		this.vx = Math.cos(this.angle) * extra.speed || 0;
+		this.vy = Math.sin(this.angle) * extra.speed || 0;
 
 		if (Math.abs(this.dx - this.x) < Math.abs(this.vx) || Math.abs(this.dy - this.y) < Math.abs(this.vy)) {
 			this.x = this.dx;

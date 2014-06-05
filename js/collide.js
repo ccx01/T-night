@@ -2,13 +2,13 @@ var collision = {
 	OBBvsOBB: function(OBB1, OBB2) {
 		var nv = OBB1.centerPoint.sub(OBB2.centerPoint);
 		var axisA1 = OBB1.axes[0];
-		if (OBB1.getProjectionRadius(axisA1) + OBB2.getProjectionRadius(axisA1) <= Math.abs(nv.dot(axisA1))) return false;
+		if (OBB1.projection(axisA1) + OBB2.projection(axisA1) <= Math.abs(nv.dot(axisA1))) return false;
 		var axisA2 = OBB1.axes[1];
-		if (OBB1.getProjectionRadius(axisA2) + OBB2.getProjectionRadius(axisA2) <= Math.abs(nv.dot(axisA2))) return false;
+		if (OBB1.projection(axisA2) + OBB2.projection(axisA2) <= Math.abs(nv.dot(axisA2))) return false;
 		var axisB1 = OBB2.axes[0];
-		if (OBB1.getProjectionRadius(axisB1) + OBB2.getProjectionRadius(axisB1) <= Math.abs(nv.dot(axisB1))) return false;
+		if (OBB1.projection(axisB1) + OBB2.projection(axisB1) <= Math.abs(nv.dot(axisB1))) return false;
 		var axisB2 = OBB2.axes[1];
-		if (OBB1.getProjectionRadius(axisB2) + OBB2.getProjectionRadius(axisB2) <= Math.abs(nv.dot(axisB2))) return false;
+		if (OBB1.projection(axisB2) + OBB2.projection(axisB2) <= Math.abs(nv.dot(axisB2))) return false;
 		return true;
 	}
 }
@@ -18,7 +18,7 @@ function OBB(centerPoint, width, height, angle) {
 	I.centerPoint = centerPoint;
 	I.extents = [width / 2, height / 2];
 	I.axes = [Vector2(Math.cos(angle), Math.sin(angle)), Vector2(-1 * Math.sin(angle), Math.cos(angle))];
-	I.getProjectionRadius = function(axis) {
+	I.projection = function(axis) {
 		return this.extents[0] * Math.abs(axis.dot(this.axes[0])) + this.extents[1] * Math.abs(axis.dot(this.axes[1]));
 	}
 	return I;

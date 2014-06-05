@@ -4,19 +4,14 @@ function model() {
 	I.active = true;
 	I.sprite = sprite("model.png", 0, 0);
 	I.mode = "stay";
-	I.collidable = false;
-	I.timer = 0; //计时用
-	I.count = 0; //计数用
 	I.x = 0;
 	I.y = 0;
 	I.angle = 0;
-	/*for drawing*/
 	I.width = 32;
 	I.height = 32;
-	/*for collide*/
+	I.speed = 2;
 	I.OBBw = 20;
 	I.OBBh = 20;
-	I.speed = 2;
 	I.OBB = function() {
 		return OBB(Vector2(this.x, this.y), this.OBBw, this.OBBh, this.angle);
 	};
@@ -37,9 +32,6 @@ function model() {
 		this.sprite.setSy(arr[1]);
 		this.width = arr[2] || this.width;
 		this.height = arr[3] || this.height;
-	};
-	I.update = function() {
-		//for customize
 	};
 	return I;
 };
