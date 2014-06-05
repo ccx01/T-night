@@ -1,8 +1,47 @@
+var collision = {
+	OBBvsOBB: function(OBB1, OBB2) {
+		var nv = OBB1.centerPoint.sub(OBB2.centerPoint);
+		var axisA1 = OBB1.axes[0];
+		if (OBB1.getProjectionRadius(axisA1) + OBB2.getProjectionRadius(axisA1) <= Math.abs(nv.dot(axisA1))) return false;
+		var axisA2 = OBB1.axes[1];
+		if (OBB1.getProjectionRadius(axisA2) + OBB2.getProjectionRadius(axisA2) <= Math.abs(nv.dot(axisA2))) return false;
+		var axisB1 = OBB2.axes[0];
+		if (OBB1.getProjectionRadius(axisB1) + OBB2.getProjectionRadius(axisB1) <= Math.abs(nv.dot(axisB1))) return false;
+		var axisB2 = OBB2.axes[1];
+		if (OBB1.getProjectionRadius(axisB2) + OBB2.getProjectionRadius(axisB2) <= Math.abs(nv.dot(axisB2))) return false;
+		return true;
+	}
+}
+
+function OBB(centerPoint, width, height, angle) {
+	var I = {};
+	I.centerPoint = centerPoint;
+	I.extents = [width / 2, height / 2];
+	I.axes = [Vector2(Math.cos(angle), Math.sin(angle)), Vector2(-1 * Math.sin(angle), Math.cos(angle))];
+	I.getProjectionRadius = function(axis) {
+		return this.extents[0] * Math.abs(axis.dot(this.axes[0])) + this.extents[1] * Math.abs(axis.dot(this.axes[1]));
+	}
+	return I;
+}
+
+function Vector2(x, y) {
+	var I = {};
+	I.x = x || 0;
+	I.y = y || 0;
+	I.sub = function(v) {
+		return new Vector2(this.x - v.x, this.y - v.y)
+	}
+	I.dot = function(v) {
+		return this.x * v.x + this.y * v.y;
+	}
+	return I;
+};
+
 /* collision detection */
 function collides(a, b){
-	var OBB1 = a.center();
-	var OBB2 = b.center();
-	return CollisionDetector.detectorOBBvsOBB(OBB1, OBB2);
+	var OBB1 = a.OBB();
+	var OBB2 = b.OBB();
+	return collision.OBBvsOBB(OBB1, OBB2);
 }
 
 function reaction(obj){

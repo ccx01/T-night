@@ -14,43 +14,11 @@ function model() {
 	I.width = 32;
 	I.height = 32;
 	/*for collide*/
+	I.OBBw = 20;
+	I.OBBh = 20;
 	I.speed = 2;
-	I.center = function() {
-		//似乎是向量处出错了
-		//向量半径
-		var axes_1 = {
-			x: Math.cos(this.angle) * this.width / 2,
-			y: Math.sin(this.angle) * this.height / 2
-		}
-		//法向量半径
-		var axes_2 = {
-			x: -1 * Math.sin(this.angle) * this.width / 2,
-			y: Math.cos(this.angle) * this.height / 2
-		}
-		var cx = axes_1.x + this.x;
-		var cy = axes_1.x + this.y;
-		return {
-			x: cx,
-			y: cy,
-			axes_1: axes_1,
-			axes_2: axes_2,
-			sub: function(v) {
-				//中心距离向量
-				var x = cx - v.x;
-				var y = cy - v.y;
-				// console.log(cx, cy);
-				return {
-					dot: function(v) {
-						//投影
-						return x * v.x + y * v.y;
-					}
-				}
-			},
-			dot: function(v) {
-				//投影
-				return cx * v.x + cy * v.y;
-			}
-		}
+	I.OBB = function() {
+		return OBB(Vector2(this.x, this.y), this.OBBw, this.OBBh, this.angle);
 	};
 	I.draw = function() {
 		canvas.save();
