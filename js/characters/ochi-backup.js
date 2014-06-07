@@ -113,18 +113,13 @@ ochi.force = function(obj){
 		*/
 		case "walk":
 			// ochi.touch(this.mode);	//	部分情况下才会做出反作用力动作，并非必须执行
-			this.isObstructed("stay", function(){
-				//硬直
-				// ochi.speed = 0;
-			});
+			this.isObstructed("stay", reaction(this));
 			if(obj.type == "character"){
 				// 接触过久dx和dy的值将会进行累加，需修改 => to Sign
 				// 或者弹开的速度原本就不该小于施力方
 				// 仔细想想，多次施力叠加是正常现象-_____-
 				var dx = obj.dx + (this.vx * 150) || 0;
 				var dy = obj.dy + (this.vy * 150) || 0;
-				//受力方速度必须比施力方快
-				var speed = this.speed + 1;
 				/* 碰撞只能改变对方的mode及extra
 				改变前还收到对方的buff限制
 				如对方无敌状态无法被击飞 */
@@ -133,7 +128,7 @@ ochi.force = function(obj){
 					obj.move("stay", {
 						dx: dx,
 						dy: dy,
-						speed: speed
+						speed: 1
 					});
 				}
 			}

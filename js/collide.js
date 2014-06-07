@@ -45,7 +45,6 @@ function collides(a, b){
 }
 
 function reaction(obj){
-	// 需修改 => Sign
 	// 反弹，无技能冲突时默认碰撞后的行为
 	// 避免角色强行卡入障碍物中
 	var vx = Math.cos(obj.angle) * obj.speed || 0;

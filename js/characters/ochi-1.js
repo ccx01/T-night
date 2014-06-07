@@ -115,19 +115,23 @@ ochi1.force = function(obj){
 		此处mode之后替换成对应的技能招式
 		*/
 		case "extra":
+			// ochi1.touch(this.mode);	//	部分情况下才会做出反作用力动作，并非必须执行
+			this.isObstructed("stay", reaction(this));
 			if(obj.type == "character"){
-				// 碰撞方向向量,看来中心连线的方法是不对的
-				// var col_vertor = Vector2(obj.x, obj.y).sub(Vector2(this.x, this.y));
-				// var dx = obj.dx + (col_vertor.x * 150) || 0;
-				// var dy = obj.dy + (col_vertor.y * 150) || 0;
-				var dx = obj.dx + (this.vx * 150) || 0;
-				var dy = obj.dy + (this.vy * 150) || 0;
+				// 接触过久dx和dy的值将会进行累加，需修改 => to Sign
+				// 或者弹开的速度原本就不该小于施力方
+				// 仔细想想，多次施力叠加是正常现象-_____-
+				var dx = obj.dx + (this.vx * 50) || 0;
+				var dy = obj.dy + (this.vy * 50) || 0;
+				/* 碰撞只能改变对方的mode及extra
+				改变前还收到对方的buff限制
+				如对方无敌状态无法被击飞 */
 				obj.mode = "extra";
 				obj.extra = function(){
 					obj.move("stay", {
 						dx: dx,
 						dy: dy,
-						speed: 1
+						speed: 10
 					});
 				}
 			}
