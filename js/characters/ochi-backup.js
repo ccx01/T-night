@@ -39,6 +39,7 @@ ochi.init = function(hp, speed, x, y, angle){
 	/* 碰撞属性 */
 	this.OBBw = 20;
 	this.OBBh = 20;
+	this.mass = 10;
 	/* 碰撞属性 end */
 	/* 状态属性 */
 	this.movable = true;
@@ -112,22 +113,22 @@ ochi.force = function(obj){
 		此处mode之后替换成对应的技能招式
 		*/
 		case "walk":
-			// ochi.touch(this.mode);	//	部分情况下才会做出反作用力动作，并非必须执行
 			this.isObstructed("stay", reaction(this));
 			if(obj.type == "character"){
-				// 接触过久dx和dy的值将会进行累加，需修改 => to Sign
-				// 或者弹开的速度原本就不该小于施力方
-				// 仔细想想，多次施力叠加是正常现象-_____-
-				var dx = obj.dx + (this.vx * 150) || 0;
-				var dy = obj.dy + (this.vy * 150) || 0;
-				/* 碰撞只能改变对方的mode及extra
-				改变前还收到对方的buff限制
-				如对方无敌状态无法被击飞 */
+				var power = 10;
+				var dr = this.radius + obj.radius;
+				var dx = obj.x - this.x;
+				var dy = obj.y - this.y;
+				var angle = Math.atan2(dy, dx);
+				var tx = this.x + Math.cos(angle) * dr * power;
+				var ty = this.y + Math.sin(angle) * dr * power;
+				var speed = this.speed;
+
 				obj.mode = "extra";
 				obj.extra = function(){
 					obj.move("stay", {
-						dx: dx,
-						dy: dy,
+						dx: tx,
+						dy: ty,
 						speed: 1
 					});
 				}

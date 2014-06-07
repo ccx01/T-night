@@ -10,6 +10,8 @@ function model() {
 	I.width = 32;
 	I.height = 32;
 	I.speed = 2;
+	// collide
+	I.mass = 1;	//质量
 	I.radius = 15;
 	I.draw = function() {
 		canvas.save();
