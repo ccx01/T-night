@@ -39,9 +39,10 @@ function Vector2(x, y) {
 
 /* collision detection */
 function collides(a, b){
-	var OBB1 = a.OBB();
-	var OBB2 = b.OBB();
-	return collision.OBBvsOBB(OBB1, OBB2);
+	var dy = a.y - b.y;
+	var dx = a.x - b.x;
+	var dd = a.radius + b.radius;
+	return dy * dy + dx * dx <= dd * dd;
 }
 
 function reaction(obj){

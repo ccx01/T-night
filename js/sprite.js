@@ -19,11 +19,13 @@
 				canvas.fillStyle = color;
 				canvas.fillRect(x, y, width, height);
 			},
-			stroke: function(canvas, x, y, width, height) {
+			stroke: function(canvas, x, y, radius) {
 				//查看碰撞区域
+				canvas.beginPath();
 				canvas.lineWidth = 1;
 				canvas.strokeStyle = '#f00';
-				canvas.strokeRect(x, y, width, height);
+				canvas.arc(x, y, radius, 0, Math.PI*2); 
+				canvas.stroke();
 			}
 		};
 		return I;
