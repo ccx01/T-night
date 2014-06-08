@@ -7,6 +7,7 @@ function model() {
 	I.x = 0;
 	I.y = 0;
 	I.angle = 0;
+	I.toward = 0;
 	I.width = 32;
 	I.height = 32;
 	I.speed = 2;
@@ -16,7 +17,7 @@ function model() {
 	I.draw = function() {
 		canvas.save();
 		canvas.translate(this.x-camera.x, this.y-camera.y);
-		canvas.rotate(this.angle);
+		canvas.rotate(this.toward);
 		this.sprite.draw(canvas, -this.width / 2, -this.height / 2, this.width, this.height);
 		/* OBB stroke */
 		this.sprite.stroke(canvas, 0, 0, this.radius);

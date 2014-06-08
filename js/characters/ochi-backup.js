@@ -59,6 +59,7 @@ ochi.cmd = function(listener) { //cmd drived by the event listener, listener set
 			this.dy = game.mouse_y;
 			this.dx = game.mouse_x;
 			this.movable = true;
+			this.toward = Math.atan2(this.dy - this.y, this.dx - this.x);
 			this.mode = "walk";
 		break;
 	}
