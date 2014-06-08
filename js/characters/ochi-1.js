@@ -51,6 +51,7 @@ ochi1.init = function(hp, speed, x, y, angle){
 	this.speed = this.init_speed = speed;
 	this.x = this.dx = x;
 	this.y = this.dy = y;
+	this.vx = this.vy = 0;
 	this.angle = angle;
 }
 
@@ -115,7 +116,7 @@ ochi1.force = function(obj){
 		此处mode之后替换成对应的技能招式
 		*/
 		case "extra":
-			this.isObstructed("stay", reaction(this));
+			// this.isObstructed("stay");
 			if(obj.type == "character"){
 				var power = 10;
 				var dr = this.radius + obj.radius;

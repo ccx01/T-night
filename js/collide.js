@@ -1,18 +1,21 @@
 /* collision detection */
 function collides(a, b){
-	var dy = a.y - b.y;
-	var dx = a.x - b.x;
+	var dx = a.x - b.x + a.vx + b.vx;
+	var dy = a.y - b.y + a.vy + b.vy;
 	var dr = a.radius + b.radius;
-	return dy * dy + dx * dx <= dr * dr;
+	return dy * dy + dx * dx < dr * dr;
 }
 
-function reaction(obj){
-	// 反弹，无技能冲突时默认碰撞后的行为
-	// 避免角色强行卡入障碍物中
-	var vx = Math.cos(obj.angle) * obj.speed || 0;
-	var vy = Math.sin(obj.angle) * obj.speed || 0;
-	obj.x -= vx;
-	obj.y -= vy;
+function touch(a, b){
+	// avoid of stick together
+	var dr = a.radius + b.radius;
+	var dx = b.x - a.x;
+	var dy = b.y - a.y;
+	var angle = Math.atan2(dy, dx);
+	a.dx = b.x - Math.cos(angle) * dr;
+	a.dy = b.y - Math.sin(angle) * dr;
+	/*a.vx = b.vx - a.vx;
+	a.vy = b.vy - a.vy;*/
 }
 
 function handleCollisions(){
@@ -23,7 +26,10 @@ function handleCollisions(){
 		if(c[i].moving){
 			for(; j < len; j++){
 				if(i == j) continue;
+				collides(c[i], c[j]);
 				if (collides(c[i], c[j])) {
+					touch(c[i], c[j]);
+					// c[i].isObstructed("stay");
 					c[i].force(c[j]);
 				}			
 			}
