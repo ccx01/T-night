@@ -58,7 +58,7 @@ function fps(now) {
 }
 
 function loop(now) {
-	handleCollisions();
+	collide.handle();
 	camera.update();
 	canvasUpdate();
 	loop_id = requestAnimationFrame(loop);
