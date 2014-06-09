@@ -44,6 +44,9 @@ var collide = {
 		var angle = Math.atan2(dy, dx);
 		a.dx = b.x - Math.cos(angle) * dr;
 		a.dy = b.y - Math.sin(angle) * dr;
+		//相互作用力，force是唯一可以控制对方的function
+		a.force(b);
+		b.force(a);
 	},
 	checkOneBox: function (x, y) {
 		//同一区域进行监测
