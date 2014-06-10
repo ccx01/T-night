@@ -21,7 +21,7 @@ ochi1.img=function(ac){
 }
 
 // animation功能还有待考量
-ochi1.animation = (function(){
+/*ochi1.animation = (function(){
 	var count = 0;	//此处count为animation内部用，与对象的count无关，对象的count目前暂时没什么用
 	return function(arr,frame,fn){
 		var during=arr.length*frame-1;
@@ -32,16 +32,14 @@ ochi1.animation = (function(){
 			fn();
 		}
 	}
-}());
+}());*/
 
 ochi1.init = function(hp, speed, x, y, angle){
 	this.type = "character";
 	/* 碰撞属性 */
-	this.collidable = true;
-	/* 接触属性，用来判断碰撞后的行为 */
-	// this.touched = false;
 	this.OBBw = 20;
 	this.OBBh = 20;
+	this.mass = 10;
 	/* 碰撞属性 end */
 	/* 状态属性 */
 	this.movable = true;
@@ -60,6 +58,9 @@ ochi1.cmd = function(listener) { //cmd drived by the event listener, listener se
 		case "walk":
 			this.dy = game.mouse_y;
 			this.dx = game.mouse_x;
+			this.angle = this.toward = Math.atan2(this.dy - this.y, this.dx - this.x);
+			this.vx = Math.cos(this.angle) * this.speed || 0;
+			this.vy = Math.sin(this.angle) * this.speed || 0;
 			this.movable = true;
 			this.mode = "walk";
 		break;
@@ -70,24 +71,16 @@ ochi1.move = function(end, extra){
 		// 特殊情况下出现的移动行为，如被对方击飞
 		// 移动时的速度并非完全按本身速度进行
 		extra = extra || {};
-		s = extra.speed || this.speed;
 		this.dx = extra.dx || this.dx;
 		this.dy = extra.dy || this.dy;
+		this.vx = extra.vx || this.vx;
+		this.vy = extra.vy || this.vy;
 
 		this.moving = true;
 
-		/*移动时也许可以加个 "朝向" toward
-		目前的angle不是面对的方向
-		而是移动的角度
-		不过似乎也没有太大的必要
-		先搁置吧 => to Sign*/
-		this.angle = Math.atan2(this.dy - this.y, this.dx - this.x);
-		this.vx = Math.cos(this.angle) * s || 0;
-		this.vy = Math.sin(this.angle) * s || 0;
-
 		if (Math.abs(this.dx - this.x) < Math.abs(this.vx) || Math.abs(this.dy - this.y) < Math.abs(this.vy)) {
-			this.x = this.dx;
-			this.y = this.dy;
+			/*this.x = this.dx;
+			this.y = this.dy;*/
 			// 移动到目标位置结束状态
 			this.isObstructed(end || "stay");
 		} else {
@@ -98,6 +91,8 @@ ochi1.move = function(end, extra){
 }
 ochi1.isObstructed = function(end, callback){
 	// 移动停止需要独立一个功能，以此来应付其他情况(其他情况可直接调用此功能)
+	this.vx = 0;
+	this.vy = 0;
 	this.moving = false;
 	this.mode = end;
 	callback && callback();
@@ -115,24 +110,30 @@ ochi1.force = function(obj){
 		若在behavior中再赋值将会出现首次无效的情况
 		此处mode之后替换成对应的技能招式
 		*/
-		case "extra":
+		case "walk":
 			// this.isObstructed("stay");
 			if(obj.type == "character"){
-				var power = 10;
+				var power = 100;
 				var dr = this.radius + obj.radius;
-				var dx = obj.x - this.x;
-				var dy = obj.y - this.y;
-				var angle = Math.atan2(dy, dx);
-				var tx = this.x + Math.cos(angle) * dr * power;
-				var ty = this.y + Math.sin(angle) * dr * power;
-				var speed = this.speed;
+				var tx = obj.x - this.x;
+				var ty = obj.y - this.y;
+				var angle = Math.atan2(ty, tx);
+
+				var ratio = this.mass / obj.mass;
+
+				var dx = this.x + Math.cos(angle) * dr + power * ratio;
+				var dy = this.y + Math.sin(angle) * dr + power * ratio;
+
+				var vx = this.vx * ratio - obj.vx;
+				var vy = this.vy * ratio - obj.vy;
 
 				obj.mode = "extra";
 				obj.extra = function(){
 					obj.move("stay", {
-						dx: tx,
-						dy: ty,
-						speed: 1
+						dx: dx,
+						dy: dy,
+						vx: vx,
+						vy: vy,
 					});
 				}
 			}

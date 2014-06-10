@@ -10,10 +10,12 @@ function model() {
 	I.toward = 0;
 	I.width = 32;
 	I.height = 32;
-	I.speed = 2;
-	// collide
+	I.speed = 2;	//speed 将影响 v
+	// v 是即时速度，与speed并非完全对应关系
+	I.vx = 0;
+	I.vy = 0;
 	I.mass = 1;	//质量
-	I.radius = 15;
+	I.radius = 15;	//半径，碰撞用
 	I.draw = function() {
 		canvas.save();
 		canvas.translate(this.x-camera.x, this.y-camera.y);

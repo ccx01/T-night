@@ -29,8 +29,8 @@ var collide = {
 		return {x: ox, y: oy};
 	},
 	detect: function(a, b) {
-		var dx = a.x - b.x + a.vx + b.vx;
-		var dy = a.y - b.y + a.vy + b.vy;
+		var dx = a.x - b.x;
+		var dy = a.y - b.y;
 		var dr = a.radius + b.radius;
 		if (dy * dy + dx * dx < dr * dr) {
 			this.touch(a, b);
