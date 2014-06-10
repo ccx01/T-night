@@ -42,8 +42,8 @@ var collide = {
 		var dx = b.x - a.x;
 		var dy = b.y - a.y;
 		var angle = Math.atan2(dy, dx);
-		a.dx = b.x - Math.cos(angle) * dr;
-		a.dy = b.y - Math.sin(angle) * dr;
+		a.x = b.x - Math.cos(angle) * dr;
+		a.y = b.y - Math.sin(angle) * dr;
 		//相互作用力，force是唯一可以控制对方的function
 		a.force(b);
 		b.force(a);
