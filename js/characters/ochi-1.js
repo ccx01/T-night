@@ -77,10 +77,9 @@ ochi1.move = function(end, extra){
 		this.vy = extra.vy || this.vy;
 
 		this.moving = true;
-
-		if (Math.abs(this.dx - this.x) < Math.abs(this.vx) || Math.abs(this.dy - this.y) < Math.abs(this.vy)) {
-			/*this.x = this.dx;
-			this.y = this.dy;*/
+		if((this.vx > 0 && this.x > this.dx) || (this.vx < 0 && this.x < this.dx) || (this.vy > 0 && this.y > this.dy) || (this.vy < 0 && this.y < this.dy)){
+			// this.x = this.dx;
+			// this.y = this.dy;
 			// 移动到目标位置结束状态
 			this.isObstructed(end || "stay");
 		} else {
@@ -110,22 +109,22 @@ ochi1.force = function(obj){
 		若在behavior中再赋值将会出现首次无效的情况
 		此处mode之后替换成对应的技能招式
 		*/
-		case "walk":
+		case "stay":
 			// this.isObstructed("stay");
 			if(obj.type == "character"){
-				var power = 100;
+				var t = 10;
 				var dr = this.radius + obj.radius;
 				var tx = obj.x - this.x;
 				var ty = obj.y - this.y;
 				var angle = Math.atan2(ty, tx);
-
+				var cos = Math.cos(angle);
+				var sin = Math.sin(angle);
 				var ratio = this.mass / obj.mass;
 
-				var dx = this.x + Math.cos(angle) * dr + power * ratio;
-				var dy = this.y + Math.sin(angle) * dr + power * ratio;
-
-				var vx = this.vx * ratio - obj.vx;
-				var vy = this.vy * ratio - obj.vy;
+				var vx = cos * this.speed * ratio;
+				var vy = sin * this.speed * ratio;
+				var dx = obj.x + vx * t;
+				var dy = obj.y + vy * t;
 
 				obj.mode = "extra";
 				obj.extra = function(){
@@ -133,7 +132,7 @@ ochi1.force = function(obj){
 						dx: dx,
 						dy: dy,
 						vx: vx,
-						vy: vy,
+						vy: vy
 					});
 				}
 			}
