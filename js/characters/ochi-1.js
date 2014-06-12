@@ -35,7 +35,7 @@ ochi1.img=function(ac){
 }());*/
 
 ochi1.init = function(hp, speed, x, y, angle){
-	this.type = "character";
+	this.type = "nocharacter";
 	/* 碰撞属性 */
 	this.OBBw = 20;
 	this.OBBh = 20;
@@ -109,7 +109,7 @@ ochi1.force = function(obj){
 		若在behavior中再赋值将会出现首次无效的情况
 		此处mode之后替换成对应的技能招式
 		*/
-		case "stay":
+		case "walk":
 			// this.isObstructed("stay");
 			if(obj.type == "character"){
 				var t = 10;
