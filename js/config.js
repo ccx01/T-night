@@ -1,4 +1,16 @@
 /* window */
+var requestAnimationFrame = (function() {
+	return requestAnimationFrame || function(callback) {
+		return setTimeout(callback, 1000 / 60); // shoot for 60 fps
+	};
+}());
+
+var cancelAnimationFrame = (function() {
+	return cancelAnimationFrame || function(id) {
+		clearTimeout(id);
+	};
+}());
+
 var game = {
 	canvas: {
 		x: 0,
