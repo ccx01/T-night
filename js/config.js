@@ -12,17 +12,6 @@ var cancelAnimationFrame = (function() {
 }());
 
 var game = {
-	canvas: {
-		x: 0,
-		y: 0,
-		w: 600,
-		h: 400,
-		setSize: function(w, h){
-			domCanvas.width = this.w = w;
-			domCanvas.height = this.h = h;
-			stage.show(w, h);
-		}
-	},
 	map: {
 		w: 600,
 		h: 400,
@@ -44,17 +33,30 @@ var camera = {
 	center:game.map,
 	update:function(){
 		/*******camera*******/
-		this.x = this.center.x - game.canvas.w / 2;	//lock the camera
-		this.y = this.center.y - game.canvas.h / 2;
-		this.x = this.x.clamp(0, game.map.w - game.canvas.w);
-		this.y = this.y.clamp(0, game.map.h - game.canvas.h);
+		this.x = this.center.x - canvas.w / 2;	//lock the camera
+		this.y = this.center.y - canvas.h / 2;
+		this.x = this.x.clamp(0, game.map.w - canvas.w);
+		this.y = this.y.clamp(0, game.map.h - canvas.h);
 		stage.cameraMove(this.x, this.y);
 	}
 }
 
 /* jquery dom */
-var domCanvas=$("#myCanvas")[0];
-var canvas = domCanvas.getContext("2d");
+var canvas = (function(){
+	var domCanvas=$("#myCanvas")[0];
+	var I = domCanvas.getContext("2d");
+		I.x = 0;
+		I.y = 0;
+		I.w = 600;
+		I.h = 400;
+		I.setSize = function(w, h){
+			domCanvas.width = this.w = w;
+			domCanvas.height = this.h = h;
+			stage.show(w, h);
+		}
+	return I;
+}());
+
 /* #stage */
 var stage = (function($){
 	var $stage = $("#stage");
@@ -128,4 +130,4 @@ var global = (function($){
 }(jQuery));
 
 /* init */
-game.canvas.setSize(600, 400);
+canvas.setSize(600, 400);

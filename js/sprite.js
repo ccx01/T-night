@@ -13,7 +13,7 @@
 			setSy: function(sy){
 				sourceY = sy;
 			},
-			flash: function(rate, color) {
+			flash: function(canvas, rate, color) {
 				color = time % rate < 10 ? color : "#f00";
 				canvas.globalCompositeOperation = "source-atop";
 				canvas.fillStyle = color;
