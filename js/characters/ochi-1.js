@@ -2,23 +2,23 @@
 var ochi1=model();
 
 /*************sprite***************/
-ochi1.sprite = sprite("characters/ochi1.png", 0, 0, ready);
+ochi1.sprite = sprite("characters/ochi1.png", 0, 0, 32, 32, ready);
 
 ochi1.name = "ochi1";
-ochi1.img=function(ac){
+/*ochi1.img=function(ac){
 	switch(ac){
 		case "walk":
 			this.coordinate([0,64,32,32]);
-			/*this.animation([
+			this.animation([
 				[0,0,32,32],
 				[0,32,32,32],
 				[0,64,32,32]
-			],7);*/
+			],7);
 		break;
 		default:	//stay
 			this.coordinate([0,0,32,32]);
 	}
-}
+}*/
 
 // animation功能还有待考量
 /*ochi1.animation = (function(){

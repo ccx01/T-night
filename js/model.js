@@ -2,14 +2,16 @@ function model() {
 	var I = {};
 	I.age = 0;
 	I.active = true;
-	I.sprite = sprite("model.png", 0, 0);
 	I.mode = "stay";
+	//sprite
 	I.x = 0;
 	I.y = 0;
 	I.angle = 0;
 	I.toward = 0;
-	I.width = 32;
-	I.height = 32;
+	/*I.width = 32;
+	I.height = 32;*/
+	I.sprite = sprite("model.png", 0, 0, 32, 32);
+	//sprite end
 	I.speed = 2;	//speed 将影响 v
 	// v 是即时速度，与speed并非完全对应关系
 	I.vx = 0;
@@ -20,22 +22,33 @@ function model() {
 		canvas.save();
 		canvas.translate(this.x-camera.x, this.y-camera.y);
 		canvas.rotate(this.toward);
-		this.sprite.draw(canvas, -this.width / 2, -this.height / 2, this.width, this.height);
+		this.sprite.draw(canvas);
 		/* OBB stroke */
 		this.sprite.stroke(canvas, 0, 0, this.radius);
 		/* OBB stroke end */
 		canvas.restore();
 		this.update();
-	};
-	I.coordinate = function(arr) {
-		//arr:[sx, sy, w, h]
-		this.sprite.setSx(arr[0]);
-		this.sprite.setSy(arr[1]);
-		this.width = arr[2] || this.width;
-		this.height = arr[3] || this.height;
-	};
+	}
+	I.img  = {
+		time: 0,
+		frame: 0,
+		//coordinate
+		coo: function(arr) {
+			I.sprite.set(arr);
+		},
+		//animation
+		ani: function(arr, during) {
+			//制作特效，需要有动画函数=>Sign
+			if(game.time - this.time > during){
+				this.frame = this.frame < arr.length - 1 ? this.frame + 1 : 0;
+				this.time = game.time;
+				I.sprite.set(arr[this.frame]);
+				// this.coo(arr[this.frame]);
+			}
+		}
+	}
 	return I;
-};
+}
 /**********expand**********/
 var effect = [];
 function nonmodel(age, x, y, speed, angle) {

@@ -37,7 +37,7 @@ $.when(
 		game.mouse_y = e.pageY - stage.offsetTop + camera.y;
 		ochi.cmd("walk");
 
-		mark.add(1000, game.mouse_x, game.mouse_y, game.time, 20, 20);
+		mark.add(500, game.mouse_x, game.mouse_y, game.time, 20, 20);
 		
 	});
 	//外部命令监听，之后需封装 鼠标类目前还未开始修改
