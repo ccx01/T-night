@@ -1,6 +1,6 @@
 /* init */
 var loaded;
-var count_objects;
+var count_objects = 0;
 var loop_id;
 var last_loop_time = 0;
 var last_fps_time = 0;
@@ -18,7 +18,6 @@ function gotoChapter(chapter) {
 		dataType: "script"
 	}).done(function() {
 		count_objects = game.objectPool.length;
-
 	});
 }
 
@@ -39,16 +38,6 @@ function stop() {
 	cancelAnimationFrame(loop_id);
 }
 
-/* canvas update */
-
-function canvasUpdate() {
-	canvas.clearRect(0, 0, canvas.w, canvas.h);
-	var i = 0;
-	for(; i < count_objects; i++){
-		game.objectPool[i].draw();
-	}
-}
-
 function fps(now) {
 	if (now - last_fps_time > 1000) {
 		global.fps(1000 / (now - last_loop_time) | 0);
@@ -60,7 +49,7 @@ function fps(now) {
 function loop(now) {
 	collide.handle();
 	camera.update();
-	canvasUpdate();
+	canvas.update(count_objects);
 	loop_id = requestAnimationFrame(loop);
 	fps(now);
 	game.time = now | 0;

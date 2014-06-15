@@ -1,17 +1,17 @@
 /* window */
-var requestAnimationFrame = (function() {
+window.requestAnimationFrame = (function() {
 	return requestAnimationFrame || function(callback) {
 		return setTimeout(callback, 1000 / 60); // shoot for 60 fps
 	};
 }());
 
-var cancelAnimationFrame = (function() {
+window.cancelAnimationFrame = (function() {
 	return cancelAnimationFrame || function(id) {
 		clearTimeout(id);
 	};
 }());
 
-var game = {
+window.game = {
 	map: {
 		w: 600,
 		h: 400,
@@ -27,7 +27,7 @@ var game = {
 	mouse_y: 0,
 	time: 0
 }
-var camera = {
+window.camera = {
 	x:0,
 	y:0,
 	center:game.map,
@@ -42,7 +42,7 @@ var camera = {
 }
 
 /* jquery dom */
-var canvas = (function(){
+window.canvas = (function(){
 	var domCanvas=$("#myCanvas")[0];
 	var I = domCanvas.getContext("2d");
 		I.x = 0;
@@ -54,11 +54,23 @@ var canvas = (function(){
 			domCanvas.height = this.h = h;
 			stage.show(w, h);
 		}
+		I.update = function() {
+			this.clearRect(0, 0, this.w, this.h);
+			var i = 0;
+			count_objects = game.objectPool.length;
+			for(; i < count_objects; i++){
+				if(!game.objectPool[i]){
+					continue;
+				}
+				game.objectPool[i].draw();
+				!game.objectPool[i].active && game.objectPool.splice(i, 1);
+			}
+		}
 	return I;
 }());
 
 /* #stage */
-var stage = (function($){
+window.stage = (function($){
 	var $stage = $("#stage");
 	var I = {
 		show: function(w, h){
@@ -91,7 +103,7 @@ var stage = (function($){
 }(jQuery));
 
 /* loading */
-var load = (function($){
+window.load = (function($){
 	var $loading = $("#loading");
 	var $chapter = $("#chapter");
 	var $info = $("#info");
@@ -115,7 +127,7 @@ var load = (function($){
 	return I;
 }(jQuery));
 
-var global = (function($){
+window.global = (function($){
 	var $fps = $("#fps");
 	var $chapter = $("#chapter");
 	var I = {
