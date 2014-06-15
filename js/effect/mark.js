@@ -8,11 +8,8 @@ mark.update = function() {
 		[0,0,22,20],
 		[0,20,22,20]
 	],100);
-	if (game.time - this.time > this.age) {
-		this.active = false;
-	}
+	(game.time - this.time > this.age) && (this.active = false);
 }
-
 
 mark.add = function(age, x, y, time){
 	this.active = true;

@@ -32,10 +32,6 @@ function model() {
 	I.img  = {
 		time: 0,
 		frame: 0,
-		//coordinate
-		coo: function(arr) {
-			I.sprite.set(arr);
-		},
 		//animation
 		ani: function(arr, during) {
 			//制作特效，需要有动画函数=>Sign
@@ -43,7 +39,6 @@ function model() {
 				this.frame = this.frame < arr.length - 1 ? this.frame + 1 : 0;
 				this.time = game.time;
 				I.sprite.set(arr[this.frame]);
-				// this.coo(arr[this.frame]);
 			}
 		}
 	}
