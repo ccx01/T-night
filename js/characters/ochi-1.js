@@ -37,9 +37,8 @@ ochi1.img=function(ac){
 ochi1.init = function(hp, speed, x, y, angle){
 	this.type = "nocharacter";
 	/* 碰撞属性 */
-	this.OBBw = 20;
-	this.OBBh = 20;
-	this.mass = 10;
+	this.radius = 15;
+	this.mass = 20;
 	/* 碰撞属性 end */
 	/* 状态属性 */
 	this.movable = true;

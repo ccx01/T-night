@@ -15,7 +15,7 @@ function model() {
 	I.vx = 0;
 	I.vy = 0;
 	I.mass = 1;	//质量
-	I.radius = 15;	//半径，碰撞用
+	I.radius = 0;	//半径，碰撞用
 	I.draw = function() {
 		canvas.save();
 		canvas.translate(this.x-camera.x, this.y-camera.y);

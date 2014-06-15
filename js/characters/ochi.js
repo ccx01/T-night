@@ -36,11 +36,8 @@ ochi.img=function(ac){
 
 ochi.init = function(hp, speed, x, y, angle){
 	this.type = "character";
-	/* 碰撞属性 */
-	this.OBBw = 20;
-	this.OBBh = 20;
-	this.mass = 10;
-	/* 碰撞属性 end */
+	this.radius = 15;
+	this.mass = 20;
 	/* 状态属性 */
 	this.movable = true;
 	this.moving = false;
