@@ -88,8 +88,8 @@ window.stage = (function($){
 		},
 		cameraMove: function(x, y){
 			$stage.css({
-				'background-position-x': -x+'px',
-				'background-position-y': -y+'px'
+				'background-position-x': - x + 'px',
+				'background-position-y': - y + 'px'
 			});
 		},
 		click: function(callback){
@@ -97,6 +97,9 @@ window.stage = (function($){
 				var _this = this;
 				callback(e, _this);
 			});
+		},
+		move: function(){
+			//拖动操作
 		}
 	};
 	return I;

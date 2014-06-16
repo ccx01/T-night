@@ -20,20 +20,6 @@ ochi.name = "ochi";
 	}
 }*/
 
-// animation功能还有待考量
-/*ochi.animation = (function(){
-	var count = 0;	//此处count为animation内部用，与对象的count无关，对象的count目前暂时没什么用
-	return function(arr,frame,fn){
-		var during=arr.length*frame-1;
-		count%=during;
-		count++;
-		this.coordinate(arr[Math.floor(count / frame)]);
-		if(count==during&&fn){
-			fn();
-		}
-	}
-}());*/
-
 ochi.init = function(hp, speed, x, y, angle){
 	this.type = "character";
 	this.radius = 15;
