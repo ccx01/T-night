@@ -72,6 +72,8 @@ window.canvas = (function(){
 /* #stage */
 window.stage = (function($){
 	var $stage = $("#stage");
+	var dom = $stage[0];
+	var moving = false;
 	var I = {
 		show: function(w, h){
 			$stage.animate({
@@ -92,14 +94,17 @@ window.stage = (function($){
 				'background-position-y': - y + 'px'
 			});
 		},
-		click: function(callback){
-			$stage.click(function(e){
-				var _this = this;
-				callback(e, _this);
+		move: function(callback){
+			$stage.mousedown(function(e){
+				moving = true;
+				callback(e, dom);
 			});
-		},
-		move: function(){
-			//拖动操作
+			$(document).mouseup(function(e){
+				moving = false;
+			});
+			$(document).mousemove(function(e) {
+				moving && callback(e, dom);
+			});
 		}
 	};
 	return I;
