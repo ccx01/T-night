@@ -39,13 +39,15 @@ ochi.init = function(hp, speed, x, y, angle){
 ochi.cmd = function(listener) { //cmd drived by the event listener, listener set by chapter
 	switch(listener){
 		case "walk":
-			this.dy = game.mouse_y;
-			this.dx = game.mouse_x;
-			this.angle = this.toward = Math.atan2(this.dy - this.y, this.dx - this.x);
-			this.vx = Math.cos(this.angle) * this.speed || 0;
-			this.vy = Math.sin(this.angle) * this.speed || 0;
-			this.movable = true;
-			this.mode = "walk";
+			if(Math.abs(game.mouse_x - this.x) > this.radius || Math.abs(game.mouse_y - this.y) > this.radius){
+				this.dy = game.mouse_y;
+				this.dx = game.mouse_x;
+				this.angle = this.toward = Math.atan2(this.dy - this.y, this.dx - this.x);
+				this.vx = Math.cos(this.angle) * this.speed || 0;
+				this.vy = Math.sin(this.angle) * this.speed || 0;
+				this.movable = true;
+				this.mode = "walk";
+			}
 		break;
 	}
 }
@@ -60,6 +62,7 @@ ochi.move = function(end, extra){
 		this.vy = extra.vy || this.vy;
 
 		this.moving = true;
+
 		if((this.vx > 0 && this.x > this.dx) || (this.vx < 0 && this.x < this.dx) || (this.vy > 0 && this.y > this.dy) || (this.vy < 0 && this.y < this.dy)){
 			// this.x = this.dx;
 			// this.y = this.dy;
