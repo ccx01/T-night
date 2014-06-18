@@ -95,16 +95,22 @@ window.stage = (function($){
 			});
 		},
 		move: function(callback){
-			$stage.mousedown(function(e){
-				moving = true;
-				callback(e, dom);
-			});
-			$(document).mouseup(function(e){
-				moving = false;
-			});
-			$(document).mousemove(function(e) {
-				moving && callback(e, dom);
-			});
+			var check_mouse;
+			dom.onmousedown = function(e){
+				// var last_time = Date.now();
+				dom.onmousemove = function(ev){
+					e = ev;
+					/*console.log(Date.now() - last_time);
+					last_time = Date.now();*/
+				}
+				check_mouse = setInterval(function(){
+					callback(e);
+				},10);
+			}
+			document.onmouseup = function(e){
+				clearInterval(check_mouse);
+				dom.onmousemove = null;
+			}
 		}
 	};
 	return I;
