@@ -36,6 +36,30 @@ ochi.init = function(hp, speed, x, y, angle){
 	this.angle = angle;
 }
 
+ochi.skill = (function(){
+	var I = {}
+	var Qkey = model();
+	Qkey.sprite = sprite("ui/mark.png", 0, 0, 22, 20, ready);
+	Qkey.update = function() {
+		this.img.ani([
+			[0,0,22,20],
+			[0,20,22,20]
+		],100);
+		(game.time - this.time > this.age) && (this.active = false);
+	}
+	Qkey.add = function(age, x, y, time){
+		this.active = true;
+		this.name = "Qkey";
+		this.age = age || 0;
+		this.x = x || 0;
+		this.y = y || 0;
+		this.time = game.time || 0;
+		game.objectPool.push(this);
+	}
+	I.Qkey = Qkey;
+	return I;
+}());
+
 ochi.cmd = function(listener) { //cmd drived by the event listener, listener set by chapter
 	switch(listener){
 		case "walk":
@@ -48,6 +72,10 @@ ochi.cmd = function(listener) { //cmd drived by the event listener, listener set
 				this.movable = true;
 				this.mode = "walk";
 			}
+		break;
+		case "Qkey":
+			console.log(this.skill)
+			this.skill.Qkey.add(5000, 200, 300, game.time, 20, 20);
 		break;
 	}
 }

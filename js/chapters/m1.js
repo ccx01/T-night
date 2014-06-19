@@ -38,11 +38,8 @@ $.when(
 		ochi.cmd("walk");
 
 		mark.add(500, game.mouse_x, game.mouse_y, game.time, 20, 20);
-		
 	});
-	//外部命令监听，之后需封装 鼠标类目前还未开始修改
-	// window.uni = mouseIcon();	//mouse click
-	// uni = mouseIcon(500);
-	// uni.sprite.draw();
-	// CG(CGstep);
+	stage.key(function(){
+		keydown.q && ochi.cmd("Qkey");
+	})
 });

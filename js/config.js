@@ -111,6 +111,11 @@ window.stage = (function($){
 				clearInterval(check_mouse);
 				dom.onmousemove = null;
 			}
+		},
+		key: function(callback){
+			document.onkeydown = function(){
+				callback();
+			}
 		}
 	};
 	return I;
