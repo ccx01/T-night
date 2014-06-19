@@ -39,7 +39,7 @@ $.when(
 
 		mark.add(500, game.mouse_x, game.mouse_y, game.time, 20, 20);
 	});
-	stage.key(function(){
-		keydown.q && ochi.cmd("Qkey");
+	stage.key(function(keycode){
+		(keycode == 81) && ochi.cmd("Qkey");
 	})
 });

@@ -113,8 +113,9 @@ window.stage = (function($){
 			}
 		},
 		key: function(callback){
-			document.onkeydown = function(){
-				callback();
+			document.onkeydown = function(e){
+				console.log(e);
+				callback(e.which);
 			}
 		}
 	};

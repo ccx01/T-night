@@ -75,7 +75,7 @@ ochi.cmd = function(listener) { //cmd drived by the event listener, listener set
 		break;
 		case "Qkey":
 			console.log(this.skill)
-			this.skill.Qkey.add(5000, 200, 300, game.time, 20, 20);
+			this.skill.Qkey.add(5000, Math.random() * 200, Math.random() * 300, game.time, 20, 20);
 		break;
 	}
 }
