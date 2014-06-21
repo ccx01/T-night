@@ -39,7 +39,11 @@ $.when(
 
 		mark.add(500, game.mouse_x, game.mouse_y, game.time, 20, 20);
 	});
+	var cmd_key = {
+		"81": "Qkey",
+		"82": "Wkey"
+	};	//也许以后会用到设置按键功能
 	stage.key(function(keycode){
-		(keycode == 81) && ochi.cmd("Qkey");
+		ochi.cmd(cmd_key[keycode]);
 	})
 });
