@@ -17,14 +17,14 @@ function model() {
 	I.mass = 1;	//质量
 	I.radius = 0;	//半径，碰撞用
 	I.draw = function() {
-		canvas.save();
-		canvas.translate(this.x-camera.x, this.y-camera.y);
-		canvas.rotate(this.toward);
-		this.sprite.draw(canvas);
+		stage.save();
+		stage.translate(this.x-camera.x, this.y-camera.y);
+		stage.rotate(this.toward);
+		this.sprite.draw(stage);
 		/* OBB stroke */
-		this.sprite.stroke(canvas, 0, 0, this.radius);
+		this.sprite.stroke(stage, 0, 0, this.radius);
 		/* OBB stroke end */
-		canvas.restore();
+		stage.restore();
 		this.update();
 	}
 	I.img  = {

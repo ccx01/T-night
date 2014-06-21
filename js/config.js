@@ -33,26 +33,34 @@ window.camera = {
 	center:game.map,
 	update:function(){
 		/*******camera*******/
-		this.x = this.center.x - canvas.w / 2;	//lock the camera
-		this.y = this.center.y - canvas.h / 2;
-		this.x = this.x.clamp(0, game.map.w - canvas.w);
-		this.y = this.y.clamp(0, game.map.h - canvas.h);
+		this.x = this.center.x - stage.w / 2;	//lock the camera
+		this.y = this.center.y - stage.h / 2;
+		this.x = this.x.clamp(0, game.map.w - stage.w);
+		this.y = this.y.clamp(0, game.map.h - stage.h);
 		stage.cameraMove(this.x, this.y);
 	}
 }
 
 /* jquery dom */
-window.canvas = (function(){
-	var domCanvas=$("#myCanvas")[0];
-	var I = domCanvas.getContext("2d");
+
+/* #stage */
+window.stage = (function($){
+	var $main = $("#main");
+	var $stage = $("#stage");
+	var dom = $stage[0];
+
+	var I = dom.getContext("2d");
 		I.x = 0;
 		I.y = 0;
-		I.w = 600;
-		I.h = 400;
 		I.setSize = function(w, h){
-			domCanvas.width = this.w = w;
-			domCanvas.height = this.h = h;
-			stage.show(w, h);
+			dom.width = this.w = w || 600;
+			dom.height = this.h = h || 400;
+			$main.animate({
+				"width":w,
+				"height":h,
+				"margin-left":-w/2,
+				"margin-top":-h/2
+			},"fast");
 		}
 		I.update = function() {
 			this.clearRect(0, 0, this.w, this.h);
@@ -66,35 +74,18 @@ window.canvas = (function(){
 				!game.objectPool[i].active && game.objectPool.splice(i, 1);
 			}
 		}
-	return I;
-}());
-
-/* #stage */
-window.stage = (function($){
-	var $stage = $("#stage");
-	var dom = $stage[0];
-	var moving = false;
-	var I = {
-		show: function(w, h){
-			$stage.animate({
-				"width":w,
-				"height":h,
-				"margin-left":-w/2,
-				"margin-top":-h/2
-			},"fast");
-		},
-		bg: function(url){
+		I.bg = function(url){
 			$stage.css({
 				'background':'url("' + url + '")'
 			});
-		},
-		cameraMove: function(x, y){
+		}
+		I.cameraMove = function(x, y){
 			$stage.css({
 				'background-position-x': - x + 'px',
 				'background-position-y': - y + 'px'
 			});
-		},
-		move: function(callback){
+		}
+		I.move = function(callback){
 			var check_mouse;
 			dom.onmousedown = function(e){
 				// var last_time = Date.now();
@@ -111,13 +102,12 @@ window.stage = (function($){
 				clearInterval(check_mouse);
 				dom.onmousemove = null;
 			}
-		},
-		key: function(callback){
+		}
+		I.key = function(callback){
 			document.onkeydown = function(e){
 				callback(e.which);
 			}
 		}
-	};
 	return I;
 }(jQuery));
 
@@ -161,4 +151,4 @@ window.global = (function($){
 }(jQuery));
 
 /* init */
-canvas.setSize(600, 400);
+stage.setSize(600, 400);

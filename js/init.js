@@ -49,7 +49,7 @@ function fps(now) {
 function loop(now) {
 	collide.handle();
 	camera.update();
-	canvas.update(count_objects);
+	stage.update(count_objects);
 	loop_id = requestAnimationFrame(loop);
 	fps(now);
 	game.time = now | 0;
