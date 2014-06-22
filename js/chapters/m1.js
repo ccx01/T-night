@@ -39,11 +39,12 @@ $.when(
 
 		mark.add(500, game.mouse_x, game.mouse_y, game.time, 20, 20);
 	});
-	var cmd_key = {
-		"81": "Qkey",
-		"82": "Wkey"
-	};	//也许以后会用到设置按键功能
-	stage.key(function(keycode){
-		ochi.cmd(cmd_key[keycode]);
+
+	var card = $(".card")[0];
+	var keycode = $(".card").data("key");
+	stage.card(card, function(e){
+		game.mouse_x = e.offsetX + camera.x,
+		game.mouse_y = e.offsetY + camera.y;
+		ochi.cmd(keycode);
 	})
 });

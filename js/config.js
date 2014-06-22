@@ -88,11 +88,8 @@ window.stage = (function($){
 		I.move = function(callback){
 			var check_mouse;
 			dom.onmousedown = function(e){
-				// var last_time = Date.now();
 				dom.onmousemove = function(ev){
 					e = ev;
-					/*console.log(Date.now() - last_time);
-					last_time = Date.now();*/
 				}
 				check_mouse = setInterval(function(){
 					callback(e);
@@ -106,6 +103,13 @@ window.stage = (function($){
 		I.key = function(callback){
 			document.onkeydown = function(e){
 				callback(e.which);
+			}
+		}
+		I.card = function(card, callback){
+			card.onmousedown = function(){
+				dom.onmouseup = function(e){
+					callback(e);
+				}
 			}
 		}
 	return I;
