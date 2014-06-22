@@ -94,21 +94,19 @@ window.stage = (function($){
 				check_mouse = setInterval(function(){
 					callback(e);
 				},10);
-			}
-			document.onmouseup = function(e){
-				clearInterval(check_mouse);
-				dom.onmousemove = null;
-			}
-		}
-		I.key = function(callback){
-			document.onkeydown = function(e){
-				callback(e.which);
+				document.onmouseup = function(e){
+					clearInterval(check_mouse);
+					dom.onmousemove = null;
+				}
 			}
 		}
 		I.card = function(card, callback){
 			card.onmousedown = function(){
 				dom.onmouseup = function(e){
 					callback(e);
+				}
+				document.onmouseup = function(){
+					dom.onmouseup = null;
 				}
 			}
 		}
