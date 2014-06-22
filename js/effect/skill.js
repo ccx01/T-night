@@ -1,0 +1,32 @@
+//技能模版
+var Qkey = model();
+Qkey.sprite = sprite("ui/mark.png", 0, 0, 22, 20, ready);
+Qkey.move = function(){
+	if((this.vx > 0 && this.x > this.dx) || (this.vx < 0 && this.x < this.dx) || (this.vy > 0 && this.y > this.dy) || (this.vy < 0 && this.y < this.dy)){
+		this.active = false;
+	} else {
+		this.x += this.vx;
+		this.y += this.vy;
+	}
+}
+Qkey.update = function() {
+	this.img.ani([
+		[0,0,22,20],
+		[0,20,22,20]
+	],100);
+	this.move();
+	(game.time - this.time > this.age) && (this.active = false);
+}
+Qkey.add = function(age, x, y, dx, dy, time){
+	this.active = true;
+	this.name = "Qkey";
+	this.age = age || 0;
+	this.x = x || 0;
+	this.y = y || 0;
+	this.dx = dx || 0;
+	this.dy = dy || 0;
+	this.vx = (dx - x) * 0.1;
+	this.vy = (dy - y) * 0.1;
+	this.time = game.time || 0;
+	game.objectPool.push(this);
+}
