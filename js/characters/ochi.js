@@ -56,16 +56,17 @@ ochi.skill = (function(){
 		this.move();
 		(game.time - this.time > this.age) && (this.active = false);
 	}
-	Qkey.add = function(age, x, y, dx, dy, time){
+	Qkey.add = function(age, x, y, dx, dy, speed, time){
 		this.active = true;
 		this.name = "Qkey";
 		this.age = age || 0;
 		this.x = x || 0;
 		this.y = y || 0;
 		this.dx = dx || 0;
-		this.dy = dy || 0;
-		this.vx = (dx - x) * 0.1;
-		this.vy = (dy - y) * 0.1;
+		this.dy = dy || 0;		
+		this.angle = Math.atan2(this.dy - this.y, this.dx - this.x);
+		this.vx = Math.cos(this.angle) * speed || 0;
+		this.vy = Math.sin(this.angle) * speed || 0;
 		this.time = game.time || 0;
 		game.objectPool.push(this);
 	}
@@ -87,7 +88,7 @@ ochi.cmd = function(listener) { //cmd drived by the event listener, listener set
 			}
 		break;
 		case "Qkey":
-			this.skill.Qkey.add(1000, this.x, this.y, game.mouse_x, game.mouse_y, game.time, 20, 20);
+			this.skill.Qkey.add(1000, this.x, this.y, game.mouse_x, game.mouse_y, 10, game.time);
 		break;
 	}
 }
