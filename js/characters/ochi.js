@@ -5,20 +5,6 @@ var ochi=model();
 ochi.sprite = sprite("characters/ochi.png", 0, 0, 32, 32, ready);
 
 ochi.name = "ochi";
-/*ochi.img=function(ac){
-	switch(ac){
-		case "walk":
-			this.coordinate([0,64,32,32]);
-			this.animation([
-				[0,0,32,32],
-				[0,32,32,32],
-				[0,64,32,32]
-			],7);
-		break;
-		default:	//stay
-			this.coordinate([0,0,32,32]);
-	}
-}*/
 
 ochi.init = function(hp, speed, x, y, angle){
 	this.type = "character";
@@ -44,6 +30,7 @@ $.ajax({
 })
 .done(function() {
 	ochi.skill.Qkey = Qkey;
+	ochi.skill.Wkey = Wkey;
 });
 
 ochi.cmd = function(listener) { //cmd drived by the event listener, listener set by chapter
@@ -61,6 +48,9 @@ ochi.cmd = function(listener) { //cmd drived by the event listener, listener set
 		break;
 		case "Qkey":
 			this.skill.Qkey.add(1000, this.x, this.y, game.mouse_x, game.mouse_y, 10, game.time);
+		break;
+		case "Wkey":
+			this.skill.Wkey.add(1000, this.x, this.y, game.mouse_x, game.mouse_y, 10, game.time);
 		break;
 	}
 }

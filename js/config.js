@@ -85,29 +85,36 @@ window.stage = (function($){
 				'background-position-y': - y + 'px'
 			});
 		}
+		I.moving = true;
 		I.move = function(callback){
 			var check_mouse;
 			dom.onmousedown = function(e){
-				dom.onmousemove = function(ev){
-					e = ev;
-				}
-				check_mouse = setInterval(function(){
-					callback(e);
-				},10);
-				document.onmouseup = function(e){
-					clearInterval(check_mouse);
-					dom.onmousemove = null;
+				if(I.moving){
+					dom.onmousemove = function(ev){
+						e = ev;
+					}
+					check_mouse = setInterval(function(){
+						callback(e);
+					},10);
+					document.onmouseup = function(e){
+						clearInterval(check_mouse);
+						dom.onmousemove = null;
+					}
 				}
 			}
 		}
 		I.card = function(card, callback){
 			card.onmousedown = function(){
+				I.moving = false;
 				dom.onmouseup = function(e){
 					callback(e);
-				}
-				document.onmouseup = function(){
+					I.moving = true;
 					dom.onmouseup = null;
 				}
+				/*document.onmouseup = function(){
+					I.moving = true;
+					dom.onmouseup = null;
+				}*/
 			}
 		}
 	return I;
