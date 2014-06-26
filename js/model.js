@@ -42,3 +42,46 @@ function model() {
 	}
 	return I;
 }
+/*
+function model() {
+	this.age = 0;
+	this.active = true;
+	this.mode = "stay";
+	//sprite
+	this.x = 0;
+	this.y = 0;
+	this.angle = 0;
+	this.toward = 0;
+	this.sprite = sprite("model.png", 0, 0, 32, 32);
+	//sprite end
+	this.speed = 2;	//speed 将影响 v
+	// v 是即时速度，与speed并非完全对应关系
+	this.vx = 0;
+	this.vy = 0;
+	this.mass = 1;	//质量
+	this.radius = 0;	//半径，碰撞用
+	this.draw = function() {
+		stage.save();
+		stage.translate(this.x-camera.x, this.y-camera.y);
+		stage.rotate(this.toward);
+		this.sprite.draw(stage);
+		this.sprite.stroke(stage, 0, 0, this.radius);
+		stage.restore();
+		this.update();
+	}
+	var _this = this;
+	this.img  = {
+		time: 0,
+		frame: 0,
+		//animation
+		ani: function(arr, during) {
+			//制作特效，需要有动画函数=>Sign
+			if(game.time - this.time > during){
+				this.frame = this.frame < arr.length - 1 ? this.frame + 1 : 0;
+				this.time = game.time;
+				_this.sprite.set(arr[this.frame]);
+			}
+		}
+	}
+}
+*/
