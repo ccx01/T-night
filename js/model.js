@@ -42,8 +42,8 @@ function model() {
 	}
 	return I;
 }
-/*
-function model() {
+
+/*var model = function() {
 	this.age = 0;
 	this.active = true;
 	this.mode = "stay";
@@ -60,28 +60,27 @@ function model() {
 	this.vy = 0;
 	this.mass = 1;	//质量
 	this.radius = 0;	//半径，碰撞用
-	this.draw = function() {
-		stage.save();
-		stage.translate(this.x-camera.x, this.y-camera.y);
-		stage.rotate(this.toward);
-		this.sprite.draw(stage);
-		this.sprite.stroke(stage, 0, 0, this.radius);
-		stage.restore();
-		this.update();
-	}
-	var _this = this;
-	this.img  = {
-		time: 0,
-		frame: 0,
-		//animation
-		ani: function(arr, during) {
-			//制作特效，需要有动画函数=>Sign
-			if(game.time - this.time > during){
-				this.frame = this.frame < arr.length - 1 ? this.frame + 1 : 0;
-				this.time = game.time;
-				_this.sprite.set(arr[this.frame]);
-			}
+}
+model.prototype.draw = function() {
+	stage.save();
+	stage.translate(this.x-camera.x, this.y-camera.y);
+	stage.rotate(this.toward);
+	this.sprite.draw(stage);
+	this.sprite.stroke(stage, 0, 0, this.radius);
+	stage.restore();
+	this.update();
+}
+model.prototype.img  = {
+	_this: this,
+	time: 0,
+	frame: 0,
+	//animation
+	ani: function(arr, during) {
+		//制作特效，需要有动画函数=>Sign
+		if(game.time - this.time > during){
+			this.frame = this.frame < arr.length - 1 ? this.frame + 1 : 0;
+			this.time = game.time;
+			_this.sprite.set(arr[this.frame]);
 		}
 	}
-}
-*/
+}*/
