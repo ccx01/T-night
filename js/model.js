@@ -1,21 +1,21 @@
 function model(cfg) {
-	var I = {};
-	I.active = cfg.active || true;
-	I.age = cfg.age || 0;
-	I.mode = cfg.mode || "stay";
+	var I = cfg || {};
+	I.active = I.active || true;
+	I.age = I.age || 0;
+	I.mode = I.mode || "stay";
 	//sprite
-	I.x = cfg.x || 0;
-	I.y = cfg.y || 0;
-	I.angle = cfg.angle || 0;
-	I.toward = cfg.toward || 0;
-	I.sprite = cfg.sprite || sprite("model.png", 0, 0, 32, 32);
+	I.x = I.x || 0;
+	I.y = I.y || 0;
+	I.angle = I.angle || 0;
+	I.toward = I.toward || 0;
+	I.sprite = I.sprite || sprite("model.png", 0, 0, 32, 32);
 	//sprite end
-	I.speed = cfg.speed || 2;	//speed 将影响 v
+	I.speed = I.speed || 2;	//speed 将影响 v
 	// v 是即时速度，与speed并非完全对应关系
-	I.vx = cfg.vx || 0;
-	I.vy = cfg.vy || 0;
-	I.mass = cfg.mass || 1;	//质量
-	I.radius = cfg.radius || 0;	//半径，碰撞用
+	I.vx = I.vx || 0;
+	I.vy = I.vy || 0;
+	I.mass = I.mass || 1;	//质量
+	I.radius = I.radius || 0;	//半径，碰撞用
 	I.draw = function() {
 		stage.save();
 		stage.translate(this.x-camera.x, this.y-camera.y);
