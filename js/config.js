@@ -90,7 +90,6 @@ window.stage = (function($){
 			});
 		}
 		//pending
-		I.moving = true;
 		I.move = function(callback){
 			var check_mouse;
 			dom_stage.onmousedown = function(e){
@@ -100,35 +99,20 @@ window.stage = (function($){
 				ges.lineWidth = 1;
 				ges.lineCap = 'round';
 				ges.lineJoin = 'round';
-				if(I.moving){
-					dom_stage.onmousemove = function(ev){
-						e = ev;
-					}
-					check_mouse = setInterval(function(){
-						ges.lineTo(e.offsetX, e.offsetY);
-						ges.stroke();
-					}, 10);
-					document.onmouseup = function(ev){
-						callback(e);
-						clearInterval(check_mouse);
-						ges.clearRect(0, 0, ges.w, ges.h);
-						dom_stage.onmousemove = null;
-					}
+				dom_stage.onmousemove = function(ev){
+					e = ev;
 				}
-			}
-		}
-		I.card = function(card, callback){
-			card.onmousedown = function(){
-				I.moving = false;
-				dom_stage.onmouseup = function(e){
+				check_mouse = setInterval(function(){
+					ges.lineTo(e.offsetX, e.offsetY);
+					ges.stroke();
+				}, 10);
+				document.onmouseup = function(ev){
 					callback(e);
-					I.moving = true;
-					dom_stage.onmouseup = null;
+					clearInterval(check_mouse);
+					ges.clearRect(0, 0, ges.w, ges.h);
+					dom_stage.onmousemove = null;
+					document.onmouseup = null;
 				}
-				/*document.onmouseup = function(){
-					I.moving = true;
-					dom_stage.onmouseup = null;
-				}*/
 			}
 		}
 	return I;

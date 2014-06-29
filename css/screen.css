@@ -23,6 +23,7 @@ div{
 	position: absolute;
 }
 #stage {
+	z-index: 9;
 	display: none;
 }
 

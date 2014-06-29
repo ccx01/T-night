@@ -39,14 +39,4 @@ $.when(
 
 		mark.add(500, game.mouse_x, game.mouse_y, game.time, 20, 20);
 	});
-
-	$(".card").each(function(){
-		var card = $(this)[0];
-		var keycode = $(this).data("key");
-		stage.card(card, function(e){
-			game.mouse_x = e.offsetX + camera.x,
-			game.mouse_y = e.offsetY + camera.y;
-			ochi.cmd(keycode);
-		});
-	});
 });
