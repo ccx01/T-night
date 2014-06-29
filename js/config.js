@@ -47,14 +47,18 @@ window.camera = {
 window.stage = (function($){
 	var $main = $("#main");
 	var $stage = $("#stage");
-	var dom = $stage[0];
+	var dom_stage = $stage[0];
 
-	var I = dom.getContext("2d");
+	var $gesture = $("#gesture");
+	var dom_gesture = $gesture[0];
+	var ges = dom_gesture.getContext("2d");
+
+	var I = dom_stage.getContext("2d");
 		I.x = 0;
 		I.y = 0;
 		I.setSize = function(w, h){
-			dom.width = this.w = w || 600;
-			dom.height = this.h = h || 400;
+			dom_stage.width = this.w = dom_gesture.width = ges.w = w || 600;
+			dom_stage.height = this.h = dom_gesture.height = ges.h = h || 400;
 			$main.animate({
 				"width":w,
 				"height":h,
@@ -85,20 +89,30 @@ window.stage = (function($){
 				'background-position-y': - y + 'px'
 			});
 		}
+		//pending
 		I.moving = true;
 		I.move = function(callback){
 			var check_mouse;
-			dom.onmousedown = function(e){
+			dom_stage.onmousedown = function(e){
+				ges.beginPath();
+				ges.moveTo(e.offsetX, e.offsetY);
+				ges.strokeStyle = "rgb(0,0,0)";
+				ges.lineWidth = 1;
+				ges.lineCap = 'round';
+				ges.lineJoin = 'round';
 				if(I.moving){
-					dom.onmousemove = function(ev){
+					dom_stage.onmousemove = function(ev){
 						e = ev;
 					}
 					check_mouse = setInterval(function(){
+						ges.lineTo(e.offsetX, e.offsetY);
+						ges.stroke();
+					}, 10);
+					document.onmouseup = function(ev){
 						callback(e);
-					},10);
-					document.onmouseup = function(e){
 						clearInterval(check_mouse);
-						dom.onmousemove = null;
+						ges.clearRect(0, 0, ges.w, ges.h);
+						dom_stage.onmousemove = null;
 					}
 				}
 			}
@@ -106,14 +120,14 @@ window.stage = (function($){
 		I.card = function(card, callback){
 			card.onmousedown = function(){
 				I.moving = false;
-				dom.onmouseup = function(e){
+				dom_stage.onmouseup = function(e){
 					callback(e);
 					I.moving = true;
-					dom.onmouseup = null;
+					dom_stage.onmouseup = null;
 				}
 				/*document.onmouseup = function(){
 					I.moving = true;
-					dom.onmouseup = null;
+					dom_stage.onmouseup = null;
 				}*/
 			}
 		}

@@ -18,6 +18,10 @@ div{
 	left: 50%;
 	border: 1px solid #bbb;
 }
+#stage,
+#gesture {
+	position: absolute;
+}
 #stage {
 	display: none;
 }
