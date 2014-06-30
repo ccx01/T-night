@@ -32,10 +32,10 @@ $.when(
 		dataType: "script"
 	})
 ).done(function(data){
-	stage.move(function(e){
+	stage.move(function(e, cmd){
 		game.mouse_x = e.offsetX + camera.x,
 		game.mouse_y = e.offsetY + camera.y;
-		ochi.cmd("walk");
+		ochi.cmd(cmd);
 
 		mark.add(500, game.mouse_x, game.mouse_y, game.time, 20, 20);
 	});
