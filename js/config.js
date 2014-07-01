@@ -94,22 +94,17 @@ window.stage = (function($){
 			var check_mouse;
 			dom_stage.onmousedown = function(e){
 				ges.beginPath();
-				/*ges.moveTo(e.offsetX, e.offsetY);
-				ges.strokeStyle = "rgb(0,0,0)";
-				ges.lineWidth = 1;
-				ges.lineCap = 'round';
-				ges.lineJoin = 'round';*/
-				var radius = 15;
+				/*var radius = 15;
 				var dis = 100;
 				ges.moveTo(e.offsetX - dis + radius, e.offsetY);
-				ges.arc(e.offsetX - dis, e.offsetY, radius, 0, Math.PI*2);ges.closePath();
+				ges.arc(e.offsetX - dis, e.offsetY, radius, 0, Math.PI*2);
 				ges.moveTo(e.offsetX + radius, e.offsetY - dis);
-				ges.arc(e.offsetX, e.offsetY - dis, radius, 0, Math.PI*2);ges.closePath();
+				ges.arc(e.offsetX, e.offsetY - dis, radius, 0, Math.PI*2);
 				ges.moveTo(e.offsetX + dis + radius, e.offsetY);
-				ges.arc(e.offsetX + dis, e.offsetY, radius, 0, Math.PI*2);ges.closePath();
+				ges.arc(e.offsetX + dis, e.offsetY, radius, 0, Math.PI*2);
 				ges.moveTo(e.offsetX + radius, e.offsetY + dis);
-				ges.arc(e.offsetX, e.offsetY + dis, radius, 0, Math.PI*2);ges.closePath();
-				ges.moveTo(e.offsetX, e.offsetY);
+				ges.arc(e.offsetX, e.offsetY + dis, radius, 0, Math.PI*2);
+				ges.moveTo(e.offsetX, e.offsetY);*/
 
 				dom_stage.onmousemove = function(ev){
 					e = ev;
