@@ -103,8 +103,9 @@ window.stage = (function($){
 			return "";
 		}
 		function gesture(quad){
-			var rex = /123|234|341|412|432|321|214|143|23|32|24|42|12|21|13|31|14|41/;
-			var q = quad.match(rex);
+			var rex = /123|234|341|412|432|321|214|143|232|323|242|424|121|212|131|313|141|414/;
+
+			var q = quad.slice(-4).match(rex);
 				q = q ? q[0] : "0";
 			switch(q){
 				case "123":
@@ -119,16 +120,16 @@ window.stage = (function($){
 				case "143":
 					console.log("顺时针");
 					break;
-				case "23":
-				case "32":
-				case "24":
-				case "42":
-				case "12":
-				case "21":
-				case "13":
-				case "31":
-				case "14":
-				case "41":
+				case "232":
+				case "323":
+				case "242":
+				case "424":
+				case "121":
+				case "212":
+				case "131":
+				case "313":
+				case "141":
+				case "414":
 					console.log("切割");
 					break;
 				default:
