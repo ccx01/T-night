@@ -90,31 +90,84 @@ window.stage = (function($){
 			});
 		}
 		//pending
+		function quadMouse(o, e, r){
+			/***
+			o: 象限中心
+			e: 鼠标位置
+			r: 敏感范围
+			***/
+			if(e.offsetX - o.offsetX > r && e.offsetY - o.offsetY > r) return 4;
+			if(o.offsetX - e.offsetX > r && e.offsetY - o.offsetY > r) return 3;
+			if(o.offsetX - e.offsetX > r && o.offsetY - e.offsetY > r) return 2;
+			if(e.offsetX - o.offsetX > r && o.offsetY - e.offsetY > r) return 1;
+			return "";
+		}
+		function gesture(quad){
+			var rex = /123|234|341|412|432|321|214|143|23|32|24|42|12|21|13|31|14|41/;
+			var q = quad.match(rex);
+				q = q ? q[0] : "0";
+			switch(q){
+				case "123":
+				case "234":
+				case "341":
+				case "412":
+					console.log("逆时针");
+					break;
+				case "432":
+				case "321":
+				case "214":
+				case "143":
+					console.log("顺时针");
+					break;
+				case "23":
+				case "32":
+				case "24":
+				case "42":
+				case "12":
+				case "21":
+				case "13":
+				case "31":
+				case "14":
+				case "41":
+					console.log("切割");
+					break;
+				default:
+					//默认为行走
+					console.log("无手势");
+			}
+			// quad.match();
+		}
 		I.move = function(callback){
 			var check_mouse;
 			dom_stage.onmousedown = function(e){
 				ges.beginPath();
-				/*var radius = 15;
-				var dis = 100;
-				ges.moveTo(e.offsetX - dis + radius, e.offsetY);
-				ges.arc(e.offsetX - dis, e.offsetY, radius, 0, Math.PI*2);
-				ges.moveTo(e.offsetX + radius, e.offsetY - dis);
-				ges.arc(e.offsetX, e.offsetY - dis, radius, 0, Math.PI*2);
-				ges.moveTo(e.offsetX + dis + radius, e.offsetY);
-				ges.arc(e.offsetX + dis, e.offsetY, radius, 0, Math.PI*2);
-				ges.moveTo(e.offsetX + radius, e.offsetY + dis);
-				ges.arc(e.offsetX, e.offsetY + dis, radius, 0, Math.PI*2);
-				ges.moveTo(e.offsetX, e.offsetY);*/
+				var o = e;
+				var quad = "";
+				//上一次象限
+				var quad_l = "";
+				//当前象限
+				var quad_c = "";
+				//敏感度
+				var sens = 15;
 
 				dom_stage.onmousemove = function(ev){
 					e = ev;
 				}
 				check_mouse = setInterval(function(){
+					quad_c = quadMouse(o, e, sens);
+					if(quad_c){
+						if(quad_c != quad_l){
+							quad += quad_c;
+							quad_l = quad_c;
+						}
+						o = e;
+					}
 					ges.lineTo(e.offsetX, e.offsetY);
 					ges.stroke();
 				}, 10);
 				var cmd = "walk";
 				document.onmouseup = function(ev){
+					gesture(quad);
 					callback(e, cmd);
 					clearInterval(check_mouse);
 					ges.clearRect(0, 0, ges.w, ges.h);
