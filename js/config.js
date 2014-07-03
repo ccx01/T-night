@@ -96,29 +96,32 @@ window.stage = (function($){
 			e: 鼠标位置
 			r: 敏感范围
 			***/
-			if(e.offsetX - o.offsetX > r && e.offsetY - o.offsetY > r) return 4;
-			if(o.offsetX - e.offsetX > r && e.offsetY - o.offsetY > r) return 3;
-			if(o.offsetX - e.offsetX > r && o.offsetY - e.offsetY > r) return 2;
-			if(e.offsetX - o.offsetX > r && o.offsetY - e.offsetY > r) return 1;
+			if(e.offsetX - o.offsetX > r && e.offsetY - o.offsetY > r) return "4";
+			if(o.offsetX - e.offsetX > r && e.offsetY - o.offsetY > r) return "3";
+			if(o.offsetX - e.offsetX > r && o.offsetY - e.offsetY > r) return "2";
+			if(e.offsetX - o.offsetX > r && o.offsetY - e.offsetY > r) return "1";
 			return "";
 		}
 		function gesture(quad){
-			var rex = /123|234|341|412|432|321|214|143|232|323|242|424|121|212|131|313|141|414/;
-
-			var q = quad.slice(-4).match(rex);
+			var rex = /123|234|341|412|432|321|214|143|232|323|242|424|121|212|131|313|141|414|4|3|2|1/;
+			//反转，优先匹配最后的手势
+			quad = quad.slice(-10).split("").reverse().join("");
+			var q = quad.match(rex);
 				q = q ? q[0] : "0";
 			switch(q){
 				case "123":
 				case "234":
 				case "341":
 				case "412":
-					console.log("逆时针");
+					console.log("顺时针");
+					return "Wkey";
 					break;
 				case "432":
 				case "321":
 				case "214":
 				case "143":
-					console.log("顺时针");
+					console.log("逆时针");
+					return "Ekey";
 					break;
 				case "232":
 				case "323":
@@ -131,12 +134,20 @@ window.stage = (function($){
 				case "141":
 				case "414":
 					console.log("切割");
+					return "Rkey";
+					break;
+				case "4":
+				case "3":
+				case "2":
+				case "1":
+					console.log("直线");
+					return "Qkey";
 					break;
 				default:
 					//默认为行走
 					console.log("无手势");
+					return "walk";
 			}
-			// quad.match();
 		}
 		I.move = function(callback){
 			var check_mouse;
@@ -166,9 +177,8 @@ window.stage = (function($){
 					ges.lineTo(e.offsetX, e.offsetY);
 					ges.stroke();
 				}, 10);
-				var cmd = "walk";
 				document.onmouseup = function(ev){
-					gesture(quad);
+					var cmd = gesture(quad);
 					callback(e, cmd);
 					clearInterval(check_mouse);
 					ges.clearRect(0, 0, ges.w, ges.h);
