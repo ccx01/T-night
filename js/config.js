@@ -108,6 +108,7 @@ window.stage = (function($){
 			quad = quad.slice(-10).split("").reverse().join("");
 			var q = quad.match(rex);
 				q = q ? q[0] : "0";
+				
 			//添加2圈 3圈手势？ => Sign?
 			switch(q){
 				case "123":
