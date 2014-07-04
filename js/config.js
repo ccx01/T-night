@@ -90,7 +90,7 @@ window.stage = (function($){
 			});
 		}
 		//pending
-		function quadMouse(o, e, r){
+		I.quadMouse = function(o, e, r){
 			/***
 			o: 象限中心
 			e: 鼠标位置
@@ -102,7 +102,7 @@ window.stage = (function($){
 			if(e.offsetX - o.offsetX > r && o.offsetY - e.offsetY > r) return "1";
 			return "";
 		}
-		function gesture(quad){
+		I.gesture = function(quad){
 			var rex = /123|234|341|412|432|321|214|143|232|323|242|424|121|212|131|313|141|414|4|3|2|1/;
 			//反转，优先匹配最后的手势
 			quad = quad.slice(-10).split("").reverse().join("");
@@ -167,7 +167,7 @@ window.stage = (function($){
 					e = ev;
 				}
 				check_mouse = setInterval(function(){
-					quad_c = quadMouse(o, e, sens);
+					quad_c = I.quadMouse(o, e, sens);
 					if(quad_c){
 						if(quad_c != quad_l){
 							quad += quad_c;
@@ -180,7 +180,7 @@ window.stage = (function($){
 					ges.stroke();
 				}, 10);
 				document.onmouseup = function(ev){
-					var cmd = gesture(quad);
+					var cmd = I.gesture(quad);
 					callback(e, cmd);
 					clearInterval(check_mouse);
 					ges.clearRect(0, 0, ges.w, ges.h);
