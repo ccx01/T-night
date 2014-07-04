@@ -108,7 +108,6 @@ window.stage = (function($){
 			quad = quad.slice(-10).split("").reverse().join("");
 			var q = quad.match(rex);
 				q = q ? q[0] : "0";
-				
 			//添加2圈 3圈手势？ => Sign?
 			switch(q){
 				case "123":
@@ -173,6 +172,7 @@ window.stage = (function($){
 						if(quad_c != quad_l){
 							quad += quad_c;
 							quad_l = quad_c;
+							mark.add(500, e.offsetX + camera.x, e.offsetY + camera.y, game.time, 20, 20);
 						}
 						o = e;
 					}
