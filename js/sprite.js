@@ -5,6 +5,7 @@
 			img.src = "img/" + name;
 			img.onload = function() {
 				callback&&callback();
+				img.onload = null;
 			}
 		var I = {
 			img: img,
