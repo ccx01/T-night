@@ -23,15 +23,14 @@ ochi.init = function(hp, speed, x, y, angle){
 }
 
 ochi.skill = {}
-$.ajax({
-	url: "js/effect/skill.js",
-	async: false,
-	dataType: 'script'
-})
-.done(function() {
-	ochi.skill.Qkey = Qkey;
-	ochi.skill.Wkey = Wkey;
-});
+
+module.require([{
+		"name": "skill",
+		"url": "js/effect/skill.js"
+	}], function(obj){
+		ochi.skill.Qkey = obj.skill.Qkey;
+		ochi.skill.Wkey = obj.skill.Wkey;
+	});
 
 ochi.cmd = function(listener) { //cmd drived by the event listener, listener set by chapter
 	switch(listener){
