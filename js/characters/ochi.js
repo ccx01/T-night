@@ -24,12 +24,12 @@ ochi.init = function(hp, speed, x, y, angle){
 
 ochi.skill = {}
 
-module.require([{
+module.load([{
 		"name": "skill",
 		"url": "js/effect/skill.js"
-	}], function(obj){
-		ochi.skill.Qkey = obj.skill.Qkey;
-		ochi.skill.Wkey = obj.skill.Wkey;
+	}], function(mod){
+		ochi.skill.Qkey = mod.skill.Qkey;
+		ochi.skill.Wkey = mod.skill.Wkey;
 	});
 
 ochi.cmd = function(listener) { //cmd drived by the event listener, listener set by chapter
