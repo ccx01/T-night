@@ -13,11 +13,12 @@ function gotoChapter(chapter) {
 
 	load.start();
 
-	$.ajax({
-		url: "js/chapters/" + chapter + ".js",
-		dataType: "script"
-	}).done(function() {
+	module.load([{
+		"name": chapter,
+		"url": "js/chapters/" + chapter + ".js"
+	}],function(mod) {
 		count_objects = game.objectPool.length;
+		console.log("count",count_objects,game.objectPool)
 	});
 }
 
@@ -27,6 +28,7 @@ function ready() {
 	if (loaded == count_objects) {
 		start();
 	};
+	console.log(loaded,count_objects)
 }
 
 function start() {

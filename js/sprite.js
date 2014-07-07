@@ -4,7 +4,7 @@
 		var img = new Image();
 			img.src = "img/" + name;
 			img.onload = function() {
-				callback&&callback();
+				callback && callback();
 				img.onload = null;
 			}
 		var I = {

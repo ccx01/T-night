@@ -4,40 +4,40 @@
 (function(){
 
 	var module = (function(){
-		var total_mod = {};
 		var I = {};
-		I.add = function(name, obj){
-			total_mod[name] = obj;
-		}
-		I.load = function(mods, callback){
-			var loaded_mod = {};
-			var loaded_num = 0;
-			var loaded = function() {
+			I.mod = {};
+			I.add = function(name, obj){
+				I.mod[name] = obj;
+			}
+			I.load = function(mods, callback){
+				var loaded_num = 0;
+				var loaded_mod = {};
+				var loaded = function() {
+					var name = this.name;
 					loaded_num++;
-					loaded_mod[name] = total_mod[name];
+					loaded_mod[name] = I.mod[name];
 					if(loaded_num == mods.length){
 						callback && callback(loaded_mod);
 						this.onload = null;
 					}
 				}
-			for (var i = 0, len = mods.length; i < len; i++) {
-				var name = mods[i].name;
-				var url = mods[i].url;
+				for (var i = 0, len = mods.length; i < len; i++) {
+					var name = mods[i].name;
+					var url = mods[i].url;
+					if(I.mod[name]){
+						loaded();
+						continue;
+					}else{
+						var head = document.getElementsByTagName("head")[0];
+						var node = document.createElement("script");
+							node.src = url;
+							node.name = name;
 
-				if(total_mod[name]){
-					loaded();
-					continue;
+						head.appendChild(node);
+						node.onload = loaded;
+					}
 				}
-
-				var head = document.getElementsByTagName("head")[0];
-				var node = document.createElement("script");
-					node.src = url;
-
-				head.appendChild(node);
-
-				node.onload = loaded;
 			}
-		}
 		return I;
 	}());
 

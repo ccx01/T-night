@@ -72,5 +72,5 @@
 		"Wkey": Wkey
 	}
 
-	module.load("skill", skill);
+	module.add("skill", skill);
 }());

@@ -172,7 +172,7 @@ window.stage = (function($){
 						if(quad_c != quad_l){
 							quad += quad_c;
 							quad_l = quad_c;
-							mark.add(500, e.offsetX + camera.x, e.offsetY + camera.y, game.time, 20, 20);
+							// mark.add(500, e.offsetX + camera.x, e.offsetY + camera.y, game.time, 20, 20);
 						}
 						o = e;
 					}
