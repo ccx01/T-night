@@ -22,16 +22,17 @@ function gotoChapter(chapter) {
 	});
 }
 
-function ready() {
-	loaded++;
-	load.ing(loaded, count_objects);
-	if (loaded == count_objects) {
+function ready(loaded, total) {
+	load.ing(loaded, total);
+	if (loaded == total) {
 		start();
 	};
-	console.log(loaded,count_objects)
+	console.log(loaded,total)
 }
 
 function start() {
+	// prevent loading many times
+	loop_id && cancelAnimationFrame(loop_id);
 	loop_id = requestAnimationFrame(loop);
 	load.end();
 }

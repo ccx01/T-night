@@ -1,10 +1,14 @@
 (function() {
+	var loaded = 0;
+	var total = 0;
 
-	window.sprite = function(name, sourceX, sourceY, width, height, callback) {
+	var sprite = function(name, sourceX, sourceY, width, height, callback) {
+		total++;
 		var img = new Image();
 			img.src = "img/" + name;
 			img.onload = function() {
-				callback && callback();
+				loaded++;
+				callback && callback(loaded, total);
 				img.onload = null;
 			}
 		var I = {
@@ -36,8 +40,10 @@
 				stage.arc(x, y, radius, 0, Math.PI*2); 
 				stage.stroke();
 			}
-		};
+		}
 		return I;
 	};
+
+	window.sprite = sprite;
 	
 }());
