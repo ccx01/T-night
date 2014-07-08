@@ -1,4 +1,17 @@
 /* init */
+var model,collide;
+	module.load([{
+		"name": "model",
+		"url": "js/characters/model.js"
+	},{
+		"name": "collide",
+		"url": "js/collide.js"
+	}], function(mod){
+	// console.log(module.mod)
+		console.log(mod)
+		model = module.mod.model,collide = module.mod.collide;
+	}());
+
 var loaded;
 var count_objects = 0;
 var loop_id;
@@ -16,10 +29,7 @@ function gotoChapter(chapter) {
 	module.load([{
 		"name": chapter,
 		"url": "js/chapters/" + chapter + ".js"
-	}],function(mod) {
-		count_objects = game.objectPool.length;
-		console.log("count",count_objects,game.objectPool)
-	});
+	}]);
 }
 
 function ready(loaded, total) {
@@ -27,7 +37,6 @@ function ready(loaded, total) {
 	if (loaded == total) {
 		start();
 	};
-	console.log(loaded,total)
 }
 
 function start() {
