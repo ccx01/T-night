@@ -7,10 +7,9 @@ var model,collide;
 		"name": "collide",
 		"url": "js/collide.js"
 	}], function(mod){
-	// console.log(module.mod)
-		console.log(mod)
-		model = module.mod.model,collide = module.mod.collide;
-	}());
+		model = mod.model;
+		collide = mod.collide;
+	});
 
 var loaded;
 var count_objects = 0;

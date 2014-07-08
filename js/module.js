@@ -12,28 +12,20 @@
 			I.load = function(mods, callback){
 				var loaded_num = 0;
 				var loaded_mod = {};
-				/*var loaded = function(name,callbak) {
+				var loaded = function(name) {
 					name = this.name || name;
 					loaded_num++;
 					loaded_mod[name] = I.mod[name];
-					console.log(callback)
 					if(loaded_num == mods.length){
 						callback && callback(loaded_mod);
-						(this != window) && (this.onload = null);
+						this.onload = null;
 					}
-				}*/
-				console.log(mods,callback)
+				}
 				for (var i = 0, len = mods.length; i < len; i++) {
 					var name = mods[i].name;
 					var url = mods[i].url;
 					if(I.mod[name]){
-						loaded_num++;
-						loaded_mod[name] = I.mod[name];
-						console.log(callback)
-						if(loaded_num == mods.length){
-							callback && callback(loaded_mod);
-							(this != window) && (this.onload = null);
-						}
+						loaded(name);
 						continue;
 					}else{
 						var head = document.getElementsByTagName("head")[0];
@@ -42,16 +34,7 @@
 							node.name = name;
 
 						head.appendChild(node);
-						node.onload = function(name,callbak) {
-							name = this.name || name;
-							loaded_num++;
-							loaded_mod[name] = I.mod[name];
-							console.log(callback)
-							if(loaded_num == mods.length){
-								callback && callback(loaded_mod);
-								(this != window) && (this.onload = null);
-							}
-						}
+						node.onload = loaded;
 					}
 				}
 			}
