@@ -17,12 +17,12 @@
 			ochi.init(5, 5, 200, 300, 0);
 			ochi1.init(5, 5, 300, 300, 0);
 			// ochi cmd 需要设个初始函数
-			$("#player").addClass("ochi");
+			/*$("#player").addClass("ochi");
 
 			$(".ochi .avatar img").attr("src","img/avatar/ochi/p1.png")
 			$(".ochi .hp div").animate({
 			    "width": "100%"
-			});
+			});*/
 			camera.center=ochi;
 			stage.move(function(e, cmd){
 				game.mouse_x = e.offsetX + camera.x,

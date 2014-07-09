@@ -2,7 +2,7 @@
 var model,collide;
 	module.load([{
 		"name": "model",
-		"url": "js/characters/model.js"
+		"url": "js/model.js"
 	},{
 		"name": "collide",
 		"url": "js/collide.js"
