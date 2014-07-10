@@ -44,6 +44,6 @@
 		return I;
 	};
 
-	window.sprite = sprite;
+	module.add("sprite", sprite);
 	
 }());
