@@ -18,14 +18,14 @@
 		I.mass = I.mass || 1;	//质量
 		I.radius = I.radius || 0;	//半径，碰撞用
 		I.draw = function() {
-			stage.save();
-			stage.translate(this.x - game.camera.x, this.y - game.camera.y);
-			stage.rotate(this.toward);
-			this.sprite.draw(stage);
+			game.stage.save();
+			game.stage.translate(this.x - game.camera.x, this.y - game.camera.y);
+			game.stage.rotate(this.toward);
+			this.sprite.draw(game.stage);
 			/* OBB stroke */
-			this.sprite.stroke(stage, 0, 0, this.radius);
+			this.sprite.stroke(game.stage, 0, 0, this.radius);
 			/* OBB stroke end */
-			stage.restore();
+			game.stage.restore();
 			this.update();
 		}
 		I.img  = {

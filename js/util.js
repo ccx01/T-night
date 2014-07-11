@@ -1,5 +1,5 @@
 /*****************
-some support function
+base function
 *****************/
 (function(){
 
@@ -21,54 +21,7 @@ some support function
 		};
 	}());
 
-	var game = {
-		objectPool: [],
-		collidePool: [],
-		mouse_x: 0,
-		mouse_y: 0,
-		time: 0
-	}
-	game.map = {
-		w: 600,
-		h: 400,
-		init: function(url, w, h){
-			stage.bg(url);
-			this.w = w;
-			this.h = h;
-		}
-	}
-	window.game = game;
-	game.camera = {
-		x:0,
-		y:0,
-		center:game.map,
-		update:function(){
-			/*******camera*******/
-			this.x = this.center.x - stage.w / 2;	//lock the camera
-			this.y = this.center.y - stage.h / 2;
-			this.x = this.x.clamp(0, game.map.w - stage.w);
-			this.y = this.y.clamp(0, game.map.h - stage.h);
-			stage.cameraMove(this.x, this.y);
-		}
-	}
-
-	/* jquery dom */
-
-	/* #stage */
-	var ani = function(obj, prop, cur, tar, incr){
-		obj.style[prop] = cur + "px";
-		if(incr < 0 && cur > tar){
-			cur = (cur + incr) > tar ? (cur + incr) : tar;
-			setTimeout(function(){
-				ani(obj, prop, cur, tar, incr);
-			}, 10)
-		}else if(incr > 0 && cur < tar){
-			cur = (cur + incr) < tar ? (cur + incr) : tar;
-			setTimeout(function(){
-				ani(obj, prop, cur, tar, incr);
-			}, 10)
-		}
-	}
+	/* simulate jquery dom */
 	var $ = function(selector){
 		var I = document.querySelector(selector);
 			I.html = function(code){
@@ -94,7 +47,82 @@ some support function
 			}
 			return I;
 	}
-	window.stage = (function(){
+	var ani = function(obj, prop, cur, tar, incr){
+		obj.style[prop] = cur + "px";
+		if(incr < 0 && cur > tar){
+			cur = (cur + incr) > tar ? (cur + incr) : tar;
+			setTimeout(function(){
+				ani(obj, prop, cur, tar, incr);
+			}, 10)
+		}else if(incr > 0 && cur < tar){
+			cur = (cur + incr) < tar ? (cur + incr) : tar;
+			setTimeout(function(){
+				ani(obj, prop, cur, tar, incr);
+			}, 10)
+		}
+	}
+	var quadMouse = function(o, e, r){
+		/***
+		o: 象限中心
+		e: 鼠标位置
+		r: 敏感范围
+		***/
+		if(e.offsetX - o.offsetX > r && e.offsetY - o.offsetY > r) return "4";
+		if(o.offsetX - e.offsetX > r && e.offsetY - o.offsetY > r) return "3";
+		if(o.offsetX - e.offsetX > r && o.offsetY - e.offsetY > r) return "2";
+		if(e.offsetX - o.offsetX > r && o.offsetY - e.offsetY > r) return "1";
+		return "";
+	}
+	var gesture = function(quad){
+		var rex = /123|234|341|412|432|321|214|143|232|323|242|424|121|212|131|313|141|414|4|3|2|1/;
+		//反转，优先匹配最后的手势
+		quad = quad.slice(-10).split("").reverse().join("");
+		var q = quad.match(rex);
+			q = q ? q[0] : "0";
+		//添加2圈 3圈手势？ => Sign?
+		switch(q){
+			case "123":
+			case "234":
+			case "341":
+			case "412":
+				console.log("顺时针");
+				return "Wkey";
+				break;
+			case "432":
+			case "321":
+			case "214":
+			case "143":
+				console.log("逆时针");
+				return "Ekey";
+				break;
+			case "232":
+			case "323":
+			case "242":
+			case "424":
+			case "121":
+			case "212":
+			case "131":
+			case "313":
+			case "141":
+			case "414":
+				console.log("切割");
+				return "Rkey";
+				break;
+			case "4":
+			case "3":
+			case "2":
+			case "1":
+				console.log("直线");
+				return "Qkey";
+				break;
+			default:
+				//默认为行走
+				console.log("无手势");
+				return "walk";
+		}
+	}
+
+	var stage = function(){
 		var $main = $("#main");
 		var $stage = $("#stage");
 		var $gesture = $("#gesture");
@@ -121,7 +149,7 @@ some support function
 					if(!game.objectPool[i]){
 						continue;
 					}
-					game.objectPool[i].draw();
+					game.objectPool[i].draw(game.stage);
 					!game.objectPool[i].active && game.objectPool.splice(i, 1);
 				}
 			}
@@ -136,111 +164,55 @@ some support function
 					'background-position-y': - y + 'px'
 				});
 			}
-			//pending
-			I.quadMouse = function(o, e, r){
-				/***
-				o: 象限中心
-				e: 鼠标位置
-				r: 敏感范围
-				***/
-				if(e.offsetX - o.offsetX > r && e.offsetY - o.offsetY > r) return "4";
-				if(o.offsetX - e.offsetX > r && e.offsetY - o.offsetY > r) return "3";
-				if(o.offsetX - e.offsetX > r && o.offsetY - e.offsetY > r) return "2";
-				if(e.offsetX - o.offsetX > r && o.offsetY - e.offsetY > r) return "1";
-				return "";
-			}
-			I.gesture = function(quad){
-				var rex = /123|234|341|412|432|321|214|143|232|323|242|424|121|212|131|313|141|414|4|3|2|1/;
-				//反转，优先匹配最后的手势
-				quad = quad.slice(-10).split("").reverse().join("");
-				var q = quad.match(rex);
-					q = q ? q[0] : "0";
-				//添加2圈 3圈手势？ => Sign?
-				switch(q){
-					case "123":
-					case "234":
-					case "341":
-					case "412":
-						console.log("顺时针");
-						return "Wkey";
-						break;
-					case "432":
-					case "321":
-					case "214":
-					case "143":
-						console.log("逆时针");
-						return "Ekey";
-						break;
-					case "232":
-					case "323":
-					case "242":
-					case "424":
-					case "121":
-					case "212":
-					case "131":
-					case "313":
-					case "141":
-					case "414":
-						console.log("切割");
-						return "Rkey";
-						break;
-					case "4":
-					case "3":
-					case "2":
-					case "1":
-						console.log("直线");
-						return "Qkey";
-						break;
-					default:
-						//默认为行走
-						console.log("无手势");
-						return "walk";
-				}
-			}
-			I.move = function(callback){
-				var check_mouse;
-				$stage.onmousedown = function(e){
-					ges.beginPath();
-					var o = e;
-					var quad = "";
-					//上一次象限
-					var quad_l = "";
-					//当前象限
-					var quad_c = "";
-					//敏感度
-					var sens = 15;
-
-					$stage.onmousemove = function(ev){
-						e = ev;
-					}
-					check_mouse = setInterval(function(){
-						quad_c = I.quadMouse(o, e, sens);
-						if(quad_c){
-							if(quad_c != quad_l){
-								quad += quad_c;
-								quad_l = quad_c;
-								// mark.add(500, e.offsetX + camera.x, e.offsetY + camera.y, game.time, 20, 20);
-							}
-							o = e;
-						}
-						ges.lineTo(e.offsetX, e.offsetY);
-						ges.stroke();
-					}, 10);
-					document.onmouseup = function(ev){
-						var cmd = I.gesture(quad);
-						callback(e, cmd);
-						clearInterval(check_mouse);
-						ges.clearRect(0, 0, ges.w, ges.h);
-						$stage.onmousemove = null;
-						document.onmouseup = null;
-					}
-				}
-			}
 		return I;
-	}());
+	}
 
+	var cmd = function(){
+		var $gesture = $("#gesture");
+		var ges = $gesture.getContext("2d");
+		var I = function(callback){
+			var check_mouse;
+			$gesture.onmousedown = function(e){
+				ges.beginPath();
+				var o = e;
+				var quad = "";
+				//上一次象限
+				var quad_l = "";
+				//当前象限
+				var quad_c = "";
+				//敏感度
+				var sens = 15;
+
+				$gesture.onmousemove = function(ev){
+					e = ev;
+				}
+				check_mouse = setInterval(function(){
+					quad_c = quadMouse(o, e, sens);
+					if(quad_c){
+						if(quad_c != quad_l){
+							quad += quad_c;
+							quad_l = quad_c;
+							// mark.add(500, e.offsetX + camera.x, e.offsetY + camera.y, game.time, 20, 20);
+						}
+						o = e;
+					}
+					ges.lineTo(e.offsetX, e.offsetY);
+					ges.stroke();
+				}, 10);
+				document.onmouseup = function(ev){
+					var cmd = gesture(quad);
+					callback(e, cmd);
+					clearInterval(check_mouse);
+					ges.clearRect(0, 0, ges.w, ges.h);
+					$gesture.onmousemove = null;
+					document.onmouseup = null;
+				}
+			}
+		}
+		return I;
+	}
 	/* loading */
-	window.load = (function(){
+	var load = function(){
 		var $loading = $("#loading");
 		var $chapter = $("#chapter");
 		var $info = $("#info");
@@ -272,25 +244,59 @@ some support function
 			}
 		};
 		return I;
-	}());
-
-	window.global = (function(){
+	}
+	var fps = function(rate){
 		var $fps = $("#fps");
-		var $chapter = $("#chapter");
-		var I = {
-			fps: function(rate){
-				$fps.html(rate);
-			},
-			menu: function(){
-				$chapter.css({
-					"display": "block"
-				});
-			}
+		var I = function(){
+			$fps.html(rate);
 		}
 		return I;
-	}());
+	}
+	var menu = function(rate){
+		var $chapter = $("#chapter");
+		var I = function(){
+			$chapter.css({
+				"display": "block"
+			});
+		}
+		return I;
+	}
 
-	/* init */
-	stage.setSize(600, 400);
+	window.game = {
+		objectPool: [],
+		collidePool: [],
+		mouse_x: 0,
+		mouse_y: 0,
+		time: 0
+	}
+	game.map = {
+		w: 600,
+		h: 400,
+		init: function(url, w, h){
+			game.stage.bg(url);
+			this.w = w;
+			this.h = h;
+		}
+	}
+
+	game.camera = {
+		x:0,
+		y:0,
+		center:game.map,
+		update:function(){
+			/*******camera*******/
+			this.x = this.center.x - game.stage.w / 2;	//lock the camera
+			this.y = this.center.y - game.stage.h / 2;
+			this.x = this.x.clamp(0, game.map.w - game.stage.w);
+			this.y = this.y.clamp(0, game.map.h - game.stage.h);
+			game.stage.cameraMove(this.x, this.y);
+		}
+	}
+
+	game.cmd = cmd();
+	game.stage = stage();
+	game.load = load();
+	game.fps = fps();
+	game.menu = menu();
 
 }());

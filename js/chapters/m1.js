@@ -24,7 +24,7 @@
 			    "width": "100%"
 			});*/
 			game.camera.center=ochi;
-			stage.move(function(e, cmd){
+			game.cmd(function(e, cmd){
 				game.mouse_x = e.offsetX + game.camera.x,
 				game.mouse_y = e.offsetY + game.camera.y;
 				ochi.cmd(cmd);

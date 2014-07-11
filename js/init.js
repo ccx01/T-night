@@ -13,6 +13,9 @@
 		model = mod.model;
 		collide = mod.collide;
 		sprite = mod.sprite;
+		
+		game.stage.setSize(600, 400);
+		game.menu();
 	});
 
 
@@ -21,7 +24,7 @@ function gotoChapter(chapter) {
 	game.objectPool = []; //empty the game.objectPools
 	game.collidePool = [];
 
-	load.start();
+	game.load.start();
 
 	module.load([{
 		"name": chapter,
@@ -36,7 +39,7 @@ function gotoChapter(chapter) {
 	var last_fps_time = 0;
 
 	function ready(loaded, total) {
-		load.ing(loaded, total);
+		game.load.ing(loaded, total);
 		if (loaded == total) {
 			start();
 		};
@@ -46,7 +49,7 @@ function gotoChapter(chapter) {
 		// prevent loading many times
 		loop_id && cancelAnimationFrame(loop_id);
 		loop_id = requestAnimationFrame(loop);
-		load.end();
+		game.load.end();
 	}
 
 	function stop() {
@@ -55,7 +58,7 @@ function gotoChapter(chapter) {
 
 	function fps(now) {
 		if (now - last_fps_time > 1000) {
-			global.fps(1000 / (now - last_loop_time) | 0);
+			game.fps(1000 / (now - last_loop_time) | 0);
 			last_fps_time = now;
 		}
 		last_loop_time = now;
@@ -64,13 +67,11 @@ function gotoChapter(chapter) {
 	function loop(now) {
 		collide.handle();
 		game.camera.update();
-		stage.update();
+		game.stage.update();
 		loop_id = requestAnimationFrame(loop);
 		fps(now);
 		game.time = now | 0;
 	}
-
-	global.menu();
 
 	window.ready = ready;
 
