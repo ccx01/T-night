@@ -23,8 +23,10 @@ div{
 	position: absolute;
 }
 #stage {
-	z-index: 9;
 	display: none;
+}
+#gesture {
+	z-index: 99;
 }
 
 #loading {
