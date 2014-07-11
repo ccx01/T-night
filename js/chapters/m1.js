@@ -23,10 +23,10 @@
 			$(".ochi .hp div").animate({
 			    "width": "100%"
 			});*/
-			camera.center=ochi;
+			game.camera.center=ochi;
 			stage.move(function(e, cmd){
-				game.mouse_x = e.offsetX + camera.x,
-				game.mouse_y = e.offsetY + camera.y;
+				game.mouse_x = e.offsetX + game.camera.x,
+				game.mouse_y = e.offsetY + game.camera.y;
 				ochi.cmd(cmd);
 
 				mark.add(500, game.mouse_x, game.mouse_y, game.time, 20, 20);

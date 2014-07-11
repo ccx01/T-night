@@ -63,7 +63,7 @@ function gotoChapter(chapter) {
 
 	function loop(now) {
 		collide.handle();
-		camera.update();
+		game.camera.update();
 		stage.update();
 		loop_id = requestAnimationFrame(loop);
 		fps(now);

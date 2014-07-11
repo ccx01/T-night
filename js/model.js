@@ -19,7 +19,7 @@
 		I.radius = I.radius || 0;	//半径，碰撞用
 		I.draw = function() {
 			stage.save();
-			stage.translate(this.x-camera.x, this.y-camera.y);
+			stage.translate(this.x - game.camera.x, this.y - game.camera.y);
 			stage.rotate(this.toward);
 			this.sprite.draw(stage);
 			/* OBB stroke */

@@ -21,23 +21,24 @@ some support function
 		};
 	}());
 
-	window.game = {
-		map: {
-			w: 600,
-			h: 400,
-			init: function(url, w, h){
-				stage.bg(url);
-				this.w = w;
-				this.h = h;
-			}
-		},
+	var game = {
 		objectPool: [],
 		collidePool: [],
 		mouse_x: 0,
 		mouse_y: 0,
 		time: 0
 	}
-	window.camera = {
+	game.map = {
+		w: 600,
+		h: 400,
+		init: function(url, w, h){
+			stage.bg(url);
+			this.w = w;
+			this.h = h;
+		}
+	}
+	window.game = game;
+	game.camera = {
 		x:0,
 		y:0,
 		center:game.map,
@@ -96,18 +97,15 @@ some support function
 	window.stage = (function(){
 		var $main = $("#main");
 		var $stage = $("#stage");
-		var dom_stage = $stage;
-
 		var $gesture = $("#gesture");
-		var dom_gesture = $gesture;
-		var ges = dom_gesture.getContext("2d");
+		var ges = $gesture.getContext("2d");
 
-		var I = dom_stage.getContext("2d");
+		var I = $stage.getContext("2d");
 			I.x = 0;
 			I.y = 0;
 			I.setSize = function(w, h){
-				dom_stage.width = this.w = dom_gesture.width = ges.w = w || 600;
-				dom_stage.height = this.h = dom_gesture.height = ges.h = h || 400;
+				$stage.width = this.w = $gesture.width = ges.w = w || 600;
+				$stage.height = this.h = $gesture.height = ges.h = h || 400;
 				$main.animate({
 					"width":w,
 					"height":h,
@@ -201,7 +199,7 @@ some support function
 			}
 			I.move = function(callback){
 				var check_mouse;
-				dom_stage.onmousedown = function(e){
+				$stage.onmousedown = function(e){
 					ges.beginPath();
 					var o = e;
 					var quad = "";
@@ -212,7 +210,7 @@ some support function
 					//敏感度
 					var sens = 15;
 
-					dom_stage.onmousemove = function(ev){
+					$stage.onmousemove = function(ev){
 						e = ev;
 					}
 					check_mouse = setInterval(function(){
@@ -233,7 +231,7 @@ some support function
 						callback(e, cmd);
 						clearInterval(check_mouse);
 						ges.clearRect(0, 0, ges.w, ges.h);
-						dom_stage.onmousemove = null;
+						$stage.onmousemove = null;
 						document.onmouseup = null;
 					}
 				}
