@@ -1,6 +1,6 @@
 /* init */
 // var model,collide,sprite;
-	module.load([{
+/*	module.load([{
 		"name": "model",
 		"url": "js/model.js"
 	},{
@@ -16,7 +16,7 @@
 		
 		game.stage.setSize(600, 400);
 		game.menu();
-	});
+	});*/
 
 
 function gotoChapter(chapter) {
@@ -32,7 +32,7 @@ function gotoChapter(chapter) {
 	}]);
 }
 
-(function(){
+/*(function(){
 
 	var loop_id;
 	var last_loop_time = 0;
@@ -75,4 +75,4 @@ function gotoChapter(chapter) {
 
 	window.ready = ready;
 
-}());
+}());*/
