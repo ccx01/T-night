@@ -3,24 +3,6 @@ base function
 *****************/
 (function(){
 
-	module.load([{
-		"name": "model",
-		"url": "js/model.js"
-	},{
-		"name": "collide",
-		"url": "js/collide.js"
-	},{
-		"name": "sprite",
-		"url": "js/sprite.js"
-	}], function(mod){
-		model = mod.model;
-		collide = mod.collide;
-		sprite = mod.sprite;
-		
-		game.stage.setSize(600, 400);
-		game.menu();
-	});
-
 	/* simulate jquery dom */
 	var $ = function(selector){
 		var I = document.querySelector(selector);
@@ -298,65 +280,5 @@ base function
 	game.load = load();
 	game.fps = fps();
 	game.menu = menu();
-
-
-	var loop_id;
-	var last_loop_time = 0;
-	var last_fps_time = 0;
-
-	function ready(loaded, total) {
-		game.load.ing(loaded, total);
-		if (loaded == total) {
-			start();
-		};
-	}
-
-	function start() {
-		// prevent loading many times
-		loop_id && cancelAnimationFrame(loop_id);
-		loop_id = requestAnimationFrame(loop);
-		game.load.end();
-	}
-
-	function stop() {
-		cancelAnimationFrame(loop_id);
-	}
-
-	function fps(now) {
-		if (now - last_fps_time > 1000) {
-			game.fps(1000 / (now - last_loop_time) | 0);
-			last_fps_time = now;
-		}
-		last_loop_time = now;
-	}
-
-	function loop(now) {
-		collide.handle();
-		game.camera.update();
-		game.stage.update();
-		loop_id = requestAnimationFrame(loop);
-		fps(now);
-		game.time = now | 0;
-	}
-
-	window.ready = ready;
-
-	//bound checked
-	Number.prototype.clamp = function(min, max) {
-		return Math.min(Math.max(this, min), max);
-	};
-
-	/* window */
-	window.requestAnimationFrame = (function() {
-		return requestAnimationFrame || function(callback) {
-			return setTimeout(callback, 1000 / 60); // shoot for 60 fps
-		};
-	}());
-
-	window.cancelAnimationFrame = (function() {
-		return cancelAnimationFrame || function(id) {
-			clearTimeout(id);
-		};
-	}());
 
 }());
