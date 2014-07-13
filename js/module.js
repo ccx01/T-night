@@ -37,8 +37,11 @@
 
 						var promise = new Promise(function(callback) {
 							node.onload = loaded;
+							callback();
 						});
-						promise.then(callback);
+						promise.then(function(){
+							console.log("then")
+						});
 						console.log(promise)
 
 						// node.onload = loaded;
