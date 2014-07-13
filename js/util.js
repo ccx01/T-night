@@ -49,10 +49,10 @@ base function
 		e: 鼠标位置
 		r: 敏感范围
 		***/
-		if(e.offsetX - o.offsetX > r && e.offsetY - o.offsetY > r) return "4";
-		if(o.offsetX - e.offsetX > r && e.offsetY - o.offsetY > r) return "3";
-		if(o.offsetX - e.offsetX > r && o.offsetY - e.offsetY > r) return "2";
-		if(e.offsetX - o.offsetX > r && o.offsetY - e.offsetY > r) return "1";
+		if(e.layerX - o.layerX > r && e.layerY - o.layerY > r) return "4";
+		if(o.layerX - e.layerX > r && e.layerY - o.layerY > r) return "3";
+		if(o.layerX - e.layerX > r && o.layerY - e.layerY > r) return "2";
+		if(e.layerX - o.layerX > r && o.layerY - e.layerY > r) return "1";
 		return "";
 	}
 	var gesture = function(quad){
@@ -119,8 +119,8 @@ base function
 				$main.animate({
 					"width":w,
 					"height":h,
-					"margin-left":-w/2,
-					"margin-top":-h/2
+					"marginLeft":-w/2,
+					"marginTop":-h/2
 				}, 400);
 			}
 			I.update = function() {
@@ -174,11 +174,11 @@ base function
 						if(quad_c != quad_l){
 							quad += quad_c;
 							quad_l = quad_c;
-							// mark.add(500, e.offsetX + camera.x, e.offsetY + camera.y, game.time, 20, 20);
+							// mark.add(500, e.layerX + camera.x, e.layerY + camera.y, game.time, 20, 20);
 						}
 						o = e;
 					}
-					ges.lineTo(e.offsetX, e.offsetY);
+					ges.lineTo(e.layerX, e.layerY);
 					ges.stroke();
 				}, 10);
 				document.onmouseup = function(ev){

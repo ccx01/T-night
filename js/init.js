@@ -7,13 +7,13 @@
 
 	/* window */
 	window.requestAnimationFrame = (function() {
-		return requestAnimationFrame || function(callback) {
+		return window.requestAnimationFrame || function(callback) {
 			return setTimeout(callback, 1000 / 60); // shoot for 60 fps
 		};
 	}());
 
 	window.cancelAnimationFrame = (function() {
-		return cancelAnimationFrame || function(id) {
+		return window.cancelAnimationFrame || function(id) {
 			clearTimeout(id);
 		};
 	}());

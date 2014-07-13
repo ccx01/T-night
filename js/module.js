@@ -35,16 +35,16 @@
 
 						head.appendChild(node);
 
-						var promise = new Promise(function(callback) {
+						/*var promise = new Promise(function(callback) {
 							node.onload = loaded;
 							callback();
 						});
 						promise.then(function(){
 							console.log("then")
 						});
-						console.log(promise)
+						console.log(promise)*/
 
-						// node.onload = loaded;
+						node.onload = loaded;
 					}
 				}
 			}
