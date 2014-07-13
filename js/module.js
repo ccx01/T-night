@@ -12,7 +12,7 @@
 			I.load = function(mods, callback){
 				var loaded_num = 0;
 				var loaded_mod = {};
-				var loaded = function(name) {
+				var loaded = function(name){
 					name = this.name || name;
 					loaded_num++;
 					loaded_mod[name] = I.mod[name];
@@ -34,7 +34,14 @@
 							node.name = name;
 
 						head.appendChild(node);
-						node.onload = loaded;
+
+						var promise = new Promise(function(callback) {
+							node.onload = loaded;
+						});
+						promise.then(callback);
+						console.log(promise)
+
+						// node.onload = loaded;
 					}
 				}
 			}
