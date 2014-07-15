@@ -15,34 +15,6 @@
 		ochi1.sprite = mod.sprite("characters/ochi1.png", 0, 0, 32, 32, ready);
 
 		ochi1.name = "ochi1";
-		/*ochi1.img=function(ac){
-			switch(ac){
-				case "walk":
-					this.coordinate([0,64,32,32]);
-					this.animation([
-						[0,0,32,32],
-						[0,32,32,32],
-						[0,64,32,32]
-					],7);
-				break;
-				default:	//stay
-					this.coordinate([0,0,32,32]);
-			}
-		}*/
-
-		// animation功能还有待考量
-		/*ochi1.animation = (function(){
-			var count = 0;	//此处count为animation内部用，与对象的count无关，对象的count目前暂时没什么用
-			return function(arr,frame,fn){
-				var during=arr.length*frame-1;
-				count%=during;
-				count++;
-				this.coordinate(arr[Math.floor(count / frame)]);
-				if(count==during&&fn){
-					fn();
-				}
-			}
-		}());*/
 
 		ochi1.init = function(hp, speed, x, y, angle){
 			this.type = "nocharacter";
