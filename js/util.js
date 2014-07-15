@@ -126,7 +126,7 @@ base function
 			I.update = function() {
 				this.clearRect(0, 0, this.w, this.h);
 				var i = 0;
-				count_objects = game.objectPool.length;
+				var count_objects = game.objectPool.length;
 				for(; i < count_objects; i++){
 					if(!game.objectPool[i]){
 						continue;

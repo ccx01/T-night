@@ -28,7 +28,7 @@
 			this.x = x || 0;
 			this.y = y || 0;
 			this.time = game.time || 0;
-			count_objects = game.objectPool.length;
+			var count_objects = game.objectPool.length;
 			var i = 0;
 			for(; i < count_objects; i++){
 				if(game.objectPool[i].name == "mark"){
