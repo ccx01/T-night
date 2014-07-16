@@ -38,5 +38,5 @@
 			game.objectPool.push(this);
 		}
 		module.add("mark", mark);
-	});
+	}, "mark");
 }());

@@ -155,5 +155,5 @@
 		game.collidePool.push(ochi1);
 
 		module.add("ochi1", ochi1);
-	});
+	}, "ochi1");
 }());

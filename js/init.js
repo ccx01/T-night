@@ -33,9 +33,6 @@
 
 	/* 先把这几个js塞到head里，暂时先这样了 */
 	module.load([{
-		"name": "model",
-		"url": "js/model.js"
-	},{
 		"name": "collide",
 		"url": "js/collide.js"
 	}], function(mod){

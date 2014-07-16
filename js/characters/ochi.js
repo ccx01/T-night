@@ -172,5 +172,5 @@
 		game.collidePool.push(ochi);
 
 		module.add("ochi", ochi);
-	});
+	}, "ochi");
 }());
