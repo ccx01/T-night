@@ -9,15 +9,20 @@
 			I.add = function(name, obj){
 				I.mod[name] = obj;
 			}
-			I.load = function(mods, callback){
-				var loaded_num = 0;
-				var loaded_mod = {};
+			I.load = function(mods, callback, from){
+				from = from || "mod";
+				var lf = {};
+
+				lf[from] = {};
+				lf[from].num = 0;
+				lf[from].mod = {};
 				var loaded = function(name){
 					name = this.name || name;
-					loaded_num++;
-					loaded_mod[name] = I.mod[name];
-					if(loaded_num == mods.length){
-						callback && callback(loaded_mod);
+					lf[from].num++;
+					lf[from].mod[name] = I.mod[name];
+					
+					if(lf[from].num == mods.length){
+						callback && callback(lf[from].mod);
 						this.onload = null;
 					}
 				}
