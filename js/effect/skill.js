@@ -1,7 +1,7 @@
 //技能模版
 (function(){
 
-	module.load([{
+	module.load("skill", [{
 		"name": "model",
 		"url": "js/model.js"
 	},{

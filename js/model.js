@@ -1,5 +1,5 @@
 (function(){
-	module.load([{
+	module.load("model", [{
 		"name": "sprite",
 		"url": "js/sprite.js"
 	}], function(mod){

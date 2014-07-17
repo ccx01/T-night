@@ -25,14 +25,14 @@
 
 		game.load.start();
 
-		module.load([{
+		module.load(chapter, [{
 			"name": chapter,
 			"url": "js/chapters/" + chapter + ".js"
-		}]);
+		}], function(){});
 	}
 
 	/* 先把这几个js塞到head里，暂时先这样了 */
-	module.load([{
+	module.load("init", [{
 		"name": "collide",
 		"url": "js/collide.js"
 	}], function(mod){

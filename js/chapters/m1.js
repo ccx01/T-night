@@ -1,6 +1,6 @@
 (function(){
 	game.map.init("img/map/bg1.png", 1900, 1000);
-	module.load([{
+	module.load("m1", [{
 			"name": "ochi",
 			"url": "js/characters/ochi.js"
 		},{
@@ -32,7 +32,6 @@
 				mark.add(500, game.mouse_x, game.mouse_y, game.time, 20, 20);
 			});
 
-			// start();
-		}, "m1");
-	// module.add('m1',"第一章");
+			module.add('m1', "第一章");
+		});
 }());

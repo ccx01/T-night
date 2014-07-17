@@ -1,7 +1,7 @@
 //鼠标点击效果
 (function(){
 
-	module.load([{
+	module.load("mark", [{
 		"name": "model",
 		"url": "js/model.js"
 	},{
@@ -38,5 +38,5 @@
 			game.objectPool.push(this);
 		}
 		module.add("mark", mark);
-	}, "mark");
+	});
 }());

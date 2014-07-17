@@ -1,7 +1,7 @@
 //Ochi 奥兹
 (function(){
 
-	module.load([{
+	module.load("ochi1", [{
 		"name": "model",
 		"url": "js/model.js"
 	},{
@@ -155,5 +155,5 @@
 		game.collidePool.push(ochi1);
 
 		module.add("ochi1", ochi1);
-	}, "ochi1");
+	});
 }());

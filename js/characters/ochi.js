@@ -1,6 +1,6 @@
 //Ochi 奥兹
 (function(){
-	module.load([{
+	module.load("ochi", [{
 		"name": "model",
 		"url": "js/model.js"
 	},{
@@ -34,7 +34,7 @@
 
 		ochi.skill = {}
 
-		module.load([{
+		module.load("skill", [{
 				"name": "skill",
 				"url": "js/effect/skill.js"
 			}], function(mod){
@@ -172,5 +172,5 @@
 		game.collidePool.push(ochi);
 
 		module.add("ochi", ochi);
-	}, "ochi");
+	});
 }());
