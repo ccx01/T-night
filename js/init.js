@@ -25,7 +25,7 @@
 
 		game.load.start();
 
-		module.load(chapter, [{
+		module.load("call" + chapter, [{
 			"name": chapter,
 			"url": "js/chapters/" + chapter + ".js"
 		}], function(){});

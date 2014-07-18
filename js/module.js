@@ -8,14 +8,17 @@
 		var head = document.getElementsByTagName("head")[0];
 		//load时记录当前模块的require和callback
 		var buffer = {};
-		var check = function(buffer){
+		var loaded = function(){
 			for(var k in buffer){
 				var ready = true;
+				// var con = []
 				for (var i = 0, len = buffer[k].length; i < len; i++) {
 					if(!I.mod[buffer[k][i].name]){
 						ready = false;
 					}
+					// var con = [k,buffer[k][i].name,!I.mod[buffer[k][i].name]]
 				}
+				// console.log("check",ready,k,con)
 				if(ready){
 					buffer[k].func(I.mod);
 					delete buffer[k];
@@ -27,23 +30,13 @@
 			I.add = function(name, obj){
 				if(!I.mod[name]){
 					I.mod[name] = obj;
-					check(buffer);
+					loaded();
 				}
 			}
 			I.load = function(from, mods, callback ){
-				var loaded_num = 0;
-				var loaded_mod = {};
-				var loaded = function(name){
-					name = this.name || name;
-					loaded_num++;
-					loaded_mod[name] = I.mod[name];
-					if(loaded_num == mods.length){
-						callback && callback(I.mod);
-						this.onload = null;
-					}
-				}
-
-				// if(!buffer[from]){
+				// console.log(buffer,from,buffer[from])
+				// console.log(!buffer[from],from)
+				if(!buffer[from]){
 					buffer[from] = {}
 					buffer[from] = mods;
 					buffer[from].func = callback;
@@ -53,20 +46,20 @@
 						var name = mods[i].name;
 						var url = mods[i].url;
 
-						if(I.mod[name]){
-							loaded(name);
+						if(document.querySelector("#" + name)){
+							loaded();
 							continue;
 						}else{
 							var node = document.createElement("script");
 								node.src = url;
-								node.name = name;
+								node.id = name;
 
 							//多重加载要处理
 							head.appendChild(node);
 							node.onload = loaded;
 						}
 					}
-				// }
+				}
 				// check(buffer);
 			}
 		return I;

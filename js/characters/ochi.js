@@ -34,7 +34,7 @@
 
 		ochi.skill = {}
 
-		module.load("skill", [{
+		module.load("get_skill", [{
 				"name": "skill",
 				"url": "js/effect/skill.js"
 			}], function(mod){
