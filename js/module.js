@@ -18,15 +18,14 @@
 					}
 					// var con = [from,buffer[from][i].name,I.mod[buffer[from][i].name]]
 				}
-				if(ready){
-					console.log(arguments,from,buffer,I.mod)
+				if(ready && !I.mod[from]){
+					// console.log(arguments,from,buffer,I.mod)
 					// console.log("check",arguments,ready,from,con)
 					buffer[from].func(I.mod);
 					delete buffer[from];
 				}
 			}
 		}
-		setInterval(loaded,300)
 		var I = {};
 			I.mod = [];
 			I.add = function(name, obj){
@@ -34,7 +33,7 @@
 				if(!I.mod[name]){
 					// console.log(buffer,name)
 					I.mod[name] = obj;
-					// loaded("add",name);
+					loaded("add",name);
 				}
 			}
 			I.load = function(from, mods, callback ){
@@ -50,8 +49,8 @@
 						var name = mods[i].name;
 						var url = mods[i].url;
 
-						if(document.querySelector("#" + name)){
-							// loaded("loaded");
+						if(document.getElementById(name)){
+							loaded("loaded");
 							continue;
 						}else{
 							var node = document.createElement("script");
@@ -60,7 +59,7 @@
 
 							//多重加载要处理
 							head.appendChild(node);
-							// node.onload = loaded;
+							node.onload = loaded;
 						}
 					}
 				}
