@@ -47,8 +47,33 @@
 			game.time = now | 0;
 		}
 
-		window.ready = ready;
+		function parents(node, tar) {
+			while (node) {
+				if (node.className == tar || node.id == tar) {
+					return node;
+				}
+				node = node.parentNode;
+			}
+			return false;
+		}
 
+		document.querySelector("#chapter").onclick = function(e){
+			//冒泡处理
+			var node = parents(e.target,'chapter');
+			var chapter = node.dataset['chapter'];
+
+			game.objectPool = []; //empty the game.objectPools
+			game.collidePool = [];
+
+			game.load.start();
+
+			module.load("call" + chapter, [{
+				"name": chapter,
+				"url": "js/chapters/" + chapter + ".js"
+			}], function(){});
+		}
+
+		window.ready = ready;
 		
 		game.stage.setSize(600, 400);
 		game.menu();
