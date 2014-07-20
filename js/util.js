@@ -5,6 +5,20 @@ base function
 
 	/* simulate jquery dom */
 	var $ = function(selector){
+		var ani = function(obj, prop, cur, tar, incr){
+			obj.style[prop] = cur + "px";
+			if(incr < 0 && cur > tar){
+				cur = (cur + incr) > tar ? (cur + incr) : tar;
+				setTimeout(function(){
+					ani(obj, prop, cur, tar, incr);
+				}, 10)
+			}else if(incr > 0 && cur < tar){
+				cur = (cur + incr) < tar ? (cur + incr) : tar;
+				setTimeout(function(){
+					ani(obj, prop, cur, tar, incr);
+				}, 10)
+			}
+		}
 		var I = document.querySelector(selector);
 			I.html = function(code){
 				this.innerHTML = code;
@@ -28,20 +42,6 @@ base function
 				}
 			}
 			return I;
-	}
-	var ani = function(obj, prop, cur, tar, incr){
-		obj.style[prop] = cur + "px";
-		if(incr < 0 && cur > tar){
-			cur = (cur + incr) > tar ? (cur + incr) : tar;
-			setTimeout(function(){
-				ani(obj, prop, cur, tar, incr);
-			}, 10)
-		}else if(incr > 0 && cur < tar){
-			cur = (cur + incr) < tar ? (cur + incr) : tar;
-			setTimeout(function(){
-				ani(obj, prop, cur, tar, incr);
-			}, 10)
-		}
 	}
 	var quadMouse = function(o, e, r){
 		/***
@@ -244,7 +244,7 @@ base function
 		return I;
 	}
 
-	window.game = {
+	var game = {
 		objectPool: [],
 		collidePool: [],
 		mouse_x: 0,
@@ -280,5 +280,49 @@ base function
 	game.load = load();
 	game.fps = fps();
 	game.menu = menu();
+
+	window.game = game;
+	//bound checked
+	Number.prototype.clamp = function(min, max) {
+		return Math.min(Math.max(this, min), max);
+	};
+
+	/* window */
+	window.requestAnimationFrame = (function() {
+		return window.requestAnimationFrame || function(callback) {
+			return setTimeout(callback, 1000 / 60); // shoot for 60 fps
+		};
+	}());
+
+	window.cancelAnimationFrame = (function() {
+		return window.cancelAnimationFrame || function(id) {
+			clearTimeout(id);
+		};
+	}());
+
+	function parents(node, tar) {
+		while (node) {
+			if (node.className == tar || node.id == tar) {
+				return node;
+			}
+			node = node.parentNode;
+		}
+		return false;
+	}
+	$("#chapter").onclick = function(e){
+		//冒泡处理
+		var node = parents(e.target,'chapter');
+		var chapter = node.dataset['chapter'];
+
+		game.objectPool = []; //empty the game.objectPools
+		game.collidePool = [];
+
+		game.load.start();
+
+		module.load("call" + chapter, [{
+			"name": chapter,
+			"url": "js/chapters/" + chapter + ".js"
+		}], function(){});
+	}
 
 }());

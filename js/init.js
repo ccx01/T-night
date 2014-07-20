@@ -1,36 +1,5 @@
 /* init */
 
-	//bound checked
-	Number.prototype.clamp = function(min, max) {
-		return Math.min(Math.max(this, min), max);
-	};
-
-	/* window */
-	window.requestAnimationFrame = (function() {
-		return window.requestAnimationFrame || function(callback) {
-			return setTimeout(callback, 1000 / 60); // shoot for 60 fps
-		};
-	}());
-
-	window.cancelAnimationFrame = (function() {
-		return window.cancelAnimationFrame || function(id) {
-			clearTimeout(id);
-		};
-	}());
-
-	function gotoChapter(chapter) {
-		/* init 也许init应该在chapter里进行，因为部分chapter可能需要继承- -，待定 => Sign */
-		game.objectPool = []; //empty the game.objectPools
-		game.collidePool = [];
-
-		game.load.start();
-
-		module.load("call" + chapter, [{
-			"name": chapter,
-			"url": "js/chapters/" + chapter + ".js"
-		}], function(){});
-	}
-
 	/* 先把这几个js塞到head里，暂时先这样了 */
 	module.load("init", [{
 		"name": "collide",
