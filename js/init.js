@@ -2,11 +2,25 @@
 
 	/* 先把这几个js塞到head里，暂时先这样了 */
 	module.load("init", [{
+		"name": "util",
+		"url": "js/util.js"
+	}, {
 		"name": "collide",
 		"url": "js/collide.js"
 	}], function(mod){
 		var collide = mod.collide;
-		// sprite = mod.sprite;
+
+		var requestAnimationFrame = (function() {
+			return window.requestAnimationFrame || function(callback) {
+				return setTimeout(callback, 1000 / 60); // shoot for 60 fps
+			};
+		}());
+
+		var cancelAnimationFrame = (function() {
+			return window.cancelAnimationFrame || function(id) {
+				clearTimeout(id);
+			};
+		}());
 
 		var loop_id;
 		var last_loop_time = 0;
@@ -57,7 +71,7 @@
 			return false;
 		}
 
-		document.querySelector("#chapter").onclick = function(e){
+		function gotoChapter(e){
 			//冒泡处理
 			var node = parents(e.target,'chapter');
 			var chapter = node.dataset['chapter'];
@@ -72,6 +86,8 @@
 				"url": "js/chapters/" + chapter + ".js"
 			}], function(){});
 		}
+
+		document.querySelector("#chapter").onclick = gotoChapter;
 
 		window.ready = ready;
 		

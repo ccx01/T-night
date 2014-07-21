@@ -243,6 +243,10 @@ base function
 		}
 		return I;
 	}
+	//bound checked
+	Number.prototype.clamp = function(min, max) {
+		return Math.min(Math.max(this, min), max);
+	}
 
 	var game = {
 		objectPool: [],
@@ -282,22 +286,7 @@ base function
 	game.menu = menu();
 
 	window.game = game;
-	//bound checked
-	Number.prototype.clamp = function(min, max) {
-		return Math.min(Math.max(this, min), max);
-	};
 
-	/* window */
-	window.requestAnimationFrame = (function() {
-		return window.requestAnimationFrame || function(callback) {
-			return setTimeout(callback, 1000 / 60); // shoot for 60 fps
-		};
-	}());
-
-	window.cancelAnimationFrame = (function() {
-		return window.cancelAnimationFrame || function(id) {
-			clearTimeout(id);
-		};
-	}());
+	module.add("util", "功能块");
 
 }());
