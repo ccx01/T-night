@@ -19,9 +19,13 @@
 
 			var col_len = game.collidePool.length;
 			for(k = 0; k < col_len; k++) {
-				pos = this.getBoxPos(game.collidePool[k]);
-				if(!this.boxes[pos.x][pos.y]) console.log(pos,game.collidePool[k],this.boxes[pos.x],this.boxes[pos.x][pos.y])
-				this.boxes[pos.x][pos.y].push(game.collidePool[k]);
+				if(game.collidePool[k] && game.collidePool[k].active) {
+					pos = this.getBoxPos(game.collidePool[k]);
+					if(!this.boxes[pos.x][pos.y]) console.log(pos,game.collidePool[k],this.boxes[pos.x],this.boxes[pos.x][pos.y])
+					this.boxes[pos.x][pos.y].push(game.collidePool[k]);
+				} else {
+					game.collidePool.splice(k, 1);
+				}
 			}
 		},
 		getBoxPos: function(obj) {

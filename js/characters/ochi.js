@@ -57,48 +57,41 @@
 						],100);
 						this.x += this.vx;
 						this.y += this.vy;
-						(game.time - this.time > this.age) && (this.active = false);
+						(game.time - time > this.age) && (this.active = false);
+					}
+					self.force = function(obj) {
+						// if(obj.name != "ochi"){
+							var t = 10;
+							var dr = this.radius + obj.radius;
+							var tx = obj.x - this.x;
+							var ty = obj.y - this.y;
+							var angle = Math.atan2(ty, tx);
+							var cos = Math.cos(angle);
+							var sin = Math.sin(angle);
+							var ratio = this.mass / obj.mass;
+
+							var vx = cos * this.speed * ratio;
+							var vy = sin * this.speed * ratio;
+							var dx = obj.x + vx * t;
+							var dy = obj.y + vy * t;
+
+							obj.mode = "extra";
+							obj.extra = function(){
+								obj.move("stay", {
+									dx: dx,
+									dy: dy,
+									vx: vx,
+									vy: vy
+								});
+							}
+							self.active = false;
+						// }
 					}
 
 				game.objectPool.push(self);
-			}
-			var Wkey = function(age, x, y, dx, dy, speed, time) {
-				var active = true;
-				var angle = Math.atan2(dy - y, dx - x);
-				var vx = Math.cos(angle) * speed || 0;
-				var vy = Math.sin(angle) * speed || 0;
-
-				var cfg = {
-					age: age,
-					x: x,
-					y: y,
-					vx: vx,
-					vy: vy
-				}
-
-				var self = mod.model(cfg);
-					self.sprite = mod.sprite("ui/mark.png", 0, 0, 22, 20, ready);
-					self.move = function(){
-						if((this.vx > 0 && this.x > this.dx) || (this.vx < 0 && this.x < this.dx) || (this.vy > 0 && this.y > this.dy) || (this.vy < 0 && this.y < this.dy)){
-							this.active = false;
-						} else {
-							this.x += this.vx;
-							this.y += this.vy;
-						}
-					}
-					self.update = function() {
-					this.img.ani([
-						[0,0,22,20],
-						[0,20,22,20]
-					],100);
-					this.move();
-					(game.time - this.time > this.age) && (this.active = false);
-				}
-				
-				game.objectPool.push(self);
+				game.collidePool.push(self);
 			}
 			I.Qkey = Qkey;
-			I.Wkey = Wkey;
 			return I;
 		}());
 
@@ -117,9 +110,6 @@
 				break;
 				case "Qkey":
 					this.skill.Qkey(1000, this.x, this.y, game.mouse_x, game.mouse_y, 10, game.time);
-				break;
-				case "Wkey":
-					this.skill.Wkey(1000, this.x, this.y, game.mouse_x, game.mouse_y, 10, game.time);
 				break;
 			}
 		}
