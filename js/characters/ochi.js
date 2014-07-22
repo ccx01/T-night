@@ -34,17 +34,59 @@
 
 		ochi.skill = (function(){
 			var I = {}
-			var Qkey = mod.model();
-				Qkey.sprite = mod.sprite("ui/mark.png", 0, 0, 22, 20, ready);
-				Qkey.move = function(){
-					if((this.vx > 0 && this.x > this.dx) || (this.vx < 0 && this.x < this.dx) || (this.vy > 0 && this.y > this.dy) || (this.vy < 0 && this.y < this.dy)){
-						this.active = false;
-					} else {
+			var Qkey = function(age, x, y, dx, dy, speed, time) {
+				var active = true;
+				var angle = Math.atan2(dy - y, dx - x);
+				var vx = Math.cos(angle) * speed || 0;
+				var vy = Math.sin(angle) * speed || 0;
+
+				var cfg = {
+					age: age,
+					x: x,
+					y: y,
+					vx: vx,
+					vy: vy
+				}
+
+				var self = mod.model(cfg);
+					self.sprite = mod.sprite("ui/mark.png", 0, 0, 22, 20, ready);
+					self.update = function() {
+						this.img.ani([
+							[0,0,22,20],
+							[0,20,22,20]
+						],100);
 						this.x += this.vx;
 						this.y += this.vy;
+						(game.time - this.time > this.age) && (this.active = false);
 					}
+
+				game.objectPool.push(self);
+			}
+			var Wkey = function(age, x, y, dx, dy, speed, time) {
+				var active = true;
+				var angle = Math.atan2(dy - y, dx - x);
+				var vx = Math.cos(angle) * speed || 0;
+				var vy = Math.sin(angle) * speed || 0;
+
+				var cfg = {
+					age: age,
+					x: x,
+					y: y,
+					vx: vx,
+					vy: vy
 				}
-				Qkey.update = function() {
+
+				var self = mod.model(cfg);
+					self.sprite = mod.sprite("ui/mark.png", 0, 0, 22, 20, ready);
+					self.move = function(){
+						if((this.vx > 0 && this.x > this.dx) || (this.vx < 0 && this.x < this.dx) || (this.vy > 0 && this.y > this.dy) || (this.vy < 0 && this.y < this.dy)){
+							this.active = false;
+						} else {
+							this.x += this.vx;
+							this.y += this.vy;
+						}
+					}
+					self.update = function() {
 					this.img.ani([
 						[0,0,22,20],
 						[0,20,22,20]
@@ -52,22 +94,11 @@
 					this.move();
 					(game.time - this.time > this.age) && (this.active = false);
 				}
-				Qkey.add = function(age, x, y, dx, dy, speed, time){
-					this.active = true;
-					this.name = "Qkey";
-					this.age = age || 0;
-					this.x = x || 0;
-					this.y = y || 0;
-					this.dx = dx || 0;
-					this.dy = dy || 0;		
-					this.angle = Math.atan2(this.dy - this.y, this.dx - this.x);
-					this.vx = Math.cos(this.angle) * speed || 0;
-					this.vy = Math.sin(this.angle) * speed || 0;
-					this.time = game.time || 0;
-					game.objectPool.push(this);
-				}
+				
+				game.objectPool.push(self);
+			}
 			I.Qkey = Qkey;
-			I.Wkey = Qkey;
+			I.Wkey = Wkey;
 			return I;
 		}());
 
@@ -85,10 +116,10 @@
 					}
 				break;
 				case "Qkey":
-					this.skill.Qkey.add(1000, this.x, this.y, game.mouse_x, game.mouse_y, 10, game.time);
+					this.skill.Qkey(1000, this.x, this.y, game.mouse_x, game.mouse_y, 10, game.time);
 				break;
 				case "Wkey":
-					this.skill.Wkey.add(1000, this.x, this.y, game.mouse_x, game.mouse_y, 10, game.time);
+					this.skill.Wkey(1000, this.x, this.y, game.mouse_x, game.mouse_y, 10, game.time);
 				break;
 			}
 		}
