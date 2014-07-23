@@ -44,6 +44,7 @@
 		},
 		touch: function(a, b) {
 			// avoid of stick together
+			// 这个避免黏在一起的函数反而会产生“发射子弹后坐力”的意外效果
 			var dr = a.radius + b.radius;
 			var dx = b.x - a.x;
 			var dy = b.y - a.y;

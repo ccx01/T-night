@@ -50,6 +50,7 @@
 
 				var self = mod.model(cfg);
 					self.sprite = mod.sprite("ui/mark.png", 0, 0, 22, 20, ready);
+					self.moving = true;
 					self.update = function() {
 						this.img.ani([
 							[0,0,22,20],
@@ -57,10 +58,13 @@
 						],100);
 						this.x += this.vx;
 						this.y += this.vy;
+						if(this.x < 0 || this.x > game.map.w || this.y < 0 || this.y > game.map.h) {
+							this.active = false;
+						}
 						(game.time - time > this.age) && (this.active = false);
 					}
 					self.force = function(obj) {
-						// if(obj.name != "ochi"){
+						if(obj.name != ochi.name) {
 							var t = 10;
 							var dr = this.radius + obj.radius;
 							var tx = obj.x - this.x;
@@ -85,7 +89,7 @@
 								});
 							}
 							self.active = false;
-						// }
+						}
 					}
 
 				game.objectPool.push(self);
@@ -157,7 +161,7 @@
 				若在behavior中再赋值将会出现首次无效的情况
 				此处mode之后替换成对应的技能招式
 				*/
-				case "walk":
+				/*case "walk":
 					// this.isObstructed("stay");
 					if(obj.type == "character"){
 						var t = 10;
@@ -184,7 +188,7 @@
 							});
 						}
 					}
-				break;
+				break;*/
 			}
 		}
 		// touch 功能完全由force执行

@@ -45,6 +45,7 @@
 					}
 				}
 			}
+			I.update = function() {}
 			return I;
 		}
 

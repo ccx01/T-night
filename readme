@@ -11,3 +11,6 @@
 collide也可以收到game里面。  pending[2]
 整合window.ready, game的objectPool  pending[1]
 整理skill  pending[0] 
+
+20140723
+收集手势起点 终点 pending[0.1]
