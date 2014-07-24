@@ -76,7 +76,7 @@
 			var node = parents(e.target,'chapter');
 			var chapter = node.dataset['chapter'];
 
-			game.objectPool = []; //empty the game.objectPools
+			game.drawPool = []; //empty the game.objectPools
 			game.collidePool = [];
 
 			game.load.start();

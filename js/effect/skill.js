@@ -39,7 +39,7 @@
 				this.vx = Math.cos(this.angle) * speed || 0;
 				this.vy = Math.sin(this.angle) * speed || 0;
 				this.time = game.time || 0;
-				game.objectPool.push(this);
+				game.drawPool.push(this);
 			}
 
 		var Wkey = mod.model();
@@ -72,7 +72,7 @@
 				this.vx = Math.cos(this.angle) * speed || 0;
 				this.vy = Math.sin(this.angle) * speed || 0;
 				this.time = game.time || 0;
-				game.objectPool.push(this);
+				game.drawPool.push(this);
 			}
 
 		var skill = {

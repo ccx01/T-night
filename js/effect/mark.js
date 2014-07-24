@@ -28,14 +28,14 @@
 			this.x = x || 0;
 			this.y = y || 0;
 			this.time = game.time || 0;
-			var count_objects = game.objectPool.length;
+			var count_objects = game.drawPool.length;
 			var i = 0;
 			for(; i < count_objects; i++){
-				if(game.objectPool[i].name == "mark"){
+				if(game.drawPool[i].name == "mark"){
 					return;
 				}
 			}
-			game.objectPool.push(this);
+			game.drawPool.push(this);
 		}
 		module.add("mark", mark);
 	});

@@ -126,13 +126,13 @@ base function
 			I.update = function() {
 				this.clearRect(0, 0, this.w, this.h);
 				var i = 0;
-				var count_objs = game.objectPool.length;
+				var count_objs = game.drawPool.length;
 				for(; i < count_objs; i++){
-					if(!game.objectPool[i]){
+					if(!game.drawPool[i]){
 						continue;
 					}
-					game.objectPool[i].draw(game.stage);
-					!game.objectPool[i].active && game.objectPool.splice(i, 1);
+					game.drawPool[i].draw(game.stage);
+					!game.drawPool[i].active && game.drawPool.splice(i, 1);
 				}
 			}
 			I.bg = function(url){
@@ -249,7 +249,7 @@ base function
 	}
 
 	var game = {
-		objectPool: [],
+		drawPool: [],
 		collidePool: [],
 		mouse_x: 0,
 		mouse_y: 0,

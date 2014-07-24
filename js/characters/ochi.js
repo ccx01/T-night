@@ -13,7 +13,7 @@
 
 		/*************sprite***************/
 		ochi.sprite = mod.sprite("characters/ochi.png", 0, 0, 32, 32, ready);
-
+		ochi.collidable = true;
 		ochi.name = "ochi";
 
 		ochi.init = function(hp, speed, x, y, angle){
@@ -51,6 +51,7 @@
 				var self = mod.model(cfg);
 					self.sprite = mod.sprite("ui/mark.png", 0, 0, 22, 20, ready);
 					self.moving = true;
+					self.collidable = true;
 					self.update = function() {
 						this.img.ani([
 							[0,0,22,20],
@@ -88,11 +89,11 @@
 									vy: vy
 								});
 							}
-							self.active = false;
+							self.collidable = false;
 						}
 					}
 
-				game.objectPool.push(self);
+				game.drawPool.push(self);
 				game.collidePool.push(self);
 			}
 			I.Qkey = Qkey;
@@ -222,7 +223,7 @@
 			this.behavior();
 		}
 
-		game.objectPool.push(ochi);
+		game.drawPool.push(ochi);
 		game.collidePool.push(ochi);
 
 		module.add("ochi", ochi);

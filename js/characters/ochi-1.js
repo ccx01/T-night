@@ -10,6 +10,7 @@
 	}], function(mod){
 
 		var ochi1 = mod.model();
+		ochi1.collidable = true;
 
 		/*************sprite***************/
 		ochi1.sprite = mod.sprite("characters/ochi1.png", 0, 0, 32, 32, ready);
@@ -151,7 +152,7 @@
 			this.behavior();
 		}
 
-		game.objectPool.push(ochi1);
+		game.drawPool.push(ochi1);
 		game.collidePool.push(ochi1);
 
 		module.add("ochi1", ochi1);

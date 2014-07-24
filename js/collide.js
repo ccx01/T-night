@@ -19,9 +19,8 @@
 
 			var col_len = game.collidePool.length;
 			for(k = 0; k < col_len; k++) {
-				if(game.collidePool[k] && game.collidePool[k].active) {
+				if(game.collidePool[k] && game.collidePool[k].active && game.collidePool[k].collidable) {
 					pos = this.getBoxPos(game.collidePool[k]);
-					if(!this.boxes[pos.x][pos.y]) console.log(pos,game.collidePool[k],this.boxes[pos.x],this.boxes[pos.x][pos.y])
 					this.boxes[pos.x][pos.y].push(game.collidePool[k]);
 				} else {
 					game.collidePool.splice(k, 1);
