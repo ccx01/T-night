@@ -44,12 +44,12 @@
 		touch: function(a, b) {
 			// avoid of stick together
 			// 这个避免黏在一起的函数反而会产生“发射子弹后坐力”的意外效果
-			var dr = a.radius + b.radius;
+			/*var dr = a.radius + b.radius;
 			var dx = b.x - a.x;
 			var dy = b.y - a.y;
 			var angle = Math.atan2(dy, dx);
 			a.x = b.x - Math.cos(angle) * dr;
-			a.y = b.y - Math.sin(angle) * dr;
+			a.y = b.y - Math.sin(angle) * dr;*/
 			//相互作用力，force是唯一可以控制对方的function
 			a.force(b);
 			b.force(a);
@@ -64,6 +64,9 @@
 				a = area[i];
 				for(var j = i+1; j < area.length; j++) {
 					b = area[j];
+					// 去除相互作用力法则
+					/*a.moving && this.detect(a, b);
+					b.moving && this.detect(b, a);*/
 					(a.moving || b.moving) && this.detect(a, b);
 				}
 			}

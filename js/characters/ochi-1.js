@@ -79,47 +79,12 @@
 			callback && callback();
 		}
 		ochi1.force = function(obj){
-			//作用力
-			/*
-			此函数与extra一样，将随时进行更新 
-			碰撞后对方执行的效果，如击飞效果
-			不同的技能有不同的效果
-			*/
-			switch(this.mode){
-				/*
-				各个状态需独立写一份碰撞事件
-				若在behavior中再赋值将会出现首次无效的情况
-				此处mode之后替换成对应的技能招式
-				*/
-				case "walk":
-					// this.isObstructed("stay");
-					if(obj.type == "character"){
-						var t = 10;
-						var dr = this.radius + obj.radius;
-						var tx = obj.x - this.x;
-						var ty = obj.y - this.y;
-						var angle = Math.atan2(ty, tx);
-						var cos = Math.cos(angle);
-						var sin = Math.sin(angle);
-						var ratio = this.mass / obj.mass;
-
-						var vx = cos * this.speed * ratio;
-						var vy = sin * this.speed * ratio;
-						var dx = obj.x + vx * t;
-						var dy = obj.y + vy * t;
-
-						obj.mode = "extra";
-						obj.extra = function(){
-							obj.move("stay", {
-								dx: dx,
-								dy: dy,
-								vx: vx,
-								vy: vy
-							});
-						}
-					}
-				break;
-			}
+			var dr = obj.radius + this.radius;
+			var dx = this.x - obj.x;
+			var dy = this.y - obj.y;
+			var angle = Math.atan2(dy, dx);
+			obj.x = this.x - Math.cos(angle) * dr;
+			obj.y = this.y - Math.sin(angle) * dr;
 		}
 		// touch 功能完全由force执行
 		/*ochi1.touch = function(mode){
