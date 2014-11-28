@@ -2,11 +2,8 @@
 
 	/* 先把这几个js塞到head里，暂时先这样了 */
 	module.load("init", [{
-		"name": "util",
-		"url": "js/util.js"
-	}, {
-		"name": "collide",
-		"url": "js/collide.js"
+		"name": "game",
+		"url": "js/game.js"
 	}], function(mod){
 		var collide = mod.collide;
 
@@ -30,7 +27,7 @@
 			game.load.ing(loaded, total);
 			if (loaded == total) {
 				start();
-			};
+			}
 		}
 
 		function start() {
