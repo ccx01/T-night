@@ -84,7 +84,7 @@
 			module.load("call" + chapter, [{
 				"name": chapter,
 				"url": "js/chapters/" + chapter + ".js"
-			}], function(){});
+			}]);
 		}
 
 		document.querySelector("#chapter").onclick = gotoChapter;
@@ -94,3 +94,4 @@
 		game.stage.setSize(600, 400);
 		game.menu();
 	});
+ 

@@ -229,7 +229,7 @@ base function
 	}
 	var fps = function(rate){
 		var $fps = $("#fps");
-		var I = function(){
+		var I = function(rate){
 			$fps.html(rate);
 		}
 		return I;
@@ -286,6 +286,7 @@ base function
 	game.menu = menu();
 
 	window.game = game;
+	window.$ = $;
 
 	module.add("util", "功能块");
 
