@@ -9,16 +9,16 @@
 		//load时记录当前模块的require和callback
 		var buffer = {};
 		var bufferCheck = function(){
-			for(var from in buffer){
+			for(var buffer_name in buffer){
 				var ready = true;
-				for (var i = 0, len = buffer[from].length; i < len; i++) {
-					if(!I.mod[buffer[from][i].name]){
+				for (var i = 0, len = buffer[buffer_name].length; i < len; i++) {
+					if(!I.mod[buffer[buffer_name][i].name]){
 						ready = false;
 					}
 				}
-				if(ready && !I.mod[from]){
-					buffer[from].func(I.mod);
-					delete buffer[from];
+				if(ready && !I.mod[buffer_name]){
+					buffer[buffer_name].func(I.mod);
+					delete buffer[buffer_name];
 				}
 			}
 		}
@@ -30,14 +30,13 @@
 					bufferCheck();
 				}
 			}
-			I.load = function(from, mods, callback){
-				if(!buffer[from]){
-					buffer[from] = {}
-					buffer[from] = mods;
-					buffer[from].func = callback || function(){};
+			I.load = function(buffer_name, mods, callback){
+				if(!buffer[buffer_name]){
+					buffer[buffer_name] = {}
+					buffer[buffer_name] = mods;
+					buffer[buffer_name].func = callback || function(){};
 
 					for (var i = 0, len = mods.length; i < len; i++) {
-
 						var name = mods[i].name;
 						var url = mods[i].url;
 

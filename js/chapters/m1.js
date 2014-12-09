@@ -1,4 +1,5 @@
 (function(){
+	
 	game.map.init("img/map/bg1.png", 1900, 1000);
 	module.load("m1", [{
 			"name": "ochi",

@@ -3,22 +3,28 @@ base function
 *****************/
 (function(){
 
+	//bound checked
+	Number.prototype.clamp = function(min, max) {
+		return Math.min(Math.max(this, min), max);
+	}
+	
 	/* simulate jquery dom */
-	var $ = function(selector){
-		var ani = function(obj, prop, cur, tar, incr){
-			obj.style[prop] = cur + "px";
-			if(incr < 0 && cur > tar){
-				cur = (cur + incr) > tar ? (cur + incr) : tar;
-				setTimeout(function(){
-					ani(obj, prop, cur, tar, incr);
-				}, 10)
-			}else if(incr > 0 && cur < tar){
-				cur = (cur + incr) < tar ? (cur + incr) : tar;
-				setTimeout(function(){
-					ani(obj, prop, cur, tar, incr);
-				}, 10)
-			}
+	var ani = function(obj, prop, cur, tar, incr){
+		obj.style[prop] = cur + "px";
+		if(incr < 0 && cur > tar){
+			cur = (cur + incr) > tar ? (cur + incr) : tar;
+			setTimeout(function(){
+				ani(obj, prop, cur, tar, incr);
+			}, 10)
+		}else if(incr > 0 && cur < tar){
+			cur = (cur + incr) < tar ? (cur + incr) : tar;
+			setTimeout(function(){
+				ani(obj, prop, cur, tar, incr);
+			}, 10)
 		}
+	}
+	
+	var $ = function(selector){
 		var I = document.querySelectorAll(selector)[0];
 			I.html = function(code){
 				this.innerHTML = code;

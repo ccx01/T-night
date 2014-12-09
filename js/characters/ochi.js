@@ -12,7 +12,7 @@
 		// var ochi = module.mod['model']();
 
 		/*************sprite***************/
-		ochi.sprite = mod.sprite("characters/ochi.png", 0, 0, 32, 32, ready);
+		ochi.sprite = mod.sprite("characters/ochi.png", 0, 0, 32, 32, game.ready);
 		ochi.collidable = true;
 		ochi.name = "ochi";
 
@@ -49,7 +49,7 @@
 				}
 
 				var self = mod.model(cfg);
-					self.sprite = mod.sprite("ui/mark.png", 0, 0, 22, 20, ready);
+					self.sprite = mod.sprite("ui/mark.png", 0, 0, 22, 20, game.ready);
 					self.moving = true;
 					self.collidable = true;
 					self.update = function() {

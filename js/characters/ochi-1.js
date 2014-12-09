@@ -13,7 +13,7 @@
 		ochi1.collidable = true;
 
 		/*************sprite***************/
-		ochi1.sprite = mod.sprite("characters/ochi1.png", 0, 0, 32, 32, ready);
+		ochi1.sprite = mod.sprite("characters/ochi1.png", 0, 0, 32, 32, game.ready);
 
 		ochi1.name = "ochi1";
 

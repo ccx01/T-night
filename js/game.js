@@ -7,7 +7,27 @@ module.load("game", [{
 }, {
 	"name": "collide",
 	"url": "js/collide.js"
+}, {
+	"name": "model",
+	"url": "js/model.js"
+}, {
+	"name": "sprite",
+	"url": "js/sprite.js"
 }], function(mod){
+
+	var requestAnimationFrame = (function() {
+		return window.requestAnimationFrame || function(callback) {
+			return setTimeout(callback, 1000 / 60); // shoot for 60 fps
+		};
+	}());
+
+	var cancelAnimationFrame = (function() {
+		return window.cancelAnimationFrame || function(id) {
+			clearTimeout(id);
+		};
+	}());
+
+	var collide = mod.collide;
 	var quadMouse = function(o, e, r){
 		/***
 		o: 象限中心
@@ -159,58 +179,65 @@ module.load("game", [{
 		return I;
 	}
 	/* load function */
-	var load = function(){
-		var $loading = $("#loading");
-		var $chapter = $("#chapter");
-		var $info = $("#info");
-		var $stage = $("#stage");
-		var I = {
-			start: function(){
-				$loading.css({
-					"display": "block"
-				});
-				$chapter.css({
-					"display": "none"
-				});
-			},
-			end: function(){
-				$loading.css({
-					"display": "none"
-				});
-				$info.css({
-					"display": "block"
-				});
-				$stage.css({
-					"display": "block"
-				});
-			},
-			ing: function(loaded, count_objects){
-				$loading.find("div").animate({
-					"width": loaded / count_objects * 100 + "%"
-				});
-			}
-		};
-		return I;
+
+	var $loading = $("#loading"),
+		$chapter = $("#chapter"),
+		$info = $("#info"),
+		$stage = $("#stage"),
+		$fps = $("#fps"),
+		$chapter = $("#chapter");
+
+	var loop_id,
+		last_loop_time = 0,
+		last_fps_time = 0;
+
+	function begin() {
+		$loading.css({
+			"display": "block"
+		});
+		$chapter.css({
+			"display": "none"
+		});
 	}
-	var fps = function(rate){
-		var $fps = $("#fps");
-		var I = function(rate){
-			$fps.html(rate);
-		}
-		return I;
-	}
-	var menu = function(rate){
-		var $chapter = $("#chapter");
-		var I = function(){
-			$chapter.css({
+
+	function ready(loaded, total) {
+		$loading.find("div").animate({
+			"width": loaded / total * 100 + "%"
+		});
+		if (loaded == total) {
+			$loading.css({
+				"display": "none"
+			});
+			$info.css({
 				"display": "block"
 			});
+			$stage.css({
+				"display": "block"
+			});
+			loop_id && cancelAnimationFrame(loop_id);
+			loop_id = requestAnimationFrame(loop);
 		}
-		return I;
 	}
-	//bound checked
-	Number.prototype.clamp = function(min, max) {
-		return Math.min(Math.max(this, min), max);
+
+	function stop() {
+		cancelAnimationFrame(loop_id);
+	}
+	
+	function loop(now) {
+		game.update();
+		loop_id = requestAnimationFrame(loop);
+		if (now - last_fps_time > 1000) {
+			$fps.html(1000 / (now - last_loop_time) | 0);
+			last_fps_time = now;
+		}
+		last_loop_time = now;
+		game.time = now | 0;
+	}
+
+	function menu(){
+		$chapter.css({
+			"display": "block"
+		});
 	}
 
 	var game = {
@@ -223,7 +250,7 @@ module.load("game", [{
 	game.map = {
 		w: 600,
 		h: 400,
-		init: function(url, w, h){
+		init: function (url, w, h) {
 			game.stage.bg(url);
 			this.w = w;
 			this.h = h;
@@ -234,7 +261,7 @@ module.load("game", [{
 		x:0,
 		y:0,
 		center:game.map,
-		update:function(){
+		update: function() {
 			/*******camera*******/
 			this.x = this.center.x - game.stage.w / 2;	//lock the camera
 			this.y = this.center.y - game.stage.h / 2;
@@ -246,9 +273,15 @@ module.load("game", [{
 
 	game.cmd = cmd();
 	game.stage = stage();
-	game.load = load();
-	game.fps = fps();
-	game.menu = menu();
+	game.begin = begin;
+	game.menu = menu;
+	game.ready = ready;
+
+	game.update = function() {
+		collide.handle();
+		game.camera.update();
+		game.stage.update();
+	}
 
 	window.game = game;
 
