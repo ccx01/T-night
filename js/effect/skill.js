@@ -10,7 +10,7 @@
 	}], function(mod){
 
 		var Qkey = mod.model();
-			Qkey.sprite = mod.sprite("ui/mark.png", 0, 0, 22, 20, game.ready);
+			Qkey.sprite = mod.sprite("ui/mark.png", 0, 0, 22, 20, ready);
 			Qkey.move = function(){
 				if((this.vx > 0 && this.x > this.dx) || (this.vx < 0 && this.x < this.dx) || (this.vy > 0 && this.y > this.dy) || (this.vy < 0 && this.y < this.dy)){
 					this.active = false;
@@ -43,7 +43,7 @@
 			}
 
 		var Wkey = mod.model();
-			Wkey.sprite = mod.sprite("ui/mark.png", 0, 0, 22, 20, game.ready);
+			Wkey.sprite = mod.sprite("ui/mark.png", 0, 0, 22, 20, ready);
 			Wkey.move = function(){
 				if((this.vx > 0 && this.x > this.dx) || (this.vx < 0 && this.x < this.dx) || (this.vy > 0 && this.y > this.dy) || (this.vy < 0 && this.y < this.dy)){
 					this.active = false;

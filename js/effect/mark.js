@@ -11,7 +11,7 @@
 
 		var mark = mod.model();
 
-		mark.sprite = mod.sprite("ui/mark.png", 0, 0, 22, 20, game.ready);
+		mark.sprite = mod.sprite("ui/mark.png", 0, 0, 22, 20, ready);
 
 		mark.update = function() {
 			this.img.ani([
