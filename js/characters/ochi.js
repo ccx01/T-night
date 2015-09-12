@@ -19,7 +19,6 @@
 		ochi.init = function(hp, speed, x, y, angle){
 			this.type = "character";
 			this.radius = 15;
-			this.mass = 20;
 			/* 状态属性 */
 			this.movable = true;
 			this.moving = false;
@@ -41,6 +40,7 @@
 				var vy = Math.sin(angle) * speed || 0;
 
 				var cfg = {
+					name: "ochi",
 					age: age,
 					x: x,
 					y: y,
@@ -66,17 +66,16 @@
 					}
 					self.force = function(obj) {
 						if(obj.name != ochi.name) {
-							var t = 10;
+							var t = 5;
 							var dr = this.radius + obj.radius;
 							var tx = obj.x - this.x;
 							var ty = obj.y - this.y;
 							var angle = Math.atan2(ty, tx);
 							var cos = Math.cos(angle);
 							var sin = Math.sin(angle);
-							var ratio = this.mass / obj.mass;
 
-							var vx = cos * this.speed * ratio;
-							var vy = sin * this.speed * ratio;
+							var vx = cos * this.speed * 2;
+							var vy = sin * this.speed * 2;
 							var dx = obj.x + vx * t;
 							var dy = obj.y + vy * t;
 
@@ -90,6 +89,7 @@
 								});
 							}
 							self.collidable = false;
+							self.active = false;
 						}
 					}
 
@@ -114,7 +114,7 @@
 					}
 				break;
 				case "Qkey":
-					this.skill.Qkey(1000, this.x, this.y, game.mouse_x, game.mouse_y, 10, game.time);
+					this.skill.Qkey(500, this.x, this.y, game.mouse_x, game.mouse_y, 10, game.time);
 				break;
 			}
 		}
@@ -149,67 +149,21 @@
 			this.mode = end;
 			callback && callback();
 		}
-		ochi.force = function(obj){
-			//作用力
-			/*
-			此函数与extra一样，将随时进行更新 
-			碰撞后对方执行的效果，如击飞效果
-			不同的技能有不同的效果
-			*/
-			switch(this.mode){
-				/*
-				各个状态需独立写一份碰撞事件
-				若在behavior中再赋值将会出现首次无效的情况
-				此处mode之后替换成对应的技能招式
-				*/
-				/*case "walk":
-					// this.isObstructed("stay");
-					if(obj.type == "character"){
-						var t = 10;
-						var dr = this.radius + obj.radius;
-						var tx = obj.x - this.x;
-						var ty = obj.y - this.y;
-						var angle = Math.atan2(ty, tx);
-						var cos = Math.cos(angle);
-						var sin = Math.sin(angle);
-						var ratio = this.mass / obj.mass;
-
-						var vx = cos * this.speed * ratio;
-						var vy = sin * this.speed * ratio;
-						var dx = obj.x + vx * t;
-						var dy = obj.y + vy * t;
-
-						obj.mode = "extra";
-						obj.extra = function(){
-							obj.move("stay", {
-								dx: dx,
-								dy: dy,
-								vx: vx,
-								vy: vy
-							});
-						}
-					}
-				break;*/
-			}
+		
+		ochi.force = function(obj) {
+			//在写出移动路径算法前先无视角色作用力
 		}
-		// touch 功能完全由force执行
-		/*ochi.touch = function(mode){
-			//反作用力
-			//只有可操作状态的对象才有touch属性，有待考量
-			switch(mode){
-				case "walk":
-					this.isObstructed("stay", reaction(this));
-				break;
-			}
-		}*/
 		ochi.extra = function(){/* 碰撞后的行为，由对方的force控住，如被击飞 */}
-		ochi.behavior = function() {
+		ochi.action = function() {
 			switch(this.mode){
 				case "walk":
 					// 技能施放时贴图可能不停的变化 => to Sign
 					// 设计有变，行走无需更换图片
 					// this.img("walk");
 					this.move();
+				break;
+				case "be_bounced":
+					//被击飞
 				break;
 				case "extra":
 					this.extra();
@@ -220,7 +174,7 @@
 		/**********update**********/
 		ochi.update = function() {
 			// this.state();
-			this.behavior();
+			this.action();
 		}
 
 		game.drawPool.push(ochi);

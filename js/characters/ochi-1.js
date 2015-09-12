@@ -83,19 +83,9 @@
 			var dx = this.x - obj.x;
 			var dy = this.y - obj.y;
 			var angle = Math.atan2(dy, dx);
-			obj.x = this.x - Math.cos(angle) * dr;
-			obj.y = this.y - Math.sin(angle) * dr;
+			obj.x = this.x - Math.cos(angle) * dr * 1.1;
+			obj.y = this.y - Math.sin(angle) * dr * 1.1;
 		}
-		// touch 功能完全由force执行
-		/*ochi1.touch = function(mode){
-			//反作用力
-			//只有可操作状态的对象才有touch属性，有待考量
-			switch(mode){
-				case "walk":
-					this.isObstructed("stay", reaction(this));
-				break;
-			}
-		}*/
 		ochi1.extra = function(){/* 碰撞后的行为，由对方的force控住，如被击飞 */}
 		ochi1.behavior = function() {
 			switch(this.mode){

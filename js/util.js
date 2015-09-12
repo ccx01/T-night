@@ -49,10 +49,10 @@ base function
 		e: 鼠标位置
 		r: 敏感范围
 		***/
-		if(e.layerX - o.layerX > r && e.layerY - o.layerY > r) return "4";
-		if(o.layerX - e.layerX > r && e.layerY - o.layerY > r) return "3";
-		if(o.layerX - e.layerX > r && o.layerY - e.layerY > r) return "2";
-		if(e.layerX - o.layerX > r && o.layerY - e.layerY > r) return "1";
+		if(e.x - o.x > r && e.y - o.y > r) return "4";
+		if(o.x - e.x > r && e.y - o.y > r) return "3";
+		if(o.x - e.x > r && o.y - e.y > r) return "2";
+		if(e.x - o.x > r && o.y - e.y > r) return "1";
 		return "";
 	}
 	var gesture = function(quad){
@@ -150,46 +150,82 @@ base function
 	}
 
 	var cmd = function(){
+		document.oncontextmenu = function () {
+			return false;
+		}
+		document.addEventListener("touchmove", function(ev) {
+	        ev.preventDefault();
+	    }, false);
 		var $gesture = $("#gesture");
 		var ges = $gesture.getContext("2d");
+		var e, o;
+		//手势值
+		var quad = "";
+		//上一次象限
+		var quad_l = "";
+		//当前象限
+		var quad_c = "";
+		//敏感度
+		var sens = 15;
+		var start;
+		var move ;
+		var end;
+		if ("ontouchstart" in document) {
+			start = "touchstart";
+			move = "touchmove";
+			end = "touchend";
+		} else {
+			start = "mousedown";
+			move = "mousemove";
+			end = "mouseup";
+		}
+		var eMove = function(ev){
+			e = {
+				"x": ev.changedTouches ? ev.changedTouches[0].pageX : ev.layerX,
+				"y": ev.changedTouches ? ev.changedTouches[0].pageY : ev.layerY
+			}
+		}
 		var I = function(callback){
 			var check_mouse;
-			$gesture.onmousedown = function(e){
+			$gesture.addEventListener(start, function(ev){
 				ges.beginPath();
-				var o = e;
-				var quad = "";
-				//上一次象限
-				var quad_l = "";
-				//当前象限
-				var quad_c = "";
-				//敏感度
-				var sens = 15;
-
-				$gesture.onmousemove = function(ev){
-					e = ev;
+				e = o = {
+					"x": ev.changedTouches ? ev.changedTouches[0].pageX : ev.layerX,
+					"y": ev.changedTouches ? ev.changedTouches[0].pageY : ev.layerY
 				}
+				quad = "";
+				//上一次象限
+				quad_l = "";
+				//当前象限
+				quad_c = "";
+
+				$gesture.addEventListener(move, eMove);
 				check_mouse = setInterval(function(){
 					quad_c = quadMouse(o, e, sens);
 					if(quad_c){
 						if(quad_c != quad_l){
 							quad += quad_c;
 							quad_l = quad_c;
-							// mark.add(500, e.layerX + camera.x, e.layerY + camera.y, game.time, 20, 20);
+							// mark.add(500, e.x + camera.x, e.y + camera.y, game.time, 20, 20);
 						}
 						o = e;
 					}
-					ges.lineTo(e.layerX, e.layerY);
+					ges.lineTo(e.x, e.y);
 					ges.stroke();
 				}, 10);
-				document.onmouseup = function(ev){
-					var cmd = gesture(quad);
-					callback(e, cmd);
-					clearInterval(check_mouse);
-					ges.clearRect(0, 0, ges.w, ges.h);
-					$gesture.onmousemove = null;
-					document.onmouseup = null;
+			});
+
+			document.addEventListener(end, function(ev){
+				e = {
+					"x": ev.changedTouches ? ev.changedTouches[0].pageX : ev.layerX,
+					"y": ev.changedTouches ? ev.changedTouches[0].pageY : ev.layerY
 				}
-			}
+				var cmd = gesture(quad);
+				callback(e, cmd);
+				clearInterval(check_mouse);
+				ges.clearRect(0, 0, ges.w, ges.h);
+				$gesture.removeEventListener('touchmove', eMove);
+			});
 		}
 		return I;
 	}

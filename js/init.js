@@ -91,6 +91,6 @@
 
 		window.ready = ready;
 		
-		game.stage.setSize(600, 400);
+		game.stage.setSize(screen.width, screen.height);
 		game.menu();
 	});

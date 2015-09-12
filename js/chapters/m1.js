@@ -25,8 +25,8 @@
 			});*/
 			game.camera.center=ochi;
 			game.cmd(function(e, cmd){
-				game.mouse_x = e.layerX + game.camera.x,
-				game.mouse_y = e.layerY + game.camera.y;
+				game.mouse_x = e.x + game.camera.x,
+				game.mouse_y = e.y + game.camera.y;
 				ochi.cmd(cmd);
 
 				mark.add(500, game.mouse_x, game.mouse_y, game.time, 20, 20);
