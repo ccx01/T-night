@@ -60,7 +60,6 @@ base function
 		return "";
 	}
 	var getGestureCode = function(quad){
-		console.log(quad)
 		var rex = /123|234|341|412|432|321|214|143|232|323|242|424|121|212|131|313|141|414|4|3|2|1/;
 		//反转，优先匹配最后的手势
 		quad = quad.slice(-10).split("").reverse().join("");
@@ -163,7 +162,7 @@ base function
 	    });
 		var $gesture = $("#gesture");
 		var ges = $gesture.getContext("2d");
-		var e, o;
+		var e, o, s;
 		//手势值
 		var quad = "";
 		//上一次象限
@@ -199,7 +198,7 @@ base function
 				touch_lock = 1;
 
 				ges.beginPath();
-				e = o = {
+				e = o = s = {
 					"x": ev.changedTouches ? ev.changedTouches[0].clientX : ev.layerX,
 					"y": ev.changedTouches ? ev.changedTouches[0].clientY : ev.layerY
 				}
@@ -211,13 +210,13 @@ base function
 
 				$gesture.addEventListener(move, eMove);
 				check_mouse = setInterval(function(){
-					quad_c = quadMouse(o, e, sens);
+					quad_c = quadMouse(s, e, sens);
 					if(quad_c){
 						if(quad_c != quad_l){
 							quad += quad_c;
 							quad_l = quad_c;
 						}
-						o = e;
+						s = e;
 					}
 					ges.lineTo(e.x, e.y);
 					ges.stroke();
@@ -243,7 +242,6 @@ base function
 
 				var cmd = getGestureCode(quad);
 				
-				$("#info").html(quad,cmd)
 				var cfg = {
 					"o": o,
 					"e": e,
