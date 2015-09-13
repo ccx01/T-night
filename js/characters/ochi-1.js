@@ -85,6 +85,7 @@
 			var angle = Math.atan2(dy, dx);
 			obj.x = this.x - Math.cos(angle) * dr * 1.1;
 			obj.y = this.y - Math.sin(angle) * dr * 1.1;
+			obj.status = "";
 		}
 		ochi1.extra = function(){/* 碰撞后的行为，由对方的force控住，如被击飞 */}
 		ochi1.behavior = function() {

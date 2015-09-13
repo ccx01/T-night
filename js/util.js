@@ -49,13 +49,18 @@ base function
 		e: 鼠标位置
 		r: 敏感范围
 		***/
-		if(e.x - o.x > r && e.y - o.y > r) return "4";
-		if(o.x - e.x > r && e.y - o.y > r) return "3";
-		if(o.x - e.x > r && o.y - e.y > r) return "2";
-		if(e.x - o.x > r && o.y - e.y > r) return "1";
+		var qx = e.x - o.x;
+		var qy = e.y - o.y;
+		if(qx * qx + qy * qy > r * r) {	
+			if(qx > 0 && qy > 0) return "4";
+			if(qx < 0 && qy > 0) return "3";
+			if(qx < 0 && qy < 0) return "2";
+			if(qx > 0 && qy < 0) return "1";	
+		}
 		return "";
 	}
-	var gesture = function(quad){
+	var getGestureCode = function(quad){
+		console.log(quad)
 		var rex = /123|234|341|412|432|321|214|143|232|323|242|424|121|212|131|313|141|414|4|3|2|1/;
 		//反转，优先匹配最后的手势
 		quad = quad.slice(-10).split("").reverse().join("");
@@ -68,14 +73,14 @@ base function
 			case "341":
 			case "412":
 				console.log("顺时针");
-				return "Wkey";
+				return "keySSZ";
 				break;
 			case "432":
 			case "321":
 			case "214":
 			case "143":
 				console.log("逆时针");
-				return "Ekey";
+				return "keyNSZ";
 				break;
 			case "232":
 			case "323":
@@ -88,19 +93,19 @@ base function
 			case "141":
 			case "414":
 				console.log("切割");
-				return "Rkey";
+				return "keyQG";
 				break;
 			case "4":
 			case "3":
 			case "2":
 			case "1":
 				console.log("直线");
-				return "Qkey";
+				return "keyZX";
 				break;
 			default:
 				//默认为行走
 				console.log("无手势");
-				return "walk";
+				return "keyN";
 		}
 	}
 
@@ -155,7 +160,7 @@ base function
 		}
 		document.addEventListener("touchmove", function(ev) {
 	        ev.preventDefault();
-	    }, false);
+	    });
 		var $gesture = $("#gesture");
 		var ges = $gesture.getContext("2d");
 		var e, o;
@@ -181,17 +186,22 @@ base function
 		}
 		var eMove = function(ev){
 			e = {
-				"x": ev.changedTouches ? ev.changedTouches[0].pageX : ev.layerX,
-				"y": ev.changedTouches ? ev.changedTouches[0].pageY : ev.layerY
+				"x": ev.changedTouches ? ev.changedTouches[0].clientX : ev.layerX,
+				"y": ev.changedTouches ? ev.changedTouches[0].clientY : ev.layerY
 			}
 		}
 		var I = function(callback){
 			var check_mouse;
+			var touch_lock = 0;
 			$gesture.addEventListener(start, function(ev){
+				//多点触控暂时不需要，直接锁了
+				if(touch_lock) return;
+				touch_lock = 1;
+
 				ges.beginPath();
 				e = o = {
-					"x": ev.changedTouches ? ev.changedTouches[0].pageX : ev.layerX,
-					"y": ev.changedTouches ? ev.changedTouches[0].pageY : ev.layerY
+					"x": ev.changedTouches ? ev.changedTouches[0].clientX : ev.layerX,
+					"y": ev.changedTouches ? ev.changedTouches[0].clientY : ev.layerY
 				}
 				quad = "";
 				//上一次象限
@@ -206,7 +216,6 @@ base function
 						if(quad_c != quad_l){
 							quad += quad_c;
 							quad_l = quad_c;
-							// mark.add(500, e.x + camera.x, e.y + camera.y, game.time, 20, 20);
 						}
 						o = e;
 					}
@@ -216,12 +225,31 @@ base function
 			});
 
 			document.addEventListener(end, function(ev){
-				e = {
-					"x": ev.changedTouches ? ev.changedTouches[0].pageX : ev.layerX,
-					"y": ev.changedTouches ? ev.changedTouches[0].pageY : ev.layerY
+				//debug
+				/*console.log(ev)
+				var info = ""
+				for (var i = 0; i < ev.changedTouches.length; i++) {
+					var ec = ev.changedTouches[i];
+					for(var ee in ec) {
+						info += ee + " : " + ec[ee] + "<br>";
+					}
 				}
-				var cmd = gesture(quad);
-				callback(e, cmd);
+				$("#info").html(info)*/
+				touch_lock = 0;
+				e = {
+					"x": ev.changedTouches ? ev.changedTouches[0].clientX : ev.layerX,
+					"y": ev.changedTouches ? ev.changedTouches[0].clientY : ev.layerY
+				}
+
+				var cmd = getGestureCode(quad);
+				
+				$("#info").html(quad,cmd)
+				var cfg = {
+					"o": o,
+					"e": e,
+					"cmd": cmd
+				}
+				callback(cfg);
 				clearInterval(check_mouse);
 				ges.clearRect(0, 0, ges.w, ges.h);
 				$gesture.removeEventListener('touchmove', eMove);

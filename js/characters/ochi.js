@@ -20,8 +20,9 @@
 			this.type = "character";
 			this.radius = 15;
 			/* 状态属性 */
-			this.movable = true;
-			this.moving = false;
+			this.status = "normal";
+			// this.movable = true;
+			this.moving = false;	//碰撞检测只判断moving为true的对象
 			/* 状态属性 end */
 			this.hp = this.init_hp = hp;
 			this.speed = this.init_speed = speed;
@@ -96,30 +97,47 @@
 				game.drawPool.push(self);
 				game.collidePool.push(self);
 			}
+
 			I.Qkey = Qkey;
 			return I;
 		}());
 
-		ochi.cmd = function(listener) { //cmd drived by the event listener, listener set by chapter
-			switch(listener){
-				case "walk":
+		ochi.cmd = function(cfg) {
+			if(this.status == "beyond_control") {
+				return;
+			}
+			//命令监听设置在chapter里
+			switch(cfg.cmd){
+				case "keyN":
 					if(Math.abs(game.mouse_x - this.x) > this.radius || Math.abs(game.mouse_y - this.y) > this.radius){
 						this.dy = game.mouse_y;
 						this.dx = game.mouse_x;
 						this.angle = this.toward = Math.atan2(this.dy - this.y, this.dx - this.x);
 						this.vx = Math.cos(this.angle) * this.speed || 0;
 						this.vy = Math.sin(this.angle) * this.speed || 0;
-						this.movable = true;
+						// this.movable = true;
 						this.mode = "walk";
 					}
 				break;
-				case "Qkey":
+				case "keySSZ":
 					this.skill.Qkey(500, this.x, this.y, game.mouse_x, game.mouse_y, 10, game.time);
+				break;
+				case "keyZX":
+					this.angle = this.toward = Math.atan2(cfg.e.y - cfg.o.y, cfg.e.x - cfg.o.x);
+					this.vx = Math.cos(this.angle) * 15 || 0;
+					this.vy = Math.sin(this.angle) * 15 || 0;
+					this.dy = this.y + this.vy * 20;
+					this.dx = this.x + this.vx * 20;
+					this.mode = "sprint";
+					this.status = "beyond_control";
+					setTimeout(function(){
+						this.mode = "normal";
+					}, 1000);
 				break;
 			}
 		}
 		ochi.move = function(end, extra){
-			if (this.movable) {
+			// if (this.movable) {
 				// 特殊情况下出现的移动行为，如被对方击飞
 				// 移动时的速度并非完全按本身速度进行
 				extra = extra || {};
@@ -130,31 +148,31 @@
 
 				this.moving = true;
 
-				if((this.vx > 0 && this.x > this.dx) || (this.vx < 0 && this.x < this.dx) || (this.vy > 0 && this.y > this.dy) || (this.vy < 0 && this.y < this.dy)){
-					// this.x = this.dx;
-					// this.y = this.dy;
-					// 移动到目标位置结束状态
-					this.isObstructed(end || "stay");
+				if((this.x <= this.radius) || (this.x >= game.map.w - this.radius) || (this.y <= this.radius) || (this.y >= game.map.h - this.radius) || (this.vx > 0 && this.x > this.dx) || (this.vx < 0 && this.x < this.dx) || (this.vy > 0 && this.y > this.dy) || (this.vy < 0 && this.y < this.dy)){
+					//防止出界，这判断太糟糕了，需优先优化
+					this.x = this.x.clamp(this.radius + 1, game.map.w - 1 - this.radius);
+					this.y = this.y.clamp(this.radius + 1, game.map.h - 1 - this.radius);
+					this.isObstructed(end);
 				} else {
 					this.x += this.vx;
 					this.y += this.vy;
 				}
-			}
+			// }
 		}
-		ochi.isObstructed = function(end, callback){
+		ochi.isObstructed = function(end){
 			// 移动停止需要独立一个功能，以此来应付其他情况(其他情况可直接调用此功能)
 			this.vx = 0;
 			this.vy = 0;
 			this.moving = false;
-			this.mode = end;
-			callback && callback();
+			this.mode = "";
+			this.status = end || "normal";
 		}
 		
 		ochi.force = function(obj) {
 			//在写出移动路径算法前先无视角色作用力
 		}
 		ochi.extra = function(){/* 碰撞后的行为，由对方的force控住，如被击飞 */}
-		ochi.action = function() {
+		ochi.action = function(cfg) {
 			switch(this.mode){
 				case "walk":
 					// 技能施放时贴图可能不停的变化 => to Sign
@@ -163,7 +181,10 @@
 					this.move();
 				break;
 				case "be_bounced":
-					//被击飞
+					//被击飞 或 弹飞
+				break;
+				case "sprint":
+					this.move();
 				break;
 				case "extra":
 					this.extra();
