@@ -120,6 +120,10 @@
 					}
 				break;
 				case "keySSZ":
+					this.y = game.mouse_y;
+					this.x = game.mouse_x;
+				break;
+				case "keyNSZ":
 					this.skill.Qkey(500, this.x, this.y, game.mouse_x, game.mouse_y, 10, game.time);
 				break;
 				case "keyZX":
@@ -130,9 +134,6 @@
 					this.dx = this.x + this.vx * 20;
 					this.mode = "sprint";
 					this.status = "beyond_control";
-					setTimeout(function(){
-						this.mode = "normal";
-					}, 1000);
 				break;
 			}
 		}
