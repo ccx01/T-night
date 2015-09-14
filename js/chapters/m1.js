@@ -15,7 +15,7 @@
 			var mark = mod.mark;
 
 			ochi.init(5, 5, 200, 300, 0);
-			ochi1.init(5, 5, 300, 300, 0);
+			ochi1.init(5, 3, 300, 300, 0);
 			// ochi cmd 需要设个初始函数
 			/*$("#player").addClass("ochi");
 
@@ -24,6 +24,7 @@
 			    "width": "100%"
 			});*/
 			game.camera.center=ochi;
+			ochi1.target = ochi;
 			game.cmd(function(cfg){
 				game.mouse_x = cfg.e.x + game.camera.x,
 				game.mouse_y = cfg.e.y + game.camera.y;

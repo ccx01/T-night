@@ -21,6 +21,7 @@
 			this.radius = 15;
 			/* 状态属性 */
 			this.status = "normal";
+			this.debuff = "";
 			// this.movable = true;
 			this.moving = false;	//碰撞检测只判断moving为true的对象
 			/* 状态属性 end */
@@ -34,17 +35,17 @@
 
 		ochi.skill = (function(){
 			var I = {}
-			var Qkey = function(age, x, y, dx, dy, speed, time) {
+			//突刺
+			var tuchi = function(age, angle, speed, time) {
 				var active = true;
-				var angle = Math.atan2(dy - y, dx - x);
 				var vx = Math.cos(angle) * speed || 0;
 				var vy = Math.sin(angle) * speed || 0;
 
 				var cfg = {
 					name: "ochi",
 					age: age,
-					x: x,
-					y: y,
+					x: ochi.x,
+					y: ochi.y,
 					vx: vx,
 					vy: vy
 				}
@@ -63,7 +64,10 @@
 						if(this.x < 0 || this.x > game.map.w || this.y < 0 || this.y > game.map.h) {
 							this.active = false;
 						}
-						(game.time - time > this.age) && (this.active = false);
+						if(game.time - time > this.age) {
+							this.active = false;
+							ochi.status = "normal";
+						}
 					}
 					self.force = function(obj) {
 						if(obj.name != ochi.name) {
@@ -90,7 +94,6 @@
 								});
 							}
 							self.collidable = false;
-							self.active = false;
 						}
 					}
 
@@ -98,12 +101,13 @@
 				game.collidePool.push(self);
 			}
 
-			I.Qkey = Qkey;
+			I.tuchi = tuchi;
 			return I;
 		}());
-
+		
+		var dbclick = 0;
 		ochi.cmd = function(cfg) {
-			if(this.status == "beyond_control") {
+			if(this.status == "beyond_control" || this.debuff == "daze") {
 				return;
 			}
 			//命令监听设置在chapter里
@@ -116,25 +120,41 @@
 						this.vx = Math.cos(this.angle) * this.speed || 0;
 						this.vy = Math.sin(this.angle) * this.speed || 0;
 						// this.movable = true;
-						this.mode = "walk";
+						if(game.time - dbclick > 300) {
+							//单击
+							this.mode = "walk";
+						} else {
+							//双击
+							this.vx = Math.cos(this.angle) * 20 || 0;
+							this.vy = Math.sin(this.angle) * 20 || 0;
+							this.dy = this.y + this.vy * 20;
+							this.dx = this.x + this.vx * 20;
+							this.mode = "sprint";
+							this.status = "beyond_control";
+						}
+						dbclick = game.time;
 					}
 				break;
 				case "keySSZ":
+				case "keyNSZ":
 					this.y = game.mouse_y;
 					this.x = game.mouse_x;
 				break;
-				case "keyNSZ":
-					this.skill.Qkey(500, this.x, this.y, game.mouse_x, game.mouse_y, 10, game.time);
-				break;
 				case "keyZX":
 					this.angle = this.toward = Math.atan2(cfg.e.y - cfg.o.y, cfg.e.x - cfg.o.x);
-					this.vx = Math.cos(this.angle) * 15 || 0;
-					this.vy = Math.sin(this.angle) * 15 || 0;
-					this.dy = this.y + this.vy * 20;
-					this.dx = this.x + this.vx * 20;
-					this.mode = "sprint";
-					this.status = "beyond_control";
+					this.skill.tuchi(300, this.angle, 10, game.time);
+					this.mode = "tuchi";
+					// this.status = "beyond_control";
 				break;
+				// case "keySJ":
+				// 	this.angle = this.toward = Math.atan2(cfg.e.y - cfg.o.y, cfg.e.x - cfg.o.x);
+				// 	this.vx = Math.cos(this.angle) * 15 || 0;
+				// 	this.vy = Math.sin(this.angle) * 15 || 0;
+				// 	this.dy = this.y + this.vy * 20;
+				// 	this.dx = this.x + this.vx * 20;
+				// 	this.mode = "sprint";
+				// 	this.status = "beyond_control";
+				// break;
 			}
 		}
 		ochi.move = function(end, extra){
@@ -183,6 +203,9 @@
 				break;
 				case "be_bounced":
 					//被击飞 或 弹飞
+				break;
+				case "tuchi":
+
 				break;
 				case "sprint":
 					this.move();
