@@ -44,20 +44,25 @@
 				var cfg = {
 					name: "ochi",
 					age: age,
-					x: ochi.x,
-					y: ochi.y,
+					x: ochi.x + vx * 10,
+					y: ochi.y + vy * 10,
 					vx: vx,
-					vy: vy
+					vy: vy,
+					angle: angle,
+					toward: angle,
+					radius: 50
 				}
 
 				var self = mod.model(cfg);
-					self.sprite = mod.sprite("ui/mark.png", 0, 0, 22, 20, ready);
+					self.sprite = mod.sprite("characters/tuchi.png", 0, 59, 156, 59, ready);
 					self.moving = true;
 					self.collidable = true;
 					self.update = function() {
 						this.img.ani([
-							[0,0,22,20],
-							[0,20,22,20]
+							[0, 236, 156, 59],
+							[0, 295, 156, 59],
+							[0, 354, 156, 59],
+							[0, 413, 156, 59]
 						],100);
 						this.x += this.vx;
 						this.y += this.vy;
@@ -127,8 +132,8 @@
 							//双击
 							this.vx = Math.cos(this.angle) * 20 || 0;
 							this.vy = Math.sin(this.angle) * 20 || 0;
-							this.dy = this.y + this.vy * 20;
-							this.dx = this.x + this.vx * 20;
+							this.dy = this.y + this.vy * 10;
+							this.dx = this.x + this.vx * 10;
 							this.mode = "sprint";
 							this.status = "beyond_control";
 						}
@@ -142,7 +147,7 @@
 				break;
 				case "keyZX":
 					this.angle = this.toward = Math.atan2(cfg.e.y - cfg.o.y, cfg.e.x - cfg.o.x);
-					this.skill.tuchi(300, this.angle, 10, game.time);
+					this.skill.tuchi(300, this.angle, 5, game.time);
 					this.mode = "tuchi";
 					// this.status = "beyond_control";
 				break;
@@ -187,6 +192,7 @@
 			this.moving = false;
 			this.mode = "";
 			this.status = end || "normal";
+			this.sprite.set([0,0,32,32]);
 		}
 		
 		ochi.force = function(obj) {
@@ -205,9 +211,9 @@
 					//被击飞 或 弹飞
 				break;
 				case "tuchi":
-
 				break;
 				case "sprint":
+					this.sprite.set([34,36,61,30]);
 					this.move();
 				break;
 				case "extra":

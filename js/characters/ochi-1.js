@@ -46,11 +46,11 @@
 				this.vy = extra.vy || this.vy;
 
 				this.moving = true;
-				if((this.vx > 0 && this.x > this.dx) || (this.vx < 0 && this.x < this.dx) || (this.vy > 0 && this.y > this.dy) || (this.vy < 0 && this.y < this.dy)){
-					// this.x = this.dx;
-					// this.y = this.dy;
-					// 移动到目标位置结束状态
-					this.isObstructed(end || "stay");
+				if((this.x <= this.radius) || (this.x >= game.map.w - this.radius) || (this.y <= this.radius) || (this.y >= game.map.h - this.radius) || (this.vx > 0 && this.x > this.dx) || (this.vx < 0 && this.x < this.dx) || (this.vy > 0 && this.y > this.dy) || (this.vy < 0 && this.y < this.dy)){
+					//防止出界，这判断太糟糕了，需优先优化
+					this.x = this.x.clamp(this.radius + 1, game.map.w - 1 - this.radius);
+					this.y = this.y.clamp(this.radius + 1, game.map.h - 1 - this.radius);
+					this.isObstructed(end);
 				} else {
 					this.x += this.vx;
 					this.y += this.vy;
