@@ -45,6 +45,8 @@
 					}
 				}
 			}
+			I.force = function() {}
+			I.forced = function() {}
 			I.update = function() {}
 			return I;
 		}

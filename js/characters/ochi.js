@@ -76,28 +76,7 @@
 					}
 					self.force = function(obj) {
 						if(obj.name != ochi.name) {
-							var t = 5;
-							var dr = this.radius + obj.radius;
-							var tx = obj.x - this.x;
-							var ty = obj.y - this.y;
-							var angle = Math.atan2(ty, tx);
-							var cos = Math.cos(angle);
-							var sin = Math.sin(angle);
-
-							var vx = cos * this.speed * 2;
-							var vy = sin * this.speed * 2;
-							var dx = obj.x + vx * t;
-							var dy = obj.y + vy * t;
-
-							obj.mode = "extra";
-							obj.extra = function(){
-								obj.move("stay", {
-									dx: dx,
-									dy: dy,
-									vx: vx,
-									vy: vy
-								});
-							}
+							obj.forced(self, "extra");
 							self.collidable = false;
 						}
 					}
@@ -194,9 +173,21 @@
 			this.status = end || "normal";
 			this.sprite.set([0,0,32,32]);
 		}
-		
+		// 受力时的施力方
+		ochi.opp = {};
 		ochi.force = function(obj) {
 			//在写出移动路径算法前先无视角色作用力
+		}
+		ochi.forced = function (obj, mode) {
+			// 与force相对，受力时唯一的对外接口
+			this.opp = obj;
+			this.mode = mode;
+		}
+		ochi.changeMode = function (mode) {
+			//mode切换需统一管理
+		}
+		ochi.changeStatus = function (status) {
+			//status切换需统一管理
 		}
 		ochi.extra = function(){/* 碰撞后的行为，由对方的force控住，如被击飞 */}
 		ochi.action = function(cfg) {
@@ -209,6 +200,15 @@
 				break;
 				case "be_bounced":
 					//被击飞 或 弹飞
+					var dr = this.radius + ochi.opp.radius;
+					var dx = ochi.opp.x - this.x;
+					var dy = ochi.opp.y - this.y;
+					var angle = Math.atan2(dy, dx);
+					this.x = ochi.opp.x - Math.cos(angle) * dr * 1.1;
+					this.y = ochi.opp.y - Math.sin(angle) * dr * 1.1;
+				break;
+				case "touch":
+
 				break;
 				case "tuchi":
 				break;

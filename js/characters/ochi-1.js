@@ -66,14 +66,32 @@
 			callback && callback();
 			this.status = "";
 		}
-		ochi1.force = function(obj){
-			var dr = obj.radius + this.radius;
-			var dx = this.x - obj.x;
-			var dy = this.y - obj.y;
-			var angle = Math.atan2(dy, dx);
-			obj.x = this.x - Math.cos(angle) * dr * 1.1;
-			obj.y = this.y - Math.sin(angle) * dr * 1.1;
-			obj.status = "";
+		ochi1.force = function(obj) {
+			obj.forced(ochi1, "be_bounced");
+		}
+		ochi1.forced = function(obj, mode) {
+			var t = 5;
+			var dr = this.radius + obj.radius;
+			var tx = this.x - obj.x;
+			var ty = this.y - obj.y;
+			var angle = Math.atan2(ty, tx);
+			var cos = Math.cos(angle);
+			var sin = Math.sin(angle);
+
+			var vx = cos * obj.speed * 2;
+			var vy = sin * obj.speed * 2;
+			var dx = this.x + vx * t;
+			var dy = this.y + vy * t;
+
+			this.mode = mode;
+			this.extra = function(){
+				this.move("stay", {
+					dx: dx,
+					dy: dy,
+					vx: vx,
+					vy: vy
+				});
+			}
 		}
 		ochi1.extra = function(){/* 碰撞后的行为，由对方的force控住，如被击飞 */}
 		ochi1.angry = 0;
@@ -91,6 +109,9 @@
 						this.angry = 0;
 						this.mode = "chongzhuang";
 					}
+				break;
+				case "be_attacked":
+
 				break;
 				case "extra":
 					this.extra();
@@ -129,7 +150,7 @@
 		}
 		setInterval(function() {
 			//伟大的AI思考人生中
-			if (Math.random() > 0) {
+			if (Math.random() > 0.7) {
 				ochi1.AI(ochi1.target);	
 			};
 		}, 1000);
