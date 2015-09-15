@@ -289,7 +289,7 @@ base function
 		};
 		return I;
 	}
-	var fps = function(rate){
+	var fps = function(){
 		var $fps = $("#fps");
 		var I = function(rate){
 			$fps.html(rate);
