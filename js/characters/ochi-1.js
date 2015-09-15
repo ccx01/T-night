@@ -66,8 +66,17 @@
 			callback && callback();
 			this.status = "";
 		}
+
+		ochi1.force_cfg = {
+			t: ochi1,
+			mode: "be_bounced",
+			dis: 100,
+			s: 10
+		}
 		ochi1.force = function(obj) {
-			obj.forced(ochi1, "be_bounced");
+			ochi1.isObstructed();
+			ochi1.angry = 0;
+			obj.forced(ochi1.force_cfg);
 		}
 		ochi1.forced = function(obj, mode) {
 			var t = 5;
@@ -153,7 +162,7 @@
 			if (Math.random() > 0.7) {
 				ochi1.AI(ochi1.target);	
 			};
-		}, 1000);
+		}, 500);
 
 		game.drawPool.push(ochi1);
 		game.collidePool.push(ochi1);

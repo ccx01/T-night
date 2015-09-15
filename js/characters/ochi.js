@@ -15,6 +15,8 @@
 		ochi.sprite = mod.sprite("characters/ochi.png", 0, 0, 32, 32, ready);
 		ochi.collidable = true;
 		ochi.name = "ochi";
+		// 受力时的施力方
+		ochi.opp = {};
 
 		ochi.init = function(hp, speed, x, y, angle){
 			this.type = "character";
@@ -173,15 +175,15 @@
 			this.status = end || "normal";
 			this.sprite.set([0,0,32,32]);
 		}
-		// 受力时的施力方
-		ochi.opp = {};
-		ochi.force = function(obj) {
+		ochi.force = function (cfg) {
 			//在写出移动路径算法前先无视角色作用力
 		}
-		ochi.forced = function (obj, mode) {
-			// 与force相对，受力时唯一的对外接口
-			this.opp = obj;
-			this.mode = mode;
+		ochi.forced = function (cfg) {
+			//与force相对，受力时唯一的对外接口
+			this.opp = cfg.t;
+			this.mode = cfg.mode;
+			this.opp.dis = cfg.dis || 1;
+			this.opp.s = cfg.s || this.speed;
 		}
 		ochi.changeMode = function (mode) {
 			//mode切换需统一管理
@@ -196,16 +198,18 @@
 					// 技能施放时贴图可能不停的变化 => to Sign
 					// 设计有变，行走无需更换图片
 					// this.img("walk");
-					this.move();
 				break;
 				case "be_bounced":
 					//被击飞 或 弹飞
+					this.sprite.set([0,0,32,32]);
 					var dr = this.radius + ochi.opp.radius;
 					var dx = ochi.opp.x - this.x;
 					var dy = ochi.opp.y - this.y;
-					var angle = Math.atan2(dy, dx);
-					this.x = ochi.opp.x - Math.cos(angle) * dr * 1.1;
-					this.y = ochi.opp.y - Math.sin(angle) * dr * 1.1;
+					this.angle = Math.atan2(dy, dx);
+					this.vx = - Math.cos(this.angle) * ochi.opp.s;
+					this.vy = - Math.sin(this.angle) * ochi.opp.s;
+					this.dx = ochi.opp.x - Math.cos(this.angle) * (dr + ochi.opp.dis);
+					this.dy = ochi.opp.y - Math.sin(this.angle) * (dr + ochi.opp.dis);
 				break;
 				case "touch":
 
@@ -214,12 +218,12 @@
 				break;
 				case "sprint":
 					this.sprite.set([34,36,61,30]);
-					this.move();
 				break;
 				case "extra":
 					this.extra();
 				break;
 			}
+			this.move();
 		}
 
 		/**********update**********/
