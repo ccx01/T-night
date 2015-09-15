@@ -78,7 +78,14 @@
 					}
 					self.force = function(obj) {
 						if(obj.name != ochi.name) {
-							obj.forced(self, "extra");
+							var force_cfg = {
+								t: self,
+								mode: "be_attacked",
+								dis: 1,
+								s: 10
+							}
+							obj.forced(force_cfg);
+							// obj.forced(self, "extra");
 							self.collidable = false;
 						}
 					}

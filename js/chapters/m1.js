@@ -14,8 +14,8 @@
 			var ochi1 = mod.ochi1;
 			var mark = mod.mark;
 
-			ochi.init(5, 5, 200, 300, 0);
-			ochi1.init(5, 3, 300, 300, 0);
+			ochi.init(5, 5, 100, 200, 0);
+			ochi1.init(5, 3, 300, 400, 0);
 			// ochi cmd 需要设个初始函数
 			/*$("#player").addClass("ochi");
 

@@ -27,7 +27,7 @@
 				game.stage.rotate(this.toward);
 				this.sprite.draw(game.stage);
 				/* OBB stroke */
-				this.sprite.stroke(game.stage, 0, 0, this.radius);
+				// this.sprite.stroke(game.stage, 0, 0, this.radius);
 				/* OBB stroke end */
 				game.stage.restore();
 				this.update();
