@@ -305,11 +305,6 @@ base function
 		}
 		return I;
 	}
-	//bound checked
-	Number.prototype.clamp = function(min, max) {
-		return Math.min(Math.max(this, min), max);
-	}
-
 
 	var game = {
 		drawPool: [],
