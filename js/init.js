@@ -61,19 +61,9 @@
 			game.time = now | 0;
 		}
 
-		function parents(node, tar) {
-			while (node) {
-				if (node.className == tar || node.id == tar) {
-					return node;
-				}
-				node = node.parentNode;
-			}
-			return false;
-		}
-
 		function gotoChapter(e){
 			//冒泡处理
-			var node = parents(e.target,'chapter');
+			var node = e.target.parents('chapter');
 			var chapter = node.dataset['chapter'];
 
 			game.drawPool = []; //empty the game.objectPools

@@ -15,6 +15,8 @@ body {
 	top: 50%;
 	left: 50%;
 	border: 1px solid #bbb;
+	-webkit-transform: translate3d(0, 0, 0);
+	transform: translate3d(0, 0, 0);
 }
 #stage,
 #gesture {
@@ -226,12 +228,12 @@ body {
 	height: 100%;
 	cursor: pointer;
 }
-#chapter span:hover{
+/*#chapter span:hover{
 	-webkit-animation:pulse 1s 1;
 }
 #chapter span:active{
 	-webkit-filter: blur(2px);
-}
+}*/
 #chapter span h4{
 	margin: 10px;
 }
