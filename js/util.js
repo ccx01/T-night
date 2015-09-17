@@ -2,9 +2,36 @@
 base function
 *****************/
 (function(){
+	/* 全局函数 */
+	/* 基础功能 */
+	window.requestAnimationFrame = (function() {
+		return window.requestAnimationFrame || function(callback) {
+			return setTimeout(callback, 1000 / 60); // shoot for 60 fps
+		};
+	}());
 
-	/* simulate jquery dom */
-	var $ = function(selector){
+	window.cancelAnimationFrame = (function() {
+		return window.cancelAnimationFrame || function(id) {
+			clearTimeout(id);
+		};
+	}());
+
+	//bound checked
+	Number.prototype.clamp = function(min, max) {
+		return Math.min(Math.max(this, min), max);
+	}
+	HTMLElement.prototype.parents = function(tar) {
+		var node = this;
+		while (node) {
+			if (node.className == tar || node.id == tar) {
+				return node;
+			}
+			node = node.parentNode;
+		}
+		return false;
+	}
+	/* 模拟dom选择器 */
+	window.$ = function(selector){
 		var ani = function(obj, prop, cur, tar, incr){
 			obj.style[prop] = cur + "px";
 			if(incr < 0 && cur > tar){
@@ -41,8 +68,20 @@ base function
 					ani(this, i, cur_prop[i], props[i], incr);
 				}
 			}
+			I.parents = function(tar) {
+				var node = this;
+				while (node) {
+					if (node.className == tar || node.id == tar) {
+						return node;
+					}
+					node = node.parentNode;
+				}
+				return false;
+			}
 			return I;
 	}
+
+	/* 手势函数 */
 	var quadMouse = function(o, e, r){
 		/***
 		o: 象限中心
@@ -106,51 +145,6 @@ base function
 				console.log("无手势");
 				return "keyN";
 		}
-	}
-
-	var stage = function(){
-		var $main = $("#main");
-		var $stage = $("#stage");
-		var $gesture = $("#gesture");
-		var ges = $gesture.getContext("2d");
-
-		var I = $stage.getContext("2d");
-			I.x = 0;
-			I.y = 0;
-			I.setSize = function(w, h){
-				$stage.width = this.w = $gesture.width = ges.w = w || 600;
-				$stage.height = this.h = $gesture.height = ges.h = h || 400;
-				$main.animate({
-					"width":w,
-					"height":h,
-					"marginLeft":-w/2,
-					"marginTop":-h/2
-				}, 400);
-			}
-			I.update = function() {
-				this.clearRect(0, 0, this.w, this.h);
-				var i = 0;
-				var count_objs = game.drawPool.length;
-				for(; i < count_objs; i++){
-					if(!game.drawPool[i]){
-						continue;
-					}
-					game.drawPool[i].draw(game.stage);
-					!game.drawPool[i].active && game.drawPool.splice(i, 1);
-				}
-			}
-			I.bg = function(url){
-				$stage.css({
-					'background':'url("' + url + '")'
-				});
-			}
-			I.cameraMove = function(x, y){
-				$stage.css({
-					'background-position-x': - x + 'px',
-					'background-position-y': - y + 'px'
-				});
-			}
-		return I;
 	}
 
 	var cmd = function(){
@@ -255,6 +249,57 @@ base function
 		}
 		return I;
 	}
+
+	var stage = function(){
+		var $main = $("#main");
+		var $stage = $("#stage");
+		var $gesture = $("#gesture");
+		var ges = $gesture.getContext("2d");
+
+		var I = $stage.getContext("2d");
+			I.x = 0;
+			I.y = 0;
+			I.setSize = function(w, h){
+				this.w = ges.w = $stage.width = $gesture.width = w;
+				this.h = ges.h = $stage.height = $gesture.height = h;
+				$main.animate({
+					"width":w,
+					"height":h,
+					"marginLeft":-w/2,
+					"marginTop":-h/2
+				}, 400);
+			}
+			I.scale = function(s) {
+				$main.css({
+					"-webkit-transform": "scale(" + s + ")",
+					"transform": "scale(" + s + ")"
+				});
+			}
+			I.update = function() {
+				this.clearRect(0, 0, this.w, this.h);
+				var i = 0;
+				var count_objs = game.drawPool.length;
+				for(; i < count_objs; i++){
+					if(!game.drawPool[i]){
+						continue;
+					}
+					game.drawPool[i].draw(game.stage);
+					!game.drawPool[i].active && game.drawPool.splice(i, 1);
+				}
+			}
+			I.bg = function(url){
+				$stage.css({
+					'background':'url("' + url + '")'
+				});
+			}
+			I.cameraMove = function(x, y){
+				$stage.css({
+					'background-position-x': - x + 'px',
+					'background-position-y': - y + 'px'
+				});
+			}
+		return I;
+	}
 	/* load function */
 	var load = function(){
 		var $loading = $("#loading");
@@ -282,17 +327,25 @@ base function
 				});
 			},
 			ing: function(loaded, count_objects){
-				$loading.find("div").animate({
-					"width": loaded / count_objects * 100 + "%"
-				});
+				// $loading.find("div").animate({
+				// 	"width": loaded / count_objects * 100 + "%"
+				// });
 			}
 		};
 		return I;
 	}
-	var fps = function(){
+
+	var fps = function() {
 		var $fps = $("#fps");
-		var I = function(rate){
-			$fps.html(rate);
+		var last_loop_time = 0;
+		var last_fps_time = 0;
+
+		var I = function(now) {
+			if (now - last_fps_time > 1000) {
+				$fps.html(1000 / (now - last_loop_time) | 0);
+				last_fps_time = now;
+			}
+			last_loop_time = now;
 		}
 		return I;
 	}
@@ -306,35 +359,35 @@ base function
 		return I;
 	}
 
-	var game = {
-		drawPool: [],
-		collidePool: [],
-		mouse_x: 0,
-		mouse_y: 0,
-		time: 0
-	}
-	game.map = {
-		w: 600,
-		h: 400,
-		init: function(url, w, h){
-			game.stage.bg(url);
-			this.w = w;
-			this.h = h;
+	//仅仅是为了统一一下格式
+	var map = function() {
+		var I = {
+			w: screen.width,
+			h: screen.height,
+			init: function(url, w, h){
+				game.stage.bg(url);
+				this.w = w;
+				this.h = h;
+			}
 		}
+		return I;
 	}
 
-	game.camera = {
-		x:0,
-		y:0,
-		center:game.map,
-		update:function(){
-			/*******camera*******/
-			this.x = this.center.x - game.stage.w / 2;	//lock the camera
-			this.y = this.center.y - game.stage.h / 2;
-			this.x = this.x.clamp(0, game.map.w - game.stage.w);
-			this.y = this.y.clamp(0, game.map.h - game.stage.h);
-			game.stage.cameraMove(this.x, this.y);
+	var camera = function() {
+		var I = {
+			x:0,
+			y:0,
+			center:game.map,
+			update:function(){
+				/*******camera*******/
+				this.x = this.center.x - game.stage.w / 2;	//lock the camera
+				this.y = this.center.y - game.stage.h / 2;
+				this.x = this.x.clamp(0, game.map.w - game.stage.w);
+				this.y = this.y.clamp(0, game.map.h - game.stage.h);
+				game.stage.cameraMove(this.x, this.y);
+			}
 		}
+		return I;
 	}
 
 	game.cmd = cmd();
@@ -342,8 +395,8 @@ base function
 	game.load = load();
 	game.fps = fps();
 	game.menu = menu();
-
-	window.game = game;
+	game.map = map();
+	game.camera = camera();
 
 	module.add("util", "功能块");
 

@@ -1,4 +1,9 @@
 (function(){
+	var s = 1;
+	var w = document.body.clientWidth / s;
+	var h = document.body.clientHeight / s;
+	game.stage.setSize(w, h);
+	game.stage.scale(s);
 	game.map.init("img/map/bg1.png", 1900, 1000);
 	module.load("m1", [{
 			"name": "ochi",
@@ -15,14 +20,8 @@
 			var mark = mod.mark;
 
 			ochi.init(5, 5, 100, 200, 0);
-			ochi1.init(5, 3, 300, 400, 0);
-			// ochi cmd 需要设个初始函数
-			/*$("#player").addClass("ochi");
+			ochi1.init(5, 3, 900, 400, 0);
 
-			$(".ochi .avatar img").attr("src","img/avatar/ochi/p1.png")
-			$(".ochi .hp div").animate({
-			    "width": "100%"
-			});*/
 			game.camera.center=ochi;
 			ochi1.target = ochi;
 			game.cmd(function(cfg){

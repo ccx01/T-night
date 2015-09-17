@@ -5,6 +5,7 @@
 
 	var module = function(){
 		//公共状态
+		var version = "1";	//用来清除缓存
 		var head = document.getElementsByTagName("head")[0];
 		//load时记录当前模块的require和callback
 		var buffer = {};
@@ -39,7 +40,7 @@
 					for (var i = 0, len = mods.length; i < len; i++) {
 
 						var name = mods[i].name;
-						var url = mods[i].url;
+						var url = mods[i].url + "?v=" + version;
 
 						if(document.getElementById(name)){
 							loaded("loaded");

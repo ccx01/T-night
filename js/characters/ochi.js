@@ -12,7 +12,7 @@
 		// var ochi = module.mod['model']();
 
 		/*************sprite***************/
-		ochi.sprite = mod.sprite("characters/ochi.png", 0, 0, 32, 32, ready);
+		ochi.sprite = mod.sprite("characters/ochi.png", 0, 0, 32, 32, game.ready);
 		ochi.collidable = true;
 		ochi.name = "ochi";
 		// 受力时的施力方
@@ -56,7 +56,7 @@
 				}
 
 				var self = mod.model(cfg);
-					self.sprite = mod.sprite("characters/tuchi.png", 0, 59, 156, 59, ready);
+					self.sprite = mod.sprite("characters/tuchi.png", 0, 59, 156, 59, game.ready);
 					self.moving = true;
 					self.collidable = true;
 					self.update = function() {
