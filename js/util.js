@@ -288,15 +288,16 @@ base function
 				}
 			}
 			I.bg = function(url){
-				$stage.css({
+				//css操作将损耗相当多性能
+				/*$main.css({
 					'background':'url("' + url + '")'
-				});
+				});*/
 			}
 			I.cameraMove = function(x, y){
-				$stage.css({
+				/*$main.css({
 					'background-position-x': - x + 'px',
 					'background-position-y': - y + 'px'
-				});
+				});*/
 			}
 		return I;
 	}

@@ -130,8 +130,8 @@
 				break;
 				case "keySSZ":
 				case "keyNSZ":
-					this.y = game.mouse_y;
-					this.x = game.mouse_x;
+					/*this.y = game.mouse_y;
+					this.x = game.mouse_x;*/
 				break;
 				case "keyZX":
 					this.angle = this.toward = Math.atan2(cfg.e.y - cfg.o.y, cfg.e.x - cfg.o.x);

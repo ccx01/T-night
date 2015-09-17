@@ -11,6 +11,7 @@
 
 		var ochi1 = mod.model();
 		ochi1.collidable = true;
+		ochi1.target;
 
 		/*************sprite***************/
 		ochi1.sprite = mod.sprite("characters/soldier.png", 0, 0, 32, 32, game.ready);
@@ -155,9 +156,9 @@
 			if(this.status == "no_think") return;
 			if(Math.abs(t.x - this.x) < 100 && Math.abs(t.y - this.y) < 100) {
 				this.mode = "angry";
-			} else if(t) {
+			} else if (t) {
 				this.mode = "";
-				if(game.time % 3000 < 2000) return;
+				if(Math.abs(game.time % 3000) < 2000) return;
 				if(this.angry > 0) this.angry--;
 				this.mode = "walk";
 				this.dx = t.x;
