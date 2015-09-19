@@ -5,7 +5,7 @@
 
 	var module = function(){
 		//公共状态
-		var version = "1";	//用来清除缓存
+		var version = "1_5";	//用来清除缓存
 		var head = document.getElementsByTagName("head")[0];
 		//load时记录当前模块的require和callback
 		var buffer = {};

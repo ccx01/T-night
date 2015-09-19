@@ -149,9 +149,6 @@
 						break;
 				}
 			}
-			ochi1.cz = function() {
-
-			}
 			ochi1.czt = game.time;
 			ochi1.AI = function(t) {
 				if (this.status == "no_think") return;

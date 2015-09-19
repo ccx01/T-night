@@ -1,9 +1,7 @@
 (function(){
-	var s = 1;
-	var w = document.body.clientWidth / s;
-	var h = document.body.clientHeight / s;
+	var w = document.body.clientWidth;
+	var h = document.body.clientHeight;
 	game.stage.setSize(w, h);
-	game.stage.scale(s);
 	game.map.init("img/map/bg1.png", 1900, 1000);
 	module.load("m1", [{
 			"name": "ochi",
