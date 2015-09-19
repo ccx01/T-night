@@ -16,14 +16,18 @@
 			"url": "js/effect/mark.js"
 		}], function(mod){
 			var ochi = mod.ochi;
-			var ochi1 = mod.ochi1;
+			var ochi1 = mod.ochi1();
+			var ochi2 = mod.ochi1("o2");
+
 			var mark = mod.mark;
 
 			ochi.init(5, 5, 100, 200, 0);
 			ochi1.init(5, 3, 900, 400, 0);
+			ochi2.init(5, 3, 300, 400, 0);
 
 			game.camera.center=ochi;
 			ochi1.target = ochi;
+			ochi2.target = ochi;
 			game.cmd(function(cfg){
 				game.mouse_x = cfg.e.x + game.camera.x,
 				game.mouse_y = cfg.e.y + game.camera.y;

@@ -3,6 +3,7 @@
 		"name": "sprite",
 		"url": "js/sprite.js"
 	}], function(mod){
+		//初始化实体
 		var model = function(cfg) {
 			var I = cfg || {};
 			I.active = I.active || true;
@@ -14,6 +15,7 @@
 			I.angle = I.angle || 0;
 			I.toward = I.toward || 0;
 			I.sprite = I.sprite || mod.sprite("model.png", 0, 0, 32, 32);
+			I.hasImg = true;
 			//sprite end
 			I.speed = I.speed || 2;	//speed 将影响 v
 			// v 是即时速度，与speed并非完全对应关系
@@ -25,9 +27,9 @@
 				game.stage.save();
 				game.stage.translate(this.x - game.camera.x, this.y - game.camera.y);
 				game.stage.rotate(this.toward);
-				this.sprite.draw(game.stage);
+				this.hasImg && this.sprite.draw(game.stage);
 				/* OBB stroke */
-				// this.sprite.stroke(game.stage, 0, 0, this.radius);
+				this.sprite.stroke(game.stage, 0, 0, this.radius);
 				/* OBB stroke end */
 				game.stage.restore();
 				this.update();
