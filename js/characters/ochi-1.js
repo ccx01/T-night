@@ -15,7 +15,14 @@
 			ochi1.collidable = true;
 
 			/*************sprite***************/
-			ochi1.sprite = mod.sprite("characters/soldier.png", 0, 0, 32, 32, game.ready);
+			var sprite_cfg = {
+				name: "characters/soldier.png",
+				sourceX: 0,
+				sourceY: 0,
+				width: 32,
+				height: 32
+			}
+			ochi1.sprite = mod.sprite(sprite_cfg, game.ready);
 
 			ochi1.name = name;
 
@@ -37,22 +44,17 @@
 				this.angle = angle;
 			}
 
-			ochi1.move = function(end, extra) {
+			ochi1.move = function(end, callback) {
 				// if (this.movable) {
 				// 特殊情况下出现的移动行为，如被对方击飞
 				// 移动时的速度并非完全按本身速度进行
-				extra = extra || {};
-				this.dx = extra.dx || this.dx;
-				this.dy = extra.dy || this.dy;
-				this.vx = extra.vx || this.vx;
-				this.vy = extra.vy || this.vy;
 
 				this.moving = true;
 				if ((this.x <= this.radius) || (this.x >= game.map.w - this.radius) || (this.y <= this.radius) || (this.y >= game.map.h - this.radius) || (this.vx > 0 && this.x > this.dx) || (this.vx < 0 && this.x < this.dx) || (this.vy > 0 && this.y > this.dy) || (this.vy < 0 && this.y < this.dy)) {
 					//防止出界，这判断太糟糕了，需优先优化
 					this.x = this.x.clamp(this.radius + 1, game.map.w - 1 - this.radius);
 					this.y = this.y.clamp(this.radius + 1, game.map.h - 1 - this.radius);
-					this.isObstructed(end);
+					this.isObstructed(end, callback);
 				} else {
 					this.x += this.vx;
 					this.y += this.vy;
@@ -82,6 +84,8 @@
 				this.mode = cfg.mode;
 				this.opp.dis = cfg.dis || 1;
 				this.opp.s = cfg.s || this.speed;
+
+				this.flash_time = game.time;
 			}
 			ochi1.extra = function() { /* 碰撞后的行为，由对方的force控住，如被击飞 */ }
 			ochi1.angry = 0;
@@ -138,7 +142,13 @@
 						this.vy = -Math.sin(this.angle) * ochi1.opp.s;
 						this.dx = ochi1.opp.x - Math.cos(this.angle) * (dr + ochi1.opp.dis);
 						this.dy = ochi1.opp.y - Math.sin(this.angle) * (dr + ochi1.opp.dis);
-						this.move();
+						this.flash = {color:"#f00", t:100};
+
+						this.move("stay", function () {
+							setTimeout(function () {
+								ochi1.flash = false;
+							}, 1000);
+						});
 						this.angry += 10;
 						if (this.angry > 70) {
 							this.mode = "angry";

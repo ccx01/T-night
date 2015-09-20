@@ -12,7 +12,14 @@
 		// var ochi = module.mod['model']();
 
 		/*************sprite***************/
-		ochi.sprite = mod.sprite("characters/ochi.png", 0, 0, 32, 32, game.ready);
+		var sprite_cfg = {
+			name: "characters/ochi.png",
+			sourceX: 0,
+			sourceY: 0,
+			width: 32,
+			height: 32
+		}
+		ochi.sprite = mod.sprite(sprite_cfg, game.ready);
 		ochi.collidable = true;
 		ochi.name = "ochi";
 		// 受力时的施力方
@@ -56,11 +63,18 @@
 				}
 
 				var self = mod.model(cfg);
-					self.sprite = mod.sprite("characters/tuchi.png", 0, 59, 156, 59, game.ready);
+				var sprite_cfg = {
+					name: "characters/tuchi.png",
+					sourceX: 0,
+					sourceY: 59,
+					width: 156,
+					height: 59
+				}
+					self.sprite = mod.sprite(sprite_cfg, game.ready);
 					self.moving = true;
 					self.collidable = true;
 					self.update = function() {
-						this.img.ani([
+						self.sprite.frame([
 							[0, 236, 156, 59],
 							[0, 295, 156, 59],
 							[0, 354, 156, 59],

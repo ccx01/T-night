@@ -2,10 +2,10 @@
 	var loaded = 0;
 	var total = 0;
 
-	var sprite = function(name, sourceX, sourceY, width, height, callback) {
+	var sprite = function(cfg, callback) {
 		total++;
 		var img = new Image();
-			img.src = "img/" + name;
+			img.src = "img/" + cfg.name;
 			img.onload = function() {
 				loaded++;
 				callback && callback(loaded, total);
@@ -13,32 +13,45 @@
 			}
 		var I = {
 			img: img,
-			sourceX: sourceX || 0,
-			sourceY: sourceY || 0,
-			width: width, 
-			height: height,
-			draw: function(stage) {
-				stage.drawImage(this.img, this.sourceX, this.sourceY, this.width, height, -this.width / 2, -this.height / 2, this.width, this.height);
+			sourceX: cfg.sourceX || 0,
+			sourceY: cfg.sourceY || 0,
+			width: cfg.width, 
+			height: cfg.height,
+			time: 0,
+			cur: 0,		//当前帧，用于动画效果
+			stage: cfg.stage || game.stage,
+			draw: function() {
+				this.stage.drawImage(this.img, this.sourceX, this.sourceY, this.width, this.height, -this.width / 2, -this.height / 2, this.width, this.height);
 			},
-			set: function(arr){
+			set: function(arr) {
 				this.sourceX = arr[0];
 				this.sourceY = arr[1];
 				this.width = arr[2];
 				this.height = arr[3];
 			},
-			/*flash: function(stage, rate, color) {
-				color = time % rate < 10 ? color : "#f00";
-				stage.globalCompositeOperation = "source-atop";
-				stage.fillStyle = color;
-				stage.fillRect(x, y, width, height);
-			},*/
-			stroke: function(stage, x, y, radius) {
+			frame: function(arr, t) {
+				//帧动画
+				if(game.time - this.time > t){
+					this.cur = this.cur < arr.length - 1 ? this.cur + 1 : 0;
+					this.time = game.time;
+					this.set(arr[this.cur]);
+				}
+			},
+			flash: function(cfg) {
+				if(game.time % (cfg.t * 2) > cfg.t){
+					this.time = game.time;
+					this.stage.globalCompositeOperation = "source-atop";
+					this.stage.fillStyle = cfg.color;
+					this.stage.fillRect(-this.width / 2, -this.height / 2, this.width, this.height);
+				}
+			},
+			stroke: function(x, y, radius) {
 				//查看碰撞区域
-				stage.beginPath();
-				stage.lineWidth = 1;
-				stage.strokeStyle = '#f00';
-				stage.arc(x, y, radius, 0, Math.PI*2); 
-				stage.stroke();
+				this.stage.beginPath();
+				this.stage.lineWidth = 1;
+				this.stage.strokeStyle = '#f00';
+				this.stage.arc(x, y, radius, 0, Math.PI*2); 
+				this.stage.stroke();
 			}
 		}
 		return I;

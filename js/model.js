@@ -14,8 +14,9 @@
 			I.y = I.y || 0;
 			I.angle = I.angle || 0;
 			I.toward = I.toward || 0;
-			I.sprite = I.sprite || mod.sprite("model.png", 0, 0, 32, 32);
+			I.sprite = I.sprite || {};
 			I.hasImg = true;
+			I.flash = false;
 			//sprite end
 			I.speed = I.speed || 2;	//speed 将影响 v
 			// v 是即时速度，与speed并非完全对应关系
@@ -27,25 +28,13 @@
 				game.stage.save();
 				game.stage.translate(this.x - game.camera.x, this.y - game.camera.y);
 				game.stage.rotate(this.toward);
-				this.hasImg && this.sprite.draw(game.stage);
+				this.hasImg && this.sprite.draw();
+				this.flash && this.sprite.flash(this.flash);
 				/* OBB stroke */
-				this.sprite.stroke(game.stage, 0, 0, this.radius);
+				this.sprite.stroke(0, 0, this.radius);
 				/* OBB stroke end */
 				game.stage.restore();
 				this.update();
-			}
-			I.img  = {
-				time: 0,
-				frame: 0,
-				//animation
-				ani: function(arr, during) {
-					//制作特效，需要有动画函数=>Sign
-					if(game.time - this.time > during){
-						this.frame = this.frame < arr.length - 1 ? this.frame + 1 : 0;
-						this.time = game.time;
-						I.sprite.set(arr[this.frame]);
-					}
-				}
 			}
 			I.force = function() {}
 			I.forced = function() {}

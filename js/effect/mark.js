@@ -11,10 +11,17 @@
 
 		var mark = mod.model();
 
-		mark.sprite = mod.sprite("ui/mark.png", 0, 0, 22, 20, game.ready);
+		var sprite_cfg = {
+			name: "ui/mark.png",
+			sourceX: 0,
+			sourceY: 0,
+			width: 22,
+			height: 20
+		}
+		mark.sprite = mod.sprite(sprite_cfg, game.ready);
 
 		mark.update = function() {
-			this.img.ani([
+			mark.sprite.frame([
 				[0,0,22,20],
 				[0,20,22,20]
 			],100);
